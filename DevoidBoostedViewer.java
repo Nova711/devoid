@@ -107,7 +107,7 @@ class Interface extends JFrame implements KeyListener {
 
 class PhysicsBox extends JComponent implements Runnable {
 	private static final long serialVersionUID = 1l;
-	DObject[] objects = new DObject[100];
+	dObject[] objects = new dObject[100];
 	public boolean paused = true;
 	public int player;
 	StandardShip playerShip = new StandardShip(new Vector(0, 0), new Vector(0, 0.0000001), 100);

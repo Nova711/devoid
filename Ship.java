@@ -1,6 +1,6 @@
 package devoid_boosted;
 
-interface Ship extends DObject {
+interface Ship extends dObject {
 	void strafeLeft();
 
 	void strafeRight();
