@@ -6,11 +6,6 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
-import hitBox.HitBox;
-import physics.PhysicsObject;
-import physics.Vector;
-import rift.Ex;
-
 public class StandardShip implements Ship {
 	protected Vector position = new Vector(0, 0);
 	protected Vector velocity = new Vector(0, 0);

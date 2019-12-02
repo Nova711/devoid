@@ -21,7 +21,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import hitBox.HitBox;
-import physics.Vector;
 import rift.Ex;
 import rpg.Out;
 
