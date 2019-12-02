@@ -25,7 +25,15 @@ public class StandardShip implements Ship {
 
 	ArrayList<ShipComponent> shipComponents = new ArrayList<ShipComponent>();
 	ArrayList<Thruster> thrusters = new ArrayList<Thruster>();
+	ArrayList<Thruster> leftStrafeThrusters = new ArrayList<Thruster>();
+	ArrayList<Thruster> rightStrafeThrusters = new ArrayList<Thruster>();
+	ArrayList<Thruster> accelThrusters = new ArrayList<Thruster>();
+	ArrayList<Thruster> deccelThrusters = new ArrayList<Thruster>();
+	ArrayList<Thruster> leftTurnThrusters = new ArrayList<Thruster>();
+	ArrayList<Thruster> rightTurnThrusters = new ArrayList<Thruster>();
 	ArrayList<FuelTank> fuelTanks = new ArrayList<FuelTank>();
+	ArrayList<PowerSource> powerSources = new ArrayList<PowerSource>();
+	ArrayList<Battery> batteries = new ArrayList<Battery>();
 	Cockpit cockPit;
 
 	public StandardShip(Vector position, Vector velocity, double mass) {
