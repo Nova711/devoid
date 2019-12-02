@@ -124,13 +124,13 @@ public class StandardShip implements Ship {
 	}
 
 	@Override
-	public void impact(dObject obj) {
+	public void impact(DObject obj) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public boolean hits(dObject[] objects) {
+	public boolean hits(DObject[] objects) {
 		// TODO Auto-generated method stub
 		return false;
 	}

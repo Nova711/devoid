@@ -3,7 +3,7 @@ package devoid_boosted;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
-public interface dObject {
+public interface DObject {
 
 	double getHP();
 
@@ -37,9 +37,9 @@ public interface dObject {
 
 	void update();
 
-	void impact(dObject obj);
+	void impact(DObject obj);
 
-	boolean hits(dObject[] objects);
+	boolean hits(DObject[] objects);
 	
 	void draw(Graphics g);
 
