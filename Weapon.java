@@ -7,5 +7,11 @@ public interface Weapon extends ShipComponent {
 
 	int getSizeClass();
 
+	double getRateOfFire();
+
+	double getReloadTime();
+
+	int getClipSize();
+
 	void fire();
 }

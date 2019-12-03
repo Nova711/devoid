@@ -151,8 +151,10 @@ public class StandardShip implements Ship {
 		ng.rotate(this.getAngle());
 		ng.fillRect(-5, -5, 10, 10);
 		ng.rotate(-this.getAngle());
+		Vector temp = new Vector(this.getAngle(), 2);
+		g.drawLine(0, 0, (int) (temp.getX() * 5), (int) (temp.getY() * 5));
 		g.setColor(Color.red);
-		Vector temp = new Vector(this.thrust.getAngle(), this.thrust.getMagnitude());
+		temp = new Vector(this.thrust.getAngle(), this.thrust.getMagnitude());
 		g.drawLine(0, 0, (int) (temp.getX() * 5), (int) (temp.getY() * 5));
 		g.setColor(Color.blue);
 		temp = new Vector(this.velocity.getAngle(), this.velocity.getMagnitude());

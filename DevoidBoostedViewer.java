@@ -115,8 +115,10 @@ class PhysicsBox extends JComponent implements Runnable {
 	public PhysicsBox() {
 		player = 0;
 		for (int i = 0; i < objects.length; i++) {
-			objects[i] = new StandardShip(new Vector(Ex.rand(0, Math.PI * 2), Ex.rand(0, 100)),
-					new Vector((Ex.rand(0, Math.PI * 2)), 1), 100);
+			StandardMissile m1 = new StandardMissile(new Vector(Ex.rand(0, Math.PI * 2), Ex.rand(0, 300)),
+					new Vector(0, 0.000000001), 100);
+			m1.setTarget(playerShip);
+			objects[i] = m1;
 		}
 		objects[player] = playerShip;
 	}
