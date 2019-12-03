@@ -14,6 +14,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -44,6 +46,7 @@ class Interface extends JFrame implements KeyListener {
 	 */
 	private static final long serialVersionUID = 1L;
 	PhysicsBox tester = new PhysicsBox();
+	private final Set<Integer> pressed = new HashSet<Integer>();
 
 	public Interface() {
 		Thread thread = new Thread(tester);
@@ -63,44 +66,55 @@ class Interface extends JFrame implements KeyListener {
 	}
 
 	@Override
-	public void keyPressed(KeyEvent e) {
-		int keyCode = e.getKeyCode();
-		switch (keyCode) {
-		case KeyEvent.VK_LEFT: {
-			tester.rotateLeft();
-			break;
-		}
-		case KeyEvent.VK_RIGHT: {
-			tester.rotateRight();
-			break;
-		}
-		case KeyEvent.VK_W: {
-			tester.accel();
-			break;
-		}
-		case KeyEvent.VK_S: {
-			tester.deccel();
-			break;
-		}
-		case KeyEvent.VK_A: {
-			tester.strafeLeft();
-			break;
-		}
-		case KeyEvent.VK_D: {
-			tester.strafeRight();
-			break;
-		}
-		case KeyEvent.VK_SPACE: {
-			tester.pauseUnpause();
-			break;
-		}
+	public synchronized void keyPressed(KeyEvent e) {
+		pressed.add(e.getKeyCode());
+		if (pressed.size() > 0) {
+			for (int keyCode : pressed) {
+				switch (keyCode) {
+				case KeyEvent.VK_LEFT: {
+					tester.rotateLeft();
+					break;
+				}
+				case KeyEvent.VK_RIGHT: {
+					tester.rotateRight();
+					break;
+				}
+				case KeyEvent.VK_W: {
+					tester.accel();
+					break;
+				}
+				case KeyEvent.VK_S: {
+					tester.deccel();
+					break;
+				}
+				case KeyEvent.VK_A: {
+					tester.strafeLeft();
+					break;
+				}
+				case KeyEvent.VK_D: {
+					tester.strafeRight();
+					break;
+				}
+				case KeyEvent.VK_P: {
+					tester.pauseUnpause();
+					break;
+				}
+				case KeyEvent.VK_EQUALS: {
+					tester.setScale(tester.getScale() + 0.1);
+					break;
+				}
+				case KeyEvent.VK_MINUS: {
+					tester.setScale(tester.getScale() - 0.1);
+					break;
+				}
+				}
+			}
 		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-
+		pressed.remove(e.getKeyCode());
 	}
 
 }
@@ -109,8 +123,9 @@ class PhysicsBox extends JComponent implements Runnable {
 	private static final long serialVersionUID = 1l;
 	DObject[] objects = new DObject[100];
 	public boolean paused = true;
+	protected double scale = 1;
 	public int player;
-	StandardShip playerShip = new StandardShip(new Vector(0, 1000), new Vector(0, 0.0000001), 100);
+	StandardShip playerShip = new StandardShip(new Vector(0, 0), new Vector(0, 0.0000001), 100);
 
 	public PhysicsBox() {
 		player = 0;
@@ -155,10 +170,19 @@ class PhysicsBox extends JComponent implements Runnable {
 		playerShip.deccel();
 	}
 
+	public double getScale() {
+		return this.scale;
+	}
+
+	public void setScale(double scale) {
+		this.scale = scale;
+	}
+
 	public void paint(Graphics g) {
 		AffineTransform tx = new AffineTransform();
 		tx.translate(this.getBounds().getCenterX(), this.getBounds().getCenterY());
 		tx.rotate(-playerShip.getAngle() - Math.PI / 2);
+		tx.scale(this.scale, this.scale);
 		tx.translate(-this.getBounds().getCenterX(), -this.getBounds().getCenterY());
 		tx.translate(-playerShip.getX() + this.getBounds().getCenterX(),
 				-playerShip.getY() + this.getBounds().getCenterY());

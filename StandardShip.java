@@ -40,6 +40,7 @@ public class StandardShip implements Ship {
 		this.position = position;
 		this.velocity = velocity;
 		this.airFrameMass = mass;
+		this.thrust = new Vector(0, 1);
 	}
 
 	@Override

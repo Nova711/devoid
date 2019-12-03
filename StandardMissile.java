@@ -8,7 +8,7 @@ public class StandardMissile extends StandardShip {
 
 	public StandardMissile(Vector position, Vector velocity, double mass) {
 		super(position, velocity, mass);
-		this.thrust = new Vector(0, 1);
+		this.thrust = new Vector(0, 2.5);
 	}
 
 	@Override
@@ -23,12 +23,12 @@ public class StandardMissile extends StandardShip {
 				this.rotateLeft();
 			}
 			if ((int) ((Vector.fromXY(this.getX() - target.getX(), this.getY() - target.getY())).getAngle()
-					* 100) == (int) ((this.getAngle() + Math.PI) * 100)) {
+					* 1000) == (int) ((this.getAngle() + Math.PI) * 1000)) {
 				this.setAngularVelocity(0);
 			}
 			if ((int) ((Vector.fromXY(this.getX() - target.getX(), this.getY() - target.getY())).getAngle()
 					* 10) == (int) ((this.getAngle() + Math.PI) * 10)) {
-				//this.accel();
+				this.accel();
 			}
 			if ((int) ((Vector.fromXY(this.getX() - target.getX(), this.getY() - target.getY())).getAngle()
 					* 10) == (int) (this.getAngle() * 10)) {
