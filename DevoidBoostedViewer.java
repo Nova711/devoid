@@ -110,7 +110,7 @@ class PhysicsBox extends JComponent implements Runnable {
 	DObject[] objects = new DObject[100];
 	public boolean paused = true;
 	public int player;
-	StandardShip playerShip = new StandardShip(new Vector(0, 0), new Vector(0, 0.0000001), 100);
+	StandardShip playerShip = new StandardShip(new Vector(0, 1000), new Vector(0, 0.0000001), 100);
 
 	public PhysicsBox() {
 		player = 0;

@@ -154,7 +154,7 @@ public class StandardShip implements Ship {
 		Vector temp = new Vector(this.getAngle(), 2);
 		g.drawLine(0, 0, (int) (temp.getX() * 5), (int) (temp.getY() * 5));
 		g.setColor(Color.red);
-		temp = new Vector(this.thrust.getAngle(), this.thrust.getMagnitude());
+		temp = new Vector(this.thrust.getAngle() + this.getAngle(), this.thrust.getMagnitude());
 		g.drawLine(0, 0, (int) (temp.getX() * 5), (int) (temp.getY() * 5));
 		g.setColor(Color.blue);
 		temp = new Vector(this.velocity.getAngle(), this.velocity.getMagnitude());

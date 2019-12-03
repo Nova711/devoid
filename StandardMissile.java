@@ -8,17 +8,18 @@ public class StandardMissile extends StandardShip {
 
 	public StandardMissile(Vector position, Vector velocity, double mass) {
 		super(position, velocity, mass);
+		this.thrust = new Vector(0, 1);
 	}
 
 	@Override
 	public void update() {
 		if (target != null) {
 			if ((Vector.fromXY(this.getX() - target.getX(), this.getY() - target.getY())).getAngle() > this.getAngle()
-					+ Math.PI & !(this.angularVelocity > Math.PI / 90)) {
+					+ Math.PI & !(this.angularVelocity > Math.PI / 45)) {
 				this.rotateRight();
 			}
 			if ((Vector.fromXY(this.getX() - target.getX(), this.getY() - target.getY())).getAngle() < this.getAngle()
-					+ Math.PI & !(this.angularVelocity < -Math.PI / 90)) {
+					+ Math.PI & !(this.angularVelocity < -Math.PI / 45)) {
 				this.rotateLeft();
 			}
 			if ((int) ((Vector.fromXY(this.getX() - target.getX(), this.getY() - target.getY())).getAngle()
@@ -27,7 +28,7 @@ public class StandardMissile extends StandardShip {
 			}
 			if ((int) ((Vector.fromXY(this.getX() - target.getX(), this.getY() - target.getY())).getAngle()
 					* 10) == (int) ((this.getAngle() + Math.PI) * 10)) {
-				this.accel();
+				//this.accel();
 			}
 			if ((int) ((Vector.fromXY(this.getX() - target.getX(), this.getY() - target.getY())).getAngle()
 					* 10) == (int) (this.getAngle() * 10)) {
