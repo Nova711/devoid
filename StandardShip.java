@@ -18,6 +18,7 @@ public class StandardShip implements Ship {
 	protected double thrusterThrottle = 0;
 	protected double angularVelocity = 0;
 	protected double temperature = 0;
+	protected boolean flightMode;
 
 	protected HitBox bounds;
 	protected double delay = 1;
@@ -40,7 +41,6 @@ public class StandardShip implements Ship {
 		this.position = position;
 		this.velocity = velocity;
 		this.airFrameMass = mass;
-		this.thrust = new Vector(0, 1);
 	}
 
 	@Override
@@ -181,7 +181,16 @@ public class StandardShip implements Ship {
 	@Override
 	public void deccel() {
 		this.velocity = this.velocity.add(new Vector(Math.PI + this.angle, 1));
+	}
 
+	@Override
+	public void throttleUp() {
+		this.thrusterThrottle++;
+	}
+
+	@Override
+	public void throttleDown() {
+		this.thrusterThrottle--;
 	}
 
 	@Override
@@ -193,6 +202,11 @@ public class StandardShip implements Ship {
 	public void rotateRight() {
 		this.angularVelocity += Math.PI / 360;
 
+	}
+
+	@Override
+	public void toggleFlightMode() {
+		this.flightMode = !this.flightMode;
 	}
 
 }

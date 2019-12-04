@@ -9,7 +9,13 @@ interface Ship extends DObject {
 
 	void deccel();
 
+	void throttleUp();
+
+	void throttleDown();
+
 	void rotateLeft();
 
 	void rotateRight();
+
+	void toggleFlightMode();
 }
