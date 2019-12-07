@@ -1,6 +1,8 @@
 package devoid_boosted;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 public class StandardThruster implements Thruster {
 	protected Vector position = new Vector(0, 0);
@@ -10,15 +12,25 @@ public class StandardThruster implements Thruster {
 	protected double angle = 0;
 	protected double mass = 5;
 	protected double elasticity = 1;
-	protected double throttle = 50;
+	protected double throttle = 100;
 	protected double angularVelocity = 0;
 	protected double temperature = 0;
 	protected double maxThrust = 100;
-	protected double specificImpulse = 10;
+	protected double specificImpulse = 100;
+
+	public StandardThruster(Vector position, double angle) {
+		this.position = position;
+		this.angle = angle;
+	}
 
 	@Override
 	public double getHP() {
 		return this.hp;
+	}
+
+	@Override
+	public Vector getPosition() {
+		return this.position;
 	}
 
 	@Override
@@ -109,13 +121,23 @@ public class StandardThruster implements Thruster {
 
 	@Override
 	public void draw(Graphics g) {
-		// TODO Auto-generated method stub
+		Graphics2D ng = (Graphics2D) g;
+		ng.setColor(Color.black);
+		ng.translate(this.getX(), this.getY());
+		ng.rotate(this.getAngle());
+		ng.drawRect(-3, -1, 6, 2);
+		ng.rotate(-this.getAngle());
+		ng.translate(-this.getX(), -this.getY());
 	}
 
 	@Override
 	public Vector thrust(FuelTank fuel) {
-		fuel.drain(this.maxThrust * this.throttle / 100 / this.specificImpulse);
-		return new Vector(this.angle, this.maxThrust * this.throttle / 100);
+		double fuelDrain = this.maxThrust * this.throttle / 100 / this.specificImpulse;
+		if (fuelDrain <= fuel.getFuel()) {
+			fuel.drain(fuelDrain);
+			return new Vector(this.angle, this.maxThrust * this.throttle / 100);
+		}
+		return new Vector(0, 0);
 	}
 
 	@Override
@@ -130,7 +152,7 @@ public class StandardThruster implements Thruster {
 
 	@Override
 	public void setThrottle(double throttle) {
-		this.throttle = throttle;
+		this.throttle = throttle >= 0 ? throttle <= 100 ? throttle : 100 : 0;
 	}
 
 	@Override

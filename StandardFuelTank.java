@@ -1,6 +1,8 @@
 package devoid_boosted;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 public class StandardFuelTank implements FuelTank {
 	protected Vector position = new Vector(0, 0);
@@ -16,9 +18,18 @@ public class StandardFuelTank implements FuelTank {
 	protected double capacity = 1000;
 	protected double currentVolume = this.capacity;
 
+	public StandardFuelTank(Vector position) {
+		this.position = position;
+	}
+
 	@Override
 	public double getHP() {
 		return this.hp;
+	}
+
+	@Override
+	public Vector getPosition() {
+		return this.position;
 	}
 
 	@Override
@@ -111,8 +122,13 @@ public class StandardFuelTank implements FuelTank {
 
 	@Override
 	public void draw(Graphics g) {
-		// TODO Auto-generated method stub
-
+		Graphics2D ng = (Graphics2D) g;
+		ng.setColor(Color.black);
+		ng.translate(this.getX(), this.getY());
+		ng.rotate(this.getAngle());
+		ng.drawRect(-2, -2, 4, 4);
+		ng.rotate(-this.getAngle());
+		ng.translate(-this.getX(), -this.getY());
 	}
 
 	@Override
@@ -132,7 +148,7 @@ public class StandardFuelTank implements FuelTank {
 
 	@Override
 	public void drain(double amount) {
-		this.currentVolume -= amount;
+		this.currentVolume -= amount > this.currentVolume ? 0 : amount;
 	}
 
 	@Override

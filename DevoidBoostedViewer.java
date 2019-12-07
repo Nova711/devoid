@@ -79,6 +79,14 @@ class Interface extends JFrame implements KeyListener {
 					tester.rotateRight();
 					break;
 				}
+				case KeyEvent.VK_UP: {
+					tester.throttleUp();
+					break;
+				}
+				case KeyEvent.VK_DOWN: {
+					tester.throttleDown();
+					break;
+				}
 				case KeyEvent.VK_W: {
 					tester.accel();
 					break;
@@ -93,6 +101,10 @@ class Interface extends JFrame implements KeyListener {
 				}
 				case KeyEvent.VK_D: {
 					tester.strafeRight();
+					break;
+				}
+				case KeyEvent.VK_F: {
+					tester.toggleFlightMode();
 					break;
 				}
 				case KeyEvent.VK_P: {
@@ -126,6 +138,7 @@ class PhysicsBox extends JComponent implements Runnable {
 	protected double scale = 1;
 	public int player;
 	StandardShip playerShip = new StandardShip(new Vector(0, 0), new Vector(0, 0.0000001), 100);
+	StandardGUI playerGUI = new StandardGUI();
 
 	public PhysicsBox() {
 		player = 0;
@@ -154,6 +167,14 @@ class PhysicsBox extends JComponent implements Runnable {
 		playerShip.rotateRight();
 	}
 
+	public void throttleUp() {
+		playerShip.throttleUp();
+	}
+
+	public void throttleDown() {
+		playerShip.throttleDown();
+	}
+
 	public void strafeLeft() {
 		playerShip.strafeLeft();
 	}
@@ -168,6 +189,10 @@ class PhysicsBox extends JComponent implements Runnable {
 
 	public void deccel() {
 		playerShip.deccel();
+	}
+
+	public void toggleFlightMode() {
+		playerShip.toggleFlightMode();
 	}
 
 	public double getScale() {
@@ -215,6 +240,7 @@ class PhysicsBox extends JComponent implements Runnable {
 				("" + playerShip.getAngularVelocity()).length(), 0, 10);
 		ng.drawChars(("" + Math.round(playerShip.getX()) + "" + Math.round(playerShip.getY())).toCharArray(), 0,
 				("" + Math.round(playerShip.getX()) + "" + Math.round(playerShip.getY())).length(), 0, 30);
+		playerGUI.draw(playerShip, this.getBounds(), ng);
 	}
 
 	public void run() {

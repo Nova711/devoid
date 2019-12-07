@@ -6,20 +6,22 @@ public interface DObject {
 
 	double getHP();
 
+	Vector getPosition();
+
 	double getX();
 
 	double getY();
-	
+
 	double getAngle();
-	
+
 	double getMass();
-	
+
 	double getI();
 
 	void setX(double x);
 
 	void setY(double y);
-	
+
 	void setAngle(double angle);
 
 	Vector getVelocity();
@@ -29,9 +31,9 @@ public interface DObject {
 	double getAngularVelocity();
 
 	void setAngularVelocity(double velocity);
-	
+
 	double getTemperature();
-	
+
 	void setTemperature(double temperature);
 
 	void update();
@@ -39,7 +41,7 @@ public interface DObject {
 	void impact(DObject obj);
 
 	boolean hits(DObject[] objects);
-	
+
 	void draw(Graphics g);
 
 }
