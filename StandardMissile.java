@@ -1,61 +1,168 @@
 package devoid_boosted;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+
 public class StandardMissile extends StandardShip {
 
 	protected double fieldOfView;
 
-	protected DObject target;
+	protected DObject target = null;
 
 	public StandardMissile(Vector position, Vector velocity, double mass) {
-		super(position, velocity, mass);
-		this.thrust = new Vector(0, 2.5);
+		this.position = position;
+		this.velocity = velocity;
+		this.airFrameMass = mass;
+		this.accelThrusters.add(new StandardThruster(Vector.fromXY(-15, 5), 0, 1200, 90));
+		this.accelThrusters.add(new StandardThruster(Vector.fromXY(-15, -5), 0, 1200, 90));
+		this.leftTurnThrusters.add(this.accelThrusters.get(0));
+		this.rightTurnThrusters.add(this.accelThrusters.get(1));
+		this.fuelTanks.add(new StandardFuelTank(new Vector(0, 0)));
+
+		for (Thruster t : this.leftStrafeThrusters) {
+			if (!this.thrusters.contains(t))
+				this.thrusters.add(t);
+		}
+		for (Thruster t : this.rightStrafeThrusters) {
+			if (!this.thrusters.contains(t))
+				this.thrusters.add(t);
+		}
+		for (Thruster t : this.accelThrusters) {
+			if (!this.thrusters.contains(t))
+				this.thrusters.add(t);
+		}
+		for (Thruster t : this.deccelThrusters) {
+			if (!this.thrusters.contains(t))
+				this.thrusters.add(t);
+		}
+		for (Thruster t : this.leftTurnThrusters) {
+			if (!this.thrusters.contains(t))
+				this.thrusters.add(t);
+		}
+		for (Thruster t : this.rightTurnThrusters) {
+			if (!this.thrusters.contains(t))
+				this.thrusters.add(t);
+		}
+		for (Thruster t : this.thrusters) {
+			this.shipComponents.add(t);
+		}
+		for (FuelTank f : this.fuelTanks) {
+			this.shipComponents.add(f);
+		}
+		this.thrusterThrottle = 50;
 	}
 
 	@Override
 	public void update() {
 		if (target != null) {
-			if ((Vector.fromXY(this.getX() - target.getX(), this.getY() - target.getY())).getAngle() > this.getAngle()
-					+ Math.PI & !(this.angularVelocity > Math.PI / 45)) {
-				this.rotateRight();
+			Vector targetVector = Vector.fromXY(target.getX()-this.getX(),  target.getY()-this.getY());
+			double anglevr = 0;
+			for (Thruster t : this.rightTurnThrusters) {
+				anglevr += this.getAngularAcceleration(t);
 			}
-			if ((Vector.fromXY(this.getX() - target.getX(), this.getY() - target.getY())).getAngle() < this.getAngle()
-					+ Math.PI & !(this.angularVelocity < -Math.PI / 45)) {
-				this.rotateLeft();
+			double anglevl = 0;
+			for (Thruster t : this.leftTurnThrusters) {
+				anglevl += this.getAngularAcceleration(t);
 			}
-			if ((int) ((Vector.fromXY(this.getX() - target.getX(), this.getY() - target.getY())).getAngle()
-					* 1000) == (int) ((this.getAngle() + Math.PI) * 1000)) {
-				this.setAngularVelocity(0);
-			}
-			if ((int) ((Vector.fromXY(this.getX() - target.getX(), this.getY() - target.getY())).getAngle()
-					* 10) == (int) ((this.getAngle() + Math.PI) * 10)) {
+			if (Math.abs(this.angle - targetVector.getAngle()) > 3 * Math.PI / 4) {
+				if (this.angle > targetVector.getAngle() & this.angularVelocity < anglevl * 4) {
+					this.rotateLeft();
+				} else if (this.angle < targetVector.getAngle() & this.angularVelocity < anglevr * 4) {
+					this.rotateRight();
+				}else if (this.angularVelocity > anglevl * 5) {
+					this.rotateLeft();
+				}else if (this.angularVelocity < anglevr * 5) {
+					this.rotateRight();
+				}
+			} else if (Math.abs(this.angle - targetVector.getAngle()) > Math.PI / 2) {
+				if (this.angle > targetVector.getAngle() & this.angularVelocity < anglevl * 3) {
+					this.rotateLeft();
+				} else if (this.angle < targetVector.getAngle() & this.angularVelocity < anglevr * 3) {
+					this.rotateRight();
+				}else if (this.angularVelocity > anglevl * 4) {
+					this.rotateLeft();
+				}else if (this.angularVelocity < anglevr * 4) {
+					this.rotateRight();
+				}
+
+			} else if (Math.abs(this.angle - targetVector.getAngle()) > Math.PI / 4) {
+				if (this.angle > targetVector.getAngle() & this.angularVelocity < anglevl * 2) {
+					this.rotateLeft();
+				} else if (this.angle < targetVector.getAngle() & this.angularVelocity < anglevr * 2) {
+					this.rotateRight();
+				}else if (this.angularVelocity > anglevl * 3) {
+					this.rotateLeft();
+				}else if (this.angularVelocity < anglevr * 3) {
+					this.rotateRight();
+				}
+
+			} else if (Math.abs(this.angle - targetVector.getAngle()) > Math.PI / 12) {
+				if (this.angle > targetVector.getAngle() & this.angularVelocity < anglevl * 1) {
+					this.rotateLeft();
+				} else if (this.angle < targetVector.getAngle() & this.angularVelocity < anglevr * 1) {
+					this.rotateRight();
+				}else if (this.angularVelocity > anglevl * 2) {
+					this.rotateLeft();
+				}else if (this.angularVelocity < anglevr * 2) {
+					this.rotateRight();
+				}
+
+			} else if (Math.abs(this.angle - targetVector.getAngle()) > Math.PI / 24) {
+				if (this.angle > targetVector.getAngle() & this.angularVelocity < anglevl * 1) {
+					this.rotateLeft();
+				} else if (this.angle < targetVector.getAngle() & this.angularVelocity < anglevr * 1) {
+					this.rotateRight();
+				}else if (this.angularVelocity > anglevl) {
+					this.rotateLeft();
+				}else if (this.angularVelocity > anglevr) {
+					this.rotateRight();
+				}
+
+			} else {
+				//this.thrusterThrottle = 100;
 				this.accel();
-			}
-			if ((int) ((Vector.fromXY(this.getX() - target.getX(), this.getY() - target.getY())).getAngle()
-					* 10) == (int) (this.getAngle() * 10)) {
-				this.deccel();
 			}
 		}
 		super.update();
 	}
 
 	@Override
-	public void accel() {
-		this.velocity = this.velocity.add(new Vector(this.angle, 0.01));
-	}
-
-	@Override
-	public void rotateLeft() {
-		this.angularVelocity -= Math.PI / 360;
-	}
-
-	@Override
-	public void rotateRight() {
-		this.angularVelocity += Math.PI / 360;
-
+	public void draw(Graphics g) {
+		Graphics2D ng = (Graphics2D) g;
+		ng.setColor(Color.black);
+		ng.translate(this.getX(), this.getY());
+		ng.rotate(this.getAngle());
+		ng.drawRect(-20, -10, 40, 20);
+		for (ShipComponent s : shipComponents)
+			s.draw(ng);
+		ng.rotate(-this.getAngle());
+		Vector temp = new Vector(this.getAngle(), 2);
+		g.drawLine(0, 0, (int) (temp.getX() * 5), (int) (temp.getY() * 5));
+		g.setColor(Color.green);
+		//temp = Vector.fromXY(target.getX()-this.getX(),  target.getY()-this.getY());
+		//g.drawLine(0, 0, (int) (temp.getX() * 5), (int) (temp.getY() * 5));
+		g.setColor(Color.red);
+		//temp = new Vector(this.thrust.getAngle() + this.getAngle(), this.thrust.getMagnitude());
+		g.drawLine(0, 0, (int) (temp.getX() * 5), (int) (temp.getY() * 5));
+		g.setColor(Color.blue);
+		temp = new Vector(this.velocity.getAngle(), this.velocity.getMagnitude());
+		g.drawLine(0, 0, (int) (temp.getX() * 25), (int) (temp.getY() * 25));
+		ng.translate(-this.getX(), -this.getY());
 	}
 
 	void setTarget(DObject target) {
 		this.target = target;
+	}
+	
+	public void rotateLeft(){
+		//this.thrusterThrottle = 5;
+		super.rotateLeft();
+	}
+	
+	public void rotateRight(){
+		//this.thrusterThrottle = 5;
+		super.rotateRight();
 	}
 
 }

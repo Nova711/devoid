@@ -14,6 +14,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,7 +23,6 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import hitBox.HitBox;
 import rift.Ex;
 import rpg.Out;
 
@@ -119,6 +119,14 @@ class Interface extends JFrame implements KeyListener {
 					tester.setScale(tester.getScale() - 0.1);
 					break;
 				}
+				case KeyEvent.VK_OPEN_BRACKET: {
+					tester.slowDown();
+					break;
+				}
+				case KeyEvent.VK_CLOSE_BRACKET: {
+					tester.speedUp();
+					break;
+				}
 				}
 			}
 		}
@@ -133,22 +141,24 @@ class Interface extends JFrame implements KeyListener {
 
 class PhysicsBox extends JComponent implements Runnable {
 	private static final long serialVersionUID = 1l;
-	DObject[] objects = new DObject[100];
+	ArrayList<DObject> objects = new ArrayList<DObject>();
+	// DObject[] objects = new DObject[50];
 	public boolean paused = true;
 	protected double scale = 1;
+	protected int slowDown = 1;
 	public int player;
 	StandardShip playerShip = new StandardShip(new Vector(0, 0), new Vector(0, 0.0000001), 100);
 	StandardGUI playerGUI = new StandardGUI();
 
 	public PhysicsBox() {
 		player = 0;
-		for (int i = 0; i < objects.length; i++) {
-			StandardMissile m1 = new StandardMissile(new Vector(Ex.rand(0, Math.PI * 2), Ex.rand(0, 300)),
+		for (int i = 0; i < 50; i++) {
+			StandardMissile m1 = new StandardMissile(new Vector(Ex.rand(0, Math.PI * 2), Ex.rand(300, 1000)),
 					new Vector(0, 0.000000001), 100);
 			m1.setTarget(playerShip);
-			objects[i] = m1;
+			objects.add(m1);
 		}
-		objects[player] = playerShip;
+		objects.add(playerShip);
 	}
 
 	public void pauseUnpause() {
@@ -203,6 +213,18 @@ class PhysicsBox extends JComponent implements Runnable {
 		this.scale = scale;
 	}
 
+	public void slowDown() {
+		this.slowDown++;
+	}
+
+	public void speedUp() {
+		this.slowDown = this.slowDown > 1 ? this.slowDown - 1 : 1;
+	}
+
+	public void resetSpeed() {
+		this.slowDown = 1;
+	}
+
 	public void paint(Graphics g) {
 		AffineTransform tx = new AffineTransform();
 		tx.translate(this.getBounds().getCenterX(), this.getBounds().getCenterY());
@@ -225,9 +247,9 @@ class PhysicsBox extends JComponent implements Runnable {
 				}
 			}
 		}
-		for (int i = 0; i < objects.length; i++) {
-			if (!objects[i].equals(playerShip))
-				objects[i].draw(ng);
+		for (int i = 0; i < objects.size(); i++) {
+			if (!objects.get(i).equals(playerShip))
+				objects.get(i).draw(ng);
 		}
 		playerShip.draw(ng);
 		try {
@@ -236,21 +258,17 @@ class PhysicsBox extends JComponent implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		ng.drawChars(("" + playerShip.getAngularVelocity()).toCharArray(), 0,
-				("" + playerShip.getAngularVelocity()).length(), 0, 10);
-		ng.drawChars(("" + Math.round(playerShip.getX()) + "" + Math.round(playerShip.getY())).toCharArray(), 0,
-				("" + Math.round(playerShip.getX()) + "" + Math.round(playerShip.getY())).length(), 0, 30);
 		playerGUI.draw(playerShip, this.getBounds(), ng);
 	}
 
 	public void run() {
 		while (true) {
 			while (!this.paused) {
-				for (int i = 0; i < objects.length; i++) {
-					objects[i].update();
+				for (int i = 0; i < objects.size(); i++) {
+					objects.get(i).update();
 				}
 				repaint();
-				Ex.timeout(0.0078125);
+				Ex.timeout(0.0078125 * this.slowDown);
 			}
 			repaint();
 		}

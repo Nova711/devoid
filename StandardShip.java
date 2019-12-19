@@ -17,8 +17,9 @@ public class StandardShip implements Ship {
 	protected double mass;
 	protected double airFrameMass = 500;
 	protected double elasticity = 1;
-	protected double thrusterThrottle = 50;
+	protected double thrusterThrottle = 100;
 	protected double angularVelocity = 0;
+	protected double prevAngularVelocity = 0;
 	protected double temperature = 0;
 	protected boolean flightMode = true;
 
@@ -39,33 +40,55 @@ public class StandardShip implements Ship {
 	ArrayList<Battery> batteries = new ArrayList<Battery>();
 	Cockpit cockPit;
 
+	public StandardShip() {
+
+	}
+
 	public StandardShip(Vector position, Vector velocity, double mass) {
 		this.position = position;
 		this.velocity = velocity;
 		this.airFrameMass = mass;
-		this.accelThrusters.add(new StandardThruster(Vector.fromXY(-5, 4), 0));
-		this.accelThrusters.add(new StandardThruster(Vector.fromXY(-5, -4), 0));
-		this.deccelThrusters.add(new StandardThruster(Vector.fromXY(5, 4), Math.PI));
-		this.deccelThrusters.add(new StandardThruster(Vector.fromXY(5, -4), Math.PI));
+		this.accelThrusters.add(new StandardThruster(Vector.fromXY(-60, 30), 0, 1000));
+		this.accelThrusters.add(new StandardThruster(Vector.fromXY(-60, -30), 0, 1000));
+		this.deccelThrusters.add(new StandardThruster(Vector.fromXY(60, 30), Math.PI, 1000));
+		this.deccelThrusters.add(new StandardThruster(Vector.fromXY(60, -30), Math.PI, 1000));
+		this.leftStrafeThrusters.add(new StandardThruster(Vector.fromXY(20, 20), -Math.PI / 2));
+		this.leftStrafeThrusters.add(new StandardThruster(Vector.fromXY(-20, 20), -Math.PI / 2));
+		this.rightStrafeThrusters.add(new StandardThruster(Vector.fromXY(20, -20), Math.PI / 2));
+		this.rightStrafeThrusters.add(new StandardThruster(Vector.fromXY(-20, -20), Math.PI / 2));
+		this.leftTurnThrusters.add(this.accelThrusters.get(0));
+		this.leftTurnThrusters.add(this.deccelThrusters.get(1));
+		this.leftTurnThrusters.add(this.leftStrafeThrusters.get(0));
+		this.leftTurnThrusters.add(this.rightStrafeThrusters.get(1));
+		this.rightTurnThrusters.add(this.accelThrusters.get(1));
+		this.rightTurnThrusters.add(this.deccelThrusters.get(0));
+		this.rightTurnThrusters.add(this.leftStrafeThrusters.get(1));
+		this.rightTurnThrusters.add(this.rightStrafeThrusters.get(0));
 		this.fuelTanks.add(new StandardFuelTank(new Vector(0, 0)));
 
 		for (Thruster t : this.leftStrafeThrusters) {
-			this.thrusters.add(t);
+			if (!this.thrusters.contains(t))
+				this.thrusters.add(t);
 		}
 		for (Thruster t : this.rightStrafeThrusters) {
-			this.thrusters.add(t);
+			if (!this.thrusters.contains(t))
+				this.thrusters.add(t);
 		}
 		for (Thruster t : this.accelThrusters) {
-			this.thrusters.add(t);
+			if (!this.thrusters.contains(t))
+				this.thrusters.add(t);
 		}
 		for (Thruster t : this.deccelThrusters) {
-			this.thrusters.add(t);
+			if (!this.thrusters.contains(t))
+				this.thrusters.add(t);
 		}
 		for (Thruster t : this.leftTurnThrusters) {
-			this.thrusters.add(t);
+			if (!this.thrusters.contains(t))
+				this.thrusters.add(t);
 		}
 		for (Thruster t : this.rightTurnThrusters) {
-			this.thrusters.add(t);
+			if (!this.thrusters.contains(t))
+				this.thrusters.add(t);
 		}
 		for (Thruster t : this.thrusters) {
 			this.shipComponents.add(t);
@@ -166,18 +189,26 @@ public class StandardShip implements Ship {
 
 	@Override
 	public void update() {
+		this.thrust = new Vector(0, 0);
 		if (!this.flightMode) {
-			this.thrust = new Vector(0, 0);
 			for (Thruster t : this.accelThrusters) {
-				t.setThrottle(this.thrusterThrottle / 20);
-				this.thrust = this.thrust.add(t.thrust(this.fuelTanks.get(0)));
+				t.setThrottle(this.thrusterThrottle);
+				t.activate();
+			}
+		}
+		for (Thruster t : this.thrusters) {
+			if (t.isThrusting()) {
+				Vector temp = t.thrust(this.fuelTanks.get(0));
+				this.thrust = this.thrust.add(temp);
+				if (temp.getMagnitude() > 0)
+					this.angularVelocity += this.getAngularAcceleration(t);
+				t.deactivate();
 			}
 		}
 		this.velocity = this.velocity
 				.add(new Vector(this.thrust.getAngle() + this.angle, this.thrust.getMagnitude() / this.getMass()));
 		this.position = this.position.add(this.velocity);
 		this.angle += this.angularVelocity;
-		// Out.println(this.toString());
 	}
 
 	@Override
@@ -198,7 +229,7 @@ public class StandardShip implements Ship {
 		ng.setColor(Color.black);
 		ng.translate(this.getX(), this.getY());
 		ng.rotate(this.getAngle());
-		ng.drawRect(-5, -5, 10, 10);
+		ng.drawRect(-20, -10, 40, 20);
 		for (ShipComponent s : shipComponents)
 			s.draw(ng);
 		ng.rotate(-this.getAngle());
@@ -209,49 +240,55 @@ public class StandardShip implements Ship {
 		g.drawLine(0, 0, (int) (temp.getX() * 5), (int) (temp.getY() * 5));
 		g.setColor(Color.blue);
 		temp = new Vector(this.velocity.getAngle(), this.velocity.getMagnitude());
-		g.drawLine(0, 0, (int) (temp.getX() * 5), (int) (temp.getY() * 5));
+		g.drawLine(0, 0, (int) (temp.getX() * 25), (int) (temp.getY() * 25));
 		ng.translate(-this.getX(), -this.getY());
 	}
 
 	@Override
 	public void strafeLeft() {
-		this.velocity = this.velocity.add(new Vector(-Math.PI / 2 + this.angle, 1));
+		for (Thruster t : this.leftStrafeThrusters) {
+			t.setThrottle(this.thrusterThrottle);
+			t.activate();
+		}
 	}
 
 	@Override
 	public void strafeRight() {
-		this.velocity = this.velocity.add(new Vector(Math.PI / 2 + this.angle, 1));
+		for (Thruster t : this.rightStrafeThrusters) {
+			t.setThrottle(this.thrusterThrottle);
+			t.activate();
+		}
 	}
 
 	@Override
 	public void accel() {
-		if (this.flightMode) {
-			for (Thruster t : this.accelThrusters) {
-				this.thrust(t);
-			}
-		} else
-			this.throttleDown();
+		for (Thruster t : this.accelThrusters) {
+			t.setThrottle(this.thrusterThrottle);
+			t.activate();
+		}
 	}
 
 	@Override
 	public void deccel() {
-		if (this.flightMode) {
-			for (Thruster t : this.deccelThrusters) {
-				this.thrust(t);
-			}
-		} else
-			this.throttleDown();
+		for (Thruster t : this.deccelThrusters) {
+			t.setThrottle(this.thrusterThrottle);
+			t.activate();
+		}
 	}
 
-	public void thrust(Thruster t) {
+	public double getAngularAcceleration(Thruster t) {
 		t.setThrottle(this.thrusterThrottle);
-		Vector tempThrust = t.thrust(this.fuelTanks.get(0));
-		tempThrust = new Vector(tempThrust.getAngle() + this.angle, tempThrust.getMagnitude() / this.getMass());
-		this.velocity = this.velocity.add(tempThrust);
 		Vector tempPos = t.getPosition();
+		Vector tempThrust = new Vector(t.getAngle(), t.getMaxThrust() * t.getThrottle() / 100);
 		double angularAcceleration = tempPos.getMagnitude() * tempThrust.getMagnitude()
-				* Math.sin(tempPos.getAngle() - tempThrust.getAngle() - this.getAngle()) / this.getI();
-		this.angularVelocity += Math.abs(angularAcceleration) > Math.PI / 3600 ? angularAcceleration : 0;
+				* Math.sin(tempThrust.getAngle() - tempPos.getAngle()) / this.getI();
+		return angularAcceleration;
+	}
+
+	public void dampAngularVelocity() {
+		this.angularVelocity = Math.abs(this.angularVelocity - this.prevAngularVelocity) > Math.PI / 72000
+				? this.angularVelocity
+				: this.prevAngularVelocity;
 	}
 
 	@Override
@@ -267,14 +304,40 @@ public class StandardShip implements Ship {
 	}
 
 	@Override
+	public double getThrottle() {
+		return this.thrusterThrottle;
+	}
+
+	@Override
 	public void rotateLeft() {
-		this.angularVelocity -= Math.PI / 360;
+		for (Thruster t : this.leftTurnThrusters) {
+			t.setThrottle(this.thrusterThrottle);
+			t.activate();
+		}
 	}
 
 	@Override
 	public void rotateRight() {
-		this.angularVelocity += Math.PI / 360;
+		for (Thruster t : this.rightTurnThrusters) {
+			t.setThrottle(this.thrusterThrottle);
+			t.activate();
+		}
+	}
 
+	@Override
+	public double getFuel() {
+		double sum = 0;
+		for (FuelTank f : this.fuelTanks)
+			sum += f.getFuel();
+		return sum;
+	}
+
+	@Override
+	public double getMaxFuel() {
+		double sum = 0;
+		for (FuelTank f : this.fuelTanks)
+			sum += f.getFuelCapacity();
+		return sum;
 	}
 
 	@Override
@@ -286,9 +349,10 @@ public class StandardShip implements Ship {
 
 	@Override
 	public String toString() {
-		return "p" + this.position.toString() + "v" + this.position.toString() + "t" + this.thrust.toString() + "a"
-				+ this.angle + "m" + this.mass + "f" + this.airFrameMass + "e" + this.elasticity + "t"
-				+ this.thrusterThrottle + "v" + this.angularVelocity + "T" + this.temperature + "f" + this.flightMode;
+		return "" + this.position.toString() + " " + this.position.toString() + " " + this.thrust.toString() + " "
+				+ this.angle + " " + this.getMass() + " " + this.airFrameMass + " " + this.getI() + " "
+				+ this.elasticity + " " + this.thrusterThrottle + " " + this.angularVelocity + " " + this.temperature
+				+ " " + this.flightMode;
 	}
 
 }

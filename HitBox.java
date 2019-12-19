@@ -9,60 +9,68 @@ import in_out.Out;
 import rift.Ex;
 
 public class HitBox {
-	private ArrayList<Rectangle> bounds = new ArrayList<>();
+	private Polygon bounds;
 	protected double x;
 	protected double y;
-	protected double angle = 0;
 
-	@SuppressWarnings("unchecked")
 	public HitBox(HitBox h) {
-		this(h.x, h.y, (ArrayList<Rectangle>) h.bounds.clone());
+		this(h.x, h.y, new Polygon(h.getBounds().xpoints, h.getBounds().ypoints, h.getBounds().npoints));
 	}
 
-	public HitBox(double x, double y, Rectangle... bounds) {
-		this.x = x;
-		this.y = y;
-		for (Rectangle box : bounds) {
-			this.getBounds().add(box);
-		}
-	}
-
-	public HitBox(double x, double y, ArrayList<Rectangle> bounds) {
+	public HitBox(double x, double y, Polygon bounds) {
 		this.x = x;
 		this.y = y;
 		this.bounds = bounds;
 	}
 
-	public boolean hits(HitBox target) {
-		Area area = new Area();
-		Area targetArea = new Area();
-		for (Rectangle box : this.getBounds()) {
-			box = new Rectangle(box);
-			box.translate((int) this.x, (int) this.y);
-			area.add(new Area(box));
+	public CollisionEvent hits(HitBox target, AffineTransform tx, AffineTransform ttx) {
+		CollisionEvent collision = new CollisionEvent();
+		Polygon box = new Polygon(this.bounds.xpoints, this.bounds.ypoints, this.bounds.npoints);
+		box = (Polygon) tx.createTransformedShape(box);
+		Polygon targetBox = new Polygon(target.getBounds().xpoints, target.getBounds().ypoints,
+				target.getBounds().npoints);
+		targetBox = (Polygon) ttx.createTransformedShape(targetBox);
+		if (box.getBounds().intersects(targetBox.getBounds())) {
+			boolean isSurface = false;
+			int x = 0;
+			int y = 0;
+			int index = -1;
+			for (int i = 0; i < box.npoints; i++) {
+				if (targetBox.contains(box.xpoints[i], box.ypoints[i])) {
+					isSurface = true;
+					x = box.xpoints[i];
+					y = box.ypoints[i];
+				}
+			}
+			if (!isSurface) {
+				for (int i = 0; i < targetBox.npoints; i++) {
+					if (box.contains(targetBox.xpoints[i], targetBox.ypoints[i])) {
+						isSurface = true;
+						x = targetBox.xpoints[i];
+						y = targetBox.ypoints[i];
+					}
+				}
+				if(isSurface) {
+					double slope = Vector.fromXY(box.xpoints[0] - box.xpoints[1], box.ypoints[0]- box.ypoints[1]).getAngle() - Vector.fromXY(box.xpoints[0] - x, box.ypoints[0] - y).getAngle();
+					for (int i = 0; i < box.npoints; i++) {
+						double tempSlope = Vector.fromXY(box.xpoints[i] - box.xpoints[(i+1)%box.npoints], box.ypoints[i]- box.ypoints[(i+1)%box.npoints]).getAngle() - Vector.fromXY(box.xpoints[i] - x, box.ypoints[i] - y).getAngle();
+						if(Math.abs(tempSlope)<Math.abs(slope)) {
+							slope = tempSlope;
+							index = i;
+						}
+					}
+				}
+			} else {
+				
+			}
 		}
-		for (Rectangle targetBox : target.getBounds()) {
-			targetBox = new Rectangle(targetBox);
-			targetBox.translate((int) target.getX(), (int) target.getY());
-			targetArea.add(new Area(targetBox));
-		}
-		if (area.isRectangular() & targetArea.isRectangular()) {
-			return area.getBounds2D().intersects(targetArea.getBounds2D());
-		}
-		area.intersect(targetArea);
-		return !area.isEmpty();
+		return collision;
 	}
 
 	public void draw(Graphics g) {
-		for (Rectangle box : this.getBounds()) {
-			box = new Rectangle(box);
-			box.translate((int) this.x, (int) this.y);
-			g.fillRect(box.x, box.y, box.width, box.height);
-		}
-	}
-	
-	public void add(Rectangle r) {
-		this.bounds.add(r);
+		Polygon box = new Polygon(this.bounds.xpoints, this.bounds.ypoints, this.bounds.npoints);
+		box.translate((int) this.x, (int) this.y);
+		g.fillPolygon(box);
 	}
 
 	public double getX() {
@@ -81,35 +89,11 @@ public class HitBox {
 		this.y = y;
 	}
 
-	public double getAngle() {
-		return this.angle;
+	public Polygon getBounds() {
+		return this.bounds;
 	}
 
-	public double getCenterX() {
-		double center = 0;
-		for (Rectangle box : this.getBounds()) {
-			center += box.getCenterX();
-		}
-		return center / this.bounds.size();
-	}
-
-	public double getCenterY() {
-		double center = 0;
-		for (Rectangle box : this.getBounds()) {
-			center += box.getCenterY();
-		}
-		return center / this.bounds.size();
-	}
-
-	public void setAngle(double angle) {
-		this.angle = angle;
-	}
-
-	public ArrayList<Rectangle> getBounds() {
-		return bounds;
-	}
-
-	public void setBounds(ArrayList<Rectangle> bounds) {
+	public void setBounds(Polygon bounds) {
 		this.bounds = bounds;
 	}
 }

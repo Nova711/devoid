@@ -15,7 +15,7 @@ public class StandardFuelTank implements FuelTank {
 	protected double angularVelocity = 0;
 	protected double temperature = 0;
 	protected int fuelType = 0;
-	protected double capacity = 1000;
+	protected double capacity = 10000;
 	protected double currentVolume = this.capacity;
 
 	public StandardFuelTank(Vector position) {

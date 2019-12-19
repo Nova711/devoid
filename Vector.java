@@ -46,7 +46,7 @@ public class Vector {
 	}
 
 	public static double calculateDirection(double x, double y) {
-		return x < 0 ? Math.atan(y / x) + Math.PI : Math.atan(y / x);
+		return x < 0 ? Math.atan(y / x) + Math.PI : x == 0 ? 0 : Math.atan(y / x);
 	}
 
 	public static double calculateMagnitude(double x, double y) {
@@ -58,7 +58,7 @@ public class Vector {
 	}
 
 	public String toString() {
-		return "" + Math.toDegrees(this.angle) + " " + this.magnitude;
+		return "" + this.angle + " " + this.magnitude;
 	}
 
 }
