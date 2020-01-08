@@ -261,6 +261,10 @@ class PhysicsBox extends JComponent implements Runnable {
 		playerGUI.draw(playerShip, this.getBounds(), ng);
 	}
 
+	public void spawn(DObject obj) {
+		this.objects.add(obj);
+	}
+
 	public void run() {
 		while (true) {
 			while (!this.paused) {

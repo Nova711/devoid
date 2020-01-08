@@ -8,20 +8,13 @@ import java.util.ArrayList;
 
 import rpg.Out;
 
-public class StandardShip implements Ship {
-	protected Vector position = new Vector(0, 0);
-	protected Vector velocity = new Vector(0, 0);
+public class StandardShip extends StandardDObject implements Ship {
 	protected Vector thrust = new Vector(0, 0);
 
-	protected double angle = 0;
-	protected double mass;
-	protected double airFrameMass = 500;
-	protected double elasticity = 1;
-	protected double thrusterThrottle = 100;
-	protected double angularVelocity = 0;
-	protected double prevAngularVelocity = 0;
-	protected double temperature = 0;
-	protected boolean flightMode = true;
+	private double airFrameMass = 500;
+	private double thrusterThrottle = 100;
+	private double prevAngularVelocity = 0;
+	private boolean flightMode = true;
 
 	protected HitBox bounds;
 	protected double delay = 1;
@@ -45,9 +38,7 @@ public class StandardShip implements Ship {
 	}
 
 	public StandardShip(Vector position, Vector velocity, double mass) {
-		this.position = position;
-		this.velocity = velocity;
-		this.airFrameMass = mass;
+		super(position, velocity, 5, 0, mass, 1, 0, 0);
 		this.accelThrusters.add(new StandardThruster(Vector.fromXY(-60, 30), 0, 1000));
 		this.accelThrusters.add(new StandardThruster(Vector.fromXY(-60, -30), 0, 1000));
 		this.deccelThrusters.add(new StandardThruster(Vector.fromXY(60, 30), Math.PI, 1000));
@@ -96,6 +87,12 @@ public class StandardShip implements Ship {
 		for (FuelTank f : this.fuelTanks) {
 			this.shipComponents.add(f);
 		}
+		this.setMass(this.getMass());
+	}
+
+	public StandardShip(Vector position, Vector velocity, double hp, double angle, double mass, double elasticity,
+			double angularVelocity, double temperature) {
+		super(position, velocity, hp, angle, mass, elasticity, angularVelocity, temperature);
 	}
 
 	@Override
@@ -107,31 +104,11 @@ public class StandardShip implements Ship {
 	}
 
 	@Override
-	public Vector getPosition() {
-		return this.position;
-	}
-
-	@Override
-	public double getX() {
-		return position.getX();
-	}
-
-	@Override
-	public double getY() {
-		return position.getY();
-	}
-
-	@Override
-	public double getAngle() {
-		return this.angle;
-	}
-
-	@Override
 	public double getMass() {
 		double sum = this.airFrameMass;
 		for (ShipComponent s : shipComponents)
 			sum += s.getMass();
-		return (this.mass = sum);
+		return sum;
 	}
 
 	@Override
@@ -140,51 +117,6 @@ public class StandardShip implements Ship {
 		for (ShipComponent s : shipComponents)
 			sum += s.getI();
 		return sum;
-	}
-
-	@Override
-	public void setX(double x) {
-		this.position = Vector.fromXY(x, this.position.getY());
-	}
-
-	@Override
-	public void setY(double y) {
-		this.position = Vector.fromXY(this.velocity.getX(), y);
-	}
-
-	@Override
-	public void setAngle(double angle) {
-		this.angle = angle;
-	}
-
-	@Override
-	public Vector getVelocity() {
-		return this.velocity;
-	}
-
-	@Override
-	public void setVelocity(Vector velocity) {
-		this.velocity = velocity;
-	}
-
-	@Override
-	public double getAngularVelocity() {
-		return this.angularVelocity;
-	}
-
-	@Override
-	public void setAngularVelocity(double velocity) {
-		this.angularVelocity = velocity;
-	}
-
-	@Override
-	public double getTemperature() {
-		return this.temperature;
-	}
-
-	@Override
-	public void setTemperature(double temperature) {
-		this.temperature = temperature;
 	}
 
 	@Override
@@ -201,14 +133,15 @@ public class StandardShip implements Ship {
 				Vector temp = t.thrust(this.fuelTanks.get(0));
 				this.thrust = this.thrust.add(temp);
 				if (temp.getMagnitude() > 0)
-					this.angularVelocity += this.getAngularAcceleration(t);
+					this.setAngularVelocity(this.getAngularVelocity() + this.getAngularAcceleration(t));
+				;
 				t.deactivate();
 			}
 		}
-		this.velocity = this.velocity
-				.add(new Vector(this.thrust.getAngle() + this.angle, this.thrust.getMagnitude() / this.getMass()));
-		this.position = this.position.add(this.velocity);
-		this.angle += this.angularVelocity;
+		this.setVelocity(this.getVelocity().add(
+				new Vector(this.thrust.getAngle() + this.getAngle(), this.thrust.getMagnitude() / this.getMass())));
+		this.setPosition(this.getPosition().add(this.getVelocity()));
+		this.setAngle(this.getAngle() + this.getAngularVelocity());
 	}
 
 	@Override
@@ -229,7 +162,7 @@ public class StandardShip implements Ship {
 		ng.setColor(Color.black);
 		ng.translate(this.getX(), this.getY());
 		ng.rotate(this.getAngle());
-		ng.drawRect(-20, -10, 40, 20);
+		// ng.drawRect(-20, -10, 40, 20);
 		for (ShipComponent s : shipComponents)
 			s.draw(ng);
 		ng.rotate(-this.getAngle());
@@ -239,7 +172,7 @@ public class StandardShip implements Ship {
 		temp = new Vector(this.thrust.getAngle() + this.getAngle(), this.thrust.getMagnitude());
 		g.drawLine(0, 0, (int) (temp.getX() * 5), (int) (temp.getY() * 5));
 		g.setColor(Color.blue);
-		temp = new Vector(this.velocity.getAngle(), this.velocity.getMagnitude());
+		temp = new Vector(this.getVelocity().getAngle(), this.getVelocity().getMagnitude());
 		g.drawLine(0, 0, (int) (temp.getX() * 25), (int) (temp.getY() * 25));
 		ng.translate(-this.getX(), -this.getY());
 	}
@@ -285,12 +218,6 @@ public class StandardShip implements Ship {
 		return angularAcceleration;
 	}
 
-	public void dampAngularVelocity() {
-		this.angularVelocity = Math.abs(this.angularVelocity - this.prevAngularVelocity) > Math.PI / 72000
-				? this.angularVelocity
-				: this.prevAngularVelocity;
-	}
-
 	@Override
 	public void throttleUp() {
 		if (this.thrusterThrottle < 100)
@@ -306,6 +233,10 @@ public class StandardShip implements Ship {
 	@Override
 	public double getThrottle() {
 		return this.thrusterThrottle;
+	}
+
+	public void setThrottle(double throttle) {
+		this.thrusterThrottle = throttle;
 	}
 
 	@Override
@@ -349,10 +280,18 @@ public class StandardShip implements Ship {
 
 	@Override
 	public String toString() {
-		return "" + this.position.toString() + " " + this.position.toString() + " " + this.thrust.toString() + " "
-				+ this.angle + " " + this.getMass() + " " + this.airFrameMass + " " + this.getI() + " "
-				+ this.elasticity + " " + this.thrusterThrottle + " " + this.angularVelocity + " " + this.temperature
-				+ " " + this.flightMode;
+		return "" + this.getPosition().toString() + " " + this.getVelocity().toString() + " " + this.thrust.toString()
+				+ " " + this.getAngle() + " " + this.getMass() + " " + this.airFrameMass + " " + this.getI() + " "
+				+ this.thrusterThrottle + " " + this.getAngularVelocity() + " " + this.getTemperature() + " "
+				+ this.flightMode;
+	}
+
+	public double airFrameMass() {
+		return this.airFrameMass;
+	}
+
+	public void setAirFrameMass(double mass) {
+		this.airFrameMass = mass;
 	}
 
 }

@@ -8,25 +8,29 @@ public interface DObject {
 
 	Vector getPosition();
 
+	void setPosition(Vector position);
+
+	Vector getVelocity();
+
+	void setVelocity(Vector velocity);
+
 	double getX();
 
 	double getY();
-
-	double getAngle();
-
-	double getMass();
-
-	double getI();
 
 	void setX(double x);
 
 	void setY(double y);
 
+	double getAngle();
+
 	void setAngle(double angle);
 
-	Vector getVelocity();
+	double getMass();
 
-	void setVelocity(Vector velocity);
+	void setMass(double mass);
+
+	double getI();
 
 	double getAngularVelocity();
 
@@ -43,5 +47,9 @@ public interface DObject {
 	boolean hits(DObject[] objects);
 
 	void draw(Graphics g);
+	
+	PhysicsBox getEnvironment();
+
+	void setEnvironment(PhysicsBox b);
 
 }

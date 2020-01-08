@@ -1,0 +1,5 @@
+mass 500
+hp 10
+accel LC9AL c -3 3
+accel LC9AR c -3 -3
+

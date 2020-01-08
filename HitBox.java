@@ -50,18 +50,44 @@ public class HitBox {
 						y = targetBox.ypoints[i];
 					}
 				}
-				if(isSurface) {
-					double slope = Vector.fromXY(box.xpoints[0] - box.xpoints[1], box.ypoints[0]- box.ypoints[1]).getAngle() - Vector.fromXY(box.xpoints[0] - x, box.ypoints[0] - y).getAngle();
+				if (isSurface) {
+					double slope = Vector.fromXY(box.xpoints[0] - box.xpoints[1], box.ypoints[0] - box.ypoints[1])
+							.getAngle() - Vector.fromXY(box.xpoints[0] - x, box.ypoints[0] - y).getAngle();
 					for (int i = 0; i < box.npoints; i++) {
-						double tempSlope = Vector.fromXY(box.xpoints[i] - box.xpoints[(i+1)%box.npoints], box.ypoints[i]- box.ypoints[(i+1)%box.npoints]).getAngle() - Vector.fromXY(box.xpoints[i] - x, box.ypoints[i] - y).getAngle();
-						if(Math.abs(tempSlope)<Math.abs(slope)) {
+						double tempSlope = Vector
+								.fromXY(box.xpoints[i] - box.xpoints[(i + 1) % box.npoints],
+										box.ypoints[i] - box.ypoints[(i + 1) % box.npoints])
+								.getAngle() - Vector.fromXY(box.xpoints[i] - x, box.ypoints[i] - y).getAngle();
+						if (Math.abs(tempSlope) < Math.abs(slope)) {
 							slope = tempSlope;
 							index = i;
 						}
 					}
+					double angle = Vector.fromXY(box.xpoints[index] - box.xpoints[(index + 1) % box.npoints],
+							box.ypoints[index] - box.ypoints[(index + 1) % box.npoints]).getAngle();
+					collision = new CollisionEvent(Vector.fromXY(x, y), angle);
 				}
 			} else {
-				
+				double slope = Vector
+						.fromXY(targetBox.xpoints[0] - targetBox.xpoints[1],
+								targetBox.ypoints[0] - targetBox.ypoints[1])
+						.getAngle() - Vector.fromXY(targetBox.xpoints[0] - x, targetBox.ypoints[0] - y).getAngle();
+				for (int i = 0; i < targetBox.npoints; i++) {
+					double tempSlope = Vector
+							.fromXY(targetBox.xpoints[i] - targetBox.xpoints[(i + 1) % targetBox.npoints],
+									targetBox.ypoints[i] - targetBox.ypoints[(i + 1) % targetBox.npoints])
+							.getAngle() - Vector.fromXY(targetBox.xpoints[i] - x, targetBox.ypoints[i] - y).getAngle();
+					if (Math.abs(tempSlope) < Math.abs(slope)) {
+						slope = tempSlope;
+						index = i;
+					}
+				}
+				double angle = Vector
+						.fromXY(targetBox.xpoints[index] - targetBox.xpoints[(index + 1) % targetBox.npoints],
+								targetBox.ypoints[index] - targetBox.ypoints[(index + 1) % targetBox.npoints])
+						.getAngle();
+				collision = new CollisionEvent(Vector.fromXY(x, y), angle);
+
 			}
 		}
 		return collision;

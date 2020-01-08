@@ -11,9 +11,8 @@ public class StandardMissile extends StandardShip {
 	protected DObject target = null;
 
 	public StandardMissile(Vector position, Vector velocity, double mass) {
-		this.position = position;
-		this.velocity = velocity;
-		this.airFrameMass = mass;
+		super(position, new Vector(0, 0), 5, 0, mass, 1, 0, 0);
+		this.setAirFrameMass(mass);
 		this.accelThrusters.add(new StandardThruster(Vector.fromXY(-15, 5), 0, 1200, 90));
 		this.accelThrusters.add(new StandardThruster(Vector.fromXY(-15, -5), 0, 1200, 90));
 		this.leftTurnThrusters.add(this.accelThrusters.get(0));
@@ -50,13 +49,14 @@ public class StandardMissile extends StandardShip {
 		for (FuelTank f : this.fuelTanks) {
 			this.shipComponents.add(f);
 		}
-		this.thrusterThrottle = 50;
+		this.setThrottle(50);
+		this.setMass(this.getMass());
 	}
 
 	@Override
 	public void update() {
 		if (target != null) {
-			Vector targetVector = Vector.fromXY(target.getX()-this.getX(),  target.getY()-this.getY());
+			Vector targetVector = Vector.fromXY(target.getX() - this.getX(), target.getY() - this.getY());
 			double anglevr = 0;
 			for (Thruster t : this.rightTurnThrusters) {
 				anglevr += this.getAngularAcceleration(t);
@@ -65,62 +65,62 @@ public class StandardMissile extends StandardShip {
 			for (Thruster t : this.leftTurnThrusters) {
 				anglevl += this.getAngularAcceleration(t);
 			}
-			if (Math.abs(this.angle - targetVector.getAngle()) > 3 * Math.PI / 4) {
-				if (this.angle > targetVector.getAngle() & this.angularVelocity < anglevl * 4) {
+			if (Math.abs(this.getAngle() - targetVector.getAngle()) > 3 * Math.PI / 4) {
+				if (this.getAngle() > targetVector.getAngle() & this.getAngularVelocity() < anglevl * 4) {
 					this.rotateLeft();
-				} else if (this.angle < targetVector.getAngle() & this.angularVelocity < anglevr * 4) {
+				} else if (this.getAngle() < targetVector.getAngle() & this.getAngularVelocity() < anglevr * 4) {
 					this.rotateRight();
-				}else if (this.angularVelocity > anglevl * 5) {
+				} else if (this.getAngularVelocity() > anglevl * 5) {
 					this.rotateLeft();
-				}else if (this.angularVelocity < anglevr * 5) {
-					this.rotateRight();
-				}
-			} else if (Math.abs(this.angle - targetVector.getAngle()) > Math.PI / 2) {
-				if (this.angle > targetVector.getAngle() & this.angularVelocity < anglevl * 3) {
-					this.rotateLeft();
-				} else if (this.angle < targetVector.getAngle() & this.angularVelocity < anglevr * 3) {
-					this.rotateRight();
-				}else if (this.angularVelocity > anglevl * 4) {
-					this.rotateLeft();
-				}else if (this.angularVelocity < anglevr * 4) {
+				} else if (this.getAngularVelocity() < anglevr * 5) {
 					this.rotateRight();
 				}
-
-			} else if (Math.abs(this.angle - targetVector.getAngle()) > Math.PI / 4) {
-				if (this.angle > targetVector.getAngle() & this.angularVelocity < anglevl * 2) {
+			} else if (Math.abs(this.getAngle() - targetVector.getAngle()) > Math.PI / 2) {
+				if (this.getAngle() > targetVector.getAngle() & this.getAngularVelocity() < anglevl * 3) {
 					this.rotateLeft();
-				} else if (this.angle < targetVector.getAngle() & this.angularVelocity < anglevr * 2) {
+				} else if (this.getAngle() < targetVector.getAngle() & this.getAngularVelocity() < anglevr * 3) {
 					this.rotateRight();
-				}else if (this.angularVelocity > anglevl * 3) {
+				} else if (this.getAngularVelocity() > anglevl * 4) {
 					this.rotateLeft();
-				}else if (this.angularVelocity < anglevr * 3) {
+				} else if (this.getAngularVelocity() < anglevr * 4) {
 					this.rotateRight();
 				}
 
-			} else if (Math.abs(this.angle - targetVector.getAngle()) > Math.PI / 12) {
-				if (this.angle > targetVector.getAngle() & this.angularVelocity < anglevl * 1) {
+			} else if (Math.abs(this.getAngle() - targetVector.getAngle()) > Math.PI / 4) {
+				if (this.getAngle() > targetVector.getAngle() & this.getAngularVelocity() < anglevl * 2) {
 					this.rotateLeft();
-				} else if (this.angle < targetVector.getAngle() & this.angularVelocity < anglevr * 1) {
+				} else if (this.getAngle() < targetVector.getAngle() & this.getAngularVelocity() < anglevr * 2) {
 					this.rotateRight();
-				}else if (this.angularVelocity > anglevl * 2) {
+				} else if (this.getAngularVelocity() > anglevl * 3) {
 					this.rotateLeft();
-				}else if (this.angularVelocity < anglevr * 2) {
+				} else if (this.getAngularVelocity() < anglevr * 3) {
 					this.rotateRight();
 				}
 
-			} else if (Math.abs(this.angle - targetVector.getAngle()) > Math.PI / 24) {
-				if (this.angle > targetVector.getAngle() & this.angularVelocity < anglevl * 1) {
+			} else if (Math.abs(this.getAngle() - targetVector.getAngle()) > Math.PI / 12) {
+				if (this.getAngle() > targetVector.getAngle() & this.getAngularVelocity() < anglevl * 1) {
 					this.rotateLeft();
-				} else if (this.angle < targetVector.getAngle() & this.angularVelocity < anglevr * 1) {
+				} else if (this.getAngle() < targetVector.getAngle() & this.getAngularVelocity() < anglevr * 1) {
 					this.rotateRight();
-				}else if (this.angularVelocity > anglevl) {
+				} else if (this.getAngularVelocity() > anglevl * 2) {
 					this.rotateLeft();
-				}else if (this.angularVelocity > anglevr) {
+				} else if (this.getAngularVelocity() < anglevr * 2) {
+					this.rotateRight();
+				}
+
+			} else if (Math.abs(this.getAngle() - targetVector.getAngle()) > Math.PI / 24) {
+				if (this.getAngle() > targetVector.getAngle() & this.getAngularVelocity() < anglevl * 1) {
+					this.rotateLeft();
+				} else if (this.getAngle() < targetVector.getAngle() & this.getAngularVelocity() < anglevr * 1) {
+					this.rotateRight();
+				} else if (this.getAngularVelocity() > anglevl) {
+					this.rotateLeft();
+				} else if (this.getAngularVelocity() > anglevr) {
 					this.rotateRight();
 				}
 
 			} else {
-				//this.thrusterThrottle = 100;
+				// this.thrusterThrottle = 100;
 				this.accel();
 			}
 		}
@@ -140,13 +140,14 @@ public class StandardMissile extends StandardShip {
 		Vector temp = new Vector(this.getAngle(), 2);
 		g.drawLine(0, 0, (int) (temp.getX() * 5), (int) (temp.getY() * 5));
 		g.setColor(Color.green);
-		//temp = Vector.fromXY(target.getX()-this.getX(),  target.getY()-this.getY());
-		//g.drawLine(0, 0, (int) (temp.getX() * 5), (int) (temp.getY() * 5));
+		// temp = Vector.fromXY(target.getX()-this.getX(), target.getY()-this.getY());
+		// g.drawLine(0, 0, (int) (temp.getX() * 5), (int) (temp.getY() * 5));
 		g.setColor(Color.red);
-		//temp = new Vector(this.thrust.getAngle() + this.getAngle(), this.thrust.getMagnitude());
+		// temp = new Vector(this.thrust.getAngle() + this.getAngle(),
+		// this.thrust.getMagnitude());
 		g.drawLine(0, 0, (int) (temp.getX() * 5), (int) (temp.getY() * 5));
 		g.setColor(Color.blue);
-		temp = new Vector(this.velocity.getAngle(), this.velocity.getMagnitude());
+		temp = new Vector(this.getVelocity().getAngle(), this.getVelocity().getMagnitude());
 		g.drawLine(0, 0, (int) (temp.getX() * 25), (int) (temp.getY() * 25));
 		ng.translate(-this.getX(), -this.getY());
 	}
@@ -154,14 +155,14 @@ public class StandardMissile extends StandardShip {
 	void setTarget(DObject target) {
 		this.target = target;
 	}
-	
-	public void rotateLeft(){
-		//this.thrusterThrottle = 5;
+
+	public void rotateLeft() {
+		// this.thrusterThrottle = 5;
 		super.rotateLeft();
 	}
-	
-	public void rotateRight(){
-		//this.thrusterThrottle = 5;
+
+	public void rotateRight() {
+		// this.thrusterThrottle = 5;
 		super.rotateRight();
 	}
 

@@ -13,5 +13,5 @@ public interface Weapon extends ShipComponent {
 
 	int getClipSize();
 
-	void fire();
+	void fire(double angle);
 }
