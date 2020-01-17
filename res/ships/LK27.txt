@@ -1,0 +1,10 @@
+LK27
+hp 150
+mass 400
+type kinetic
+shoots standardBullet
+velocity 100
+spread 0.25
+color 64,64,64
+x -2,4,4,-2
+y -2,-2,2,2

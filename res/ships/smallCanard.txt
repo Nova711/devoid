@@ -1,0 +1,7 @@
+smallCanard
+hp 10
+mass 100
+capacity 0
+color 64,64,64
+x -4,-4,4
+y 0,-4,0

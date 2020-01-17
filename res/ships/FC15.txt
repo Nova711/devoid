@@ -1,0 +1,8 @@
+FC15
+hp 25
+mass 250
+thrust 74000
+impulse 10
+color 200,200,200
+x 0,-6,-2,2
+y 0,-6,-6,-2

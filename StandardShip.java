@@ -131,21 +131,20 @@ public class StandardShip extends StandardDObject implements Ship {
 		for (Thruster t : this.thrusters) {
 			if (t.isThrusting()) {
 				Vector temp = t.thrust(this.fuelTanks.get(0));
-				this.thrust = this.thrust.add(temp);
-				if (temp.getMagnitude() > 0)
-					this.setAngularVelocity(this.getAngularVelocity() + this.getAngularAcceleration(t));
-				;
+				this.applyForce(temp, t.getPosition());
+				// this.thrust = this.thrust.add(temp);
+				// if (temp.getMagnitude() > 0)
+				// this.setAngularVelocity(this.getAngularVelocity() +
+				// this.getAngularAcceleration(t));
 				t.deactivate();
 			}
 		}
-		this.setVelocity(this.getVelocity().add(
-				new Vector(this.thrust.getAngle() + this.getAngle(), this.thrust.getMagnitude() / this.getMass())));
 		this.setPosition(this.getPosition().add(this.getVelocity()));
 		this.setAngle(this.getAngle() + this.getAngularVelocity());
 	}
 
 	@Override
-	public void impact(DObject obj) {
+	public void impact(DObject obj, CollisionEvent e) {
 		// TODO Auto-generated method stub
 
 	}

@@ -12,6 +12,10 @@ public class StandardFuelTank extends StandardDObject implements FuelTank {
 	protected double capacity = 10000;
 	protected double currentVolume = this.capacity;
 
+	public StandardFuelTank() {
+
+	}
+
 	public StandardFuelTank(Vector position) {
 		super(position, new Vector(0, 0), 5, 0, 5, 1, 0, 0);
 		this.setMass(this.getMass());

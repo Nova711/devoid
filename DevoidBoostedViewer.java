@@ -40,6 +40,208 @@ public class DevoidBoostedViewer {
 
 }
 
+class DrawTest extends JFrame {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public DrawTest() {
+		this.setSize(1200, 800);
+		this.setVisible(true);
+		JPanel pane = (JPanel) this.getContentPane();
+		pane.add(new TesterShip(100, 100));
+	}
+}
+
+class TesterShip extends JComponent {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private int x, y;
+
+	public TesterShip(int x, int y) {
+		this.x = x;
+		this.y = y;
+		this.repaint();
+	}
+
+	@Override
+	public void paint(Graphics g) {
+		Graphics2D ng = (Graphics2D) g;
+		ng.scale(3, 3);
+		this.drawHull(0, 0, g);
+		this.drawLeftWing(-4, -12, g);
+		this.drawRightWing(-4, 12, g);
+		this.drawLeftCanard(28, -8, g);
+		this.drawRightCanard(28, 8, g);
+		this.drawCockpit(0, 0, g);
+		this.drawWeapon(36, 0, g);
+		this.drawLeftMainEngine(-8, -8, g);
+		this.drawRightMainEngine(-8, 8, g);
+		this.drawLeftEnginePod(16, -44, g);
+		this.drawRightEnginePod(16, 44, g);
+		this.drawSmallLeftEngine(6, -46, g);
+		this.drawSmallLeftEngine(6, 46, g);
+		this.drawSmallRightEngine(6, -46, g);
+		this.drawSmallRightEngine(6, 46, g);
+	}
+
+	void drawHull(int xOff, int yOff, Graphics g) {
+		g.setColor(Color.DARK_GRAY.brighter());
+		int[] xPoints = { 36, 40, 40, 36, -22, -22 };
+		int[] yPoints = { -8, -4, 4, 8, 8, -8 };
+		Polygon p = new Polygon(xPoints, yPoints, xPoints.length);
+		p.translate(xOff, yOff);
+		this.fillPoly(p, g);
+	}
+
+	void drawLeftWing(int xOff, int yOff, Graphics g) {
+		g.setColor(Color.gray);
+		int[] xPoints = { 8, -8, 19, 14, 24 };
+		int[] yPoints = { 0, 0, -27, -32, -32 };
+		Polygon p = new Polygon(xPoints, yPoints, xPoints.length);
+		p.translate(xOff, yOff);
+		this.fillPoly(p, g);
+	}
+
+	void drawRightWing(int xOff, int yOff, Graphics g) {
+		g.setColor(Color.gray);
+		int[] xPoints = { 8, -8, 19, 14, 24 };
+		int[] yPoints = { 0, 0, 27, 32, 32 };
+		Polygon p = new Polygon(xPoints, yPoints, xPoints.length);
+		p.translate(xOff, yOff);
+		this.fillPoly(p, g);
+	}
+
+	void drawLeftCanard(int xOff, int yOff, Graphics g) {
+		g.setColor(Color.gray);
+		int[] xPoints = { -4, -4, 4 };
+		int[] yPoints = { 0, -4, 0 };
+		Polygon p = new Polygon(xPoints, yPoints, xPoints.length);
+		p.translate(xOff, yOff);
+		this.fillPoly(p, g);
+	}
+
+	void drawRightCanard(int xOff, int yOff, Graphics g) {
+		g.setColor(Color.gray);
+		int[] xPoints = { -4, -4, 4 };
+		int[] yPoints = { 0, 4, 0 };
+		Polygon p = new Polygon(xPoints, yPoints, xPoints.length);
+		p.translate(xOff, yOff);
+		this.fillPoly(p, g);
+	}
+
+	void drawCockpit(int xOff, int yOff, Graphics g) {
+		g.setColor(Color.DARK_GRAY);
+		int[] xPoints = { 4, 8, 8, 4, -8, -12, -12, -8 };
+		int[] yPoints = { -6, -2, 2, 6, 6, 2, -2, -6 };
+		Polygon p = new Polygon(xPoints, yPoints, xPoints.length);
+		p.translate(xOff, yOff);
+		this.fillPoly(p, g);
+	}
+
+	void drawWeapon(int xOff, int yOff, Graphics g) {
+		this.drawGunBarrel(xOff+4, yOff-1, g);
+		this.drawGunBarrel(xOff+5, yOff, g);
+		this.drawGunBarrel(xOff+5, yOff+1, g);
+		this.drawGunBarrel(xOff+4, yOff+2, g);
+		this.drawGunBarrel(xOff+3, yOff, g);
+		this.drawGunBarrel(xOff+3, yOff+1, g);
+		g.setColor(Color.DARK_GRAY);
+		int[] xPoints = { -2, 4, 4, -2 };
+		int[] yPoints = { -2, -2, 2, 2 };
+		Polygon p = new Polygon(xPoints, yPoints, xPoints.length);
+		p.translate(xOff, yOff);
+		this.fillPoly(p, g);
+	}
+	
+	void drawGunBarrel(int xOff, int yOff, Graphics g) {
+		g.setColor(Color.gray);
+		int[] xPoints = { 4, 4, 0, 0 };
+		int[] yPoints = { -1, 0, 0, -1 };
+		Polygon p = new Polygon(xPoints, yPoints, xPoints.length);
+		p.translate(xOff, yOff);
+		this.fillPoly(p, g);
+		g.setColor(Color.black);
+		int[] x1Points = { 1, 1, 0, 0 };
+		int[] y1Points = { -1, 0, 0, -1 };
+		p = new Polygon(x1Points, y1Points, xPoints.length);
+		p.translate(xOff+4, yOff);
+		this.fillPoly(p, g);
+	}
+
+	void drawLeftMainEngine(int xOff, int yOff, Graphics g) {
+		g.setColor(Color.DARK_GRAY);
+		int[] xPoints = { 14, 16, -6, -12, -20, -14, -12, -8 };
+		int[] yPoints = { -4, 0, 0, 6, 6, 0, 0, -4 };
+		Polygon p = new Polygon(xPoints, yPoints, xPoints.length);
+		p.translate(xOff, yOff);
+		this.fillPoly(p, g);
+	}
+
+	void drawRightMainEngine(int xOff, int yOff, Graphics g) {
+		g.setColor(Color.DARK_GRAY);
+		int[] xPoints = { 14, 16, -6, -12, -20, -14, -12, -8 };
+		int[] yPoints = { 4, 0, 0, -6, -6, 0, 0, 4 };
+		Polygon p = new Polygon(xPoints, yPoints, xPoints.length);
+		p.translate(xOff, yOff);
+		this.fillPoly(p, g);
+	}
+
+	void drawLeftEnginePod(int xOff, int yOff, Graphics g) {
+		g.setColor(Color.DARK_GRAY);
+		int[] xPoints = { 8, 12, -8, -10, -8 };
+		int[] yPoints = { -4, 0, 0, -2, -4 };
+		Polygon p = new Polygon(xPoints, yPoints, xPoints.length);
+		p.translate(xOff, yOff);
+		this.fillPoly(p, g);
+	}
+
+	void drawRightEnginePod(int xOff, int yOff, Graphics g) {
+		g.setColor(Color.DARK_GRAY);
+		int[] xPoints = { 8, 12, -8, -10, -8 };
+		int[] yPoints = { 4, 0, 0, 2, 4 };
+		Polygon p = new Polygon(xPoints, yPoints, xPoints.length);
+		p.translate(xOff, yOff);
+		this.fillPoly(p, g);
+	}
+
+	void drawSmallLeftEngine(int xOff, int yOff, Graphics g) {
+		g.setColor(Color.DARK_GRAY.brighter());
+		int[] xPoints = { 0, -6, -2, 2 };
+		int[] yPoints = { 0, -6, -6, -2 };
+		Polygon p = new Polygon(xPoints, yPoints, xPoints.length);
+		p.translate(xOff, yOff);
+		this.fillPoly(p, g);
+	}
+
+	void drawSmallRightEngine(int xOff, int yOff, Graphics g) {
+		g.setColor(Color.DARK_GRAY.brighter());
+		int[] xPoints = { 0, -6, -2, 2 };
+		int[] yPoints = { 0, 6, 6, 2 };
+		Polygon p = new Polygon(xPoints, yPoints, xPoints.length);
+		p.translate(xOff, yOff);
+		this.fillPoly(p, g);
+	}
+
+	void drawPoly(Polygon p, Graphics g) {
+		Polygon p2 = new Polygon(p.xpoints, p.ypoints, p.npoints);
+		p2.translate(this.x, this.y);
+		g.drawPolygon(p2);
+	}
+
+	void fillPoly(Polygon p, Graphics g) {
+		Polygon p2 = new Polygon(p.xpoints, p.ypoints, p.npoints);
+		p2.translate(this.x, this.y);
+		g.fillPolygon(p2);
+	}
+}
+
 class Interface extends JFrame implements KeyListener {
 	/**
 	 * 

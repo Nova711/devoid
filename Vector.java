@@ -1,7 +1,11 @@
 package devoid_boosted;
 
-import in_out.Out;
-
+/**
+ * Vector --- An object designed to store 2d numbers using the direction and
+ * magnitude format
+ * 
+ * @author Carter Rye
+ */
 public class Vector {
 	protected double angle;
 	protected double magnitude;
@@ -39,6 +43,12 @@ public class Vector {
 		return Math.sin(this.angle) * this.magnitude;
 	}
 
+	/**
+	 * Returns the vector sum of this vector and the vector passed as a parameter
+	 * 
+	 * @param vector The {@link Vector} to be added to this one
+	 * @return The vector sum
+	 */
 	public Vector add(Vector vector) {
 		double x = this.getX() + vector.getX();
 		double y = this.getY() + vector.getY();

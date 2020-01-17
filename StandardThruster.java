@@ -17,6 +17,10 @@ public class StandardThruster extends StandardDObject implements Thruster {
 
 	protected boolean isThrusting;
 
+	public StandardThruster() {
+
+	}
+
 	public StandardThruster(Vector position, double angle) {
 		this(position, angle, 500);
 	}
@@ -37,7 +41,7 @@ public class StandardThruster extends StandardDObject implements Thruster {
 	}
 
 	@Override
-	public void impact(DObject obj) {
+	public void impact(DObject obj, CollisionEvent e) {
 		// TODO Auto-generated method stub
 	}
 

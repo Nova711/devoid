@@ -1,0 +1,7 @@
+smallWingWingtipF
+hp 100
+mass 1000
+capacity 2500
+color 64,64,64
+x 8,-8,19,14,24
+y 0,0,-27,-32,-32

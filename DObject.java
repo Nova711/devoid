@@ -14,6 +14,8 @@ public interface DObject {
 
 	void setVelocity(Vector velocity);
 
+	void applyForce(Vector force, Vector position);
+
 	double getX();
 
 	double getY();
@@ -42,12 +44,12 @@ public interface DObject {
 
 	void update();
 
-	void impact(DObject obj);
+	void impact(DObject obj, CollisionEvent e);
 
 	boolean hits(DObject[] objects);
 
 	void draw(Graphics g);
-	
+
 	PhysicsBox getEnvironment();
 
 	void setEnvironment(PhysicsBox b);

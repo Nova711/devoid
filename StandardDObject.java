@@ -11,7 +11,7 @@ public class StandardDObject implements DObject {
 	private double hp;
 	private double angle;
 	private double mass;
-	//private double elasticity;
+	// private double elasticity;
 	private double angularVelocity;
 	private double temperature;
 	private PhysicsBox environment;
@@ -27,7 +27,7 @@ public class StandardDObject implements DObject {
 		this.hp = hp;
 		this.angle = angle;
 		this.mass = mass;
-		//this.elasticity = elasticity;
+		// this.elasticity = elasticity;
 		this.angularVelocity = angularVelocity;
 		this.temperature = temperature;
 	}
@@ -80,6 +80,19 @@ public class StandardDObject implements DObject {
 		this.velocity = velocity;
 	}
 
+	public void applyForce(Vector force, Vector position) {
+		Vector acceleration = new Vector(force.getAngle() + this.getAngle(), force.getMagnitude() / this.getMass());
+		this.setVelocity(this.getVelocity().add(acceleration));
+		if (acceleration.getMagnitude() != 0)
+			this.setAngularVelocity(this.getAngularVelocity() + this.getAngularAcceleration(force, position));
+	}
+
+	public double getAngularAcceleration(Vector force, Vector position) {
+		double angularAcceleration = position.getMagnitude() * force.getMagnitude()
+				* Math.sin(force.getAngle() - position.getAngle()) / this.getI();
+		return angularAcceleration;
+	}
+
 	public double getAngularVelocity() {
 		return this.angularVelocity;
 	}
@@ -100,8 +113,16 @@ public class StandardDObject implements DObject {
 		// TODO Auto-generated method stub
 	}
 
-	public void impact(DObject obj) {
-		// TODO Auto-generated method stub
+	public void impact(DObject obj, CollisionEvent e) {
+		Vector tempVelocity = new Vector(this.getVelocity().getMagnitude(),
+				this.getVelocity().getAngle() - e.getAngle());
+		Vector objTempVelocity = new Vector(obj.getVelocity().getMagnitude(),
+				obj.getVelocity().getAngle() - e.getAngle());
+		double y = (this.getMass() - obj.getMass()) / (this.getMass() + obj.getMass()) * tempVelocity.getY()
+				+ 2 * obj.getMass() / (this.getMass() + obj.getMass()) * objTempVelocity.getY();
+		Vector newVelocity = Vector.fromXY(tempVelocity.getX(), y);
+		Vector force = newVelocity.add(new Vector(tempVelocity.getAngle(), -tempVelocity.getMagnitude()));
+		this.applyForce(force, e.getPosition());
 	}
 
 	public boolean hits(DObject[] objects) {
