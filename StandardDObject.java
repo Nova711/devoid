@@ -15,6 +15,8 @@ public class StandardDObject implements DObject {
 	private double angularVelocity;
 	private double temperature;
 	private PhysicsBox environment;
+	private HitBox bounds;
+	private Color color = Color.black;
 
 	public StandardDObject() {
 
@@ -34,6 +36,10 @@ public class StandardDObject implements DObject {
 
 	public double getHP() {
 		return this.hp;
+	}
+
+	public void setHP(double hp) {
+		this.hp = hp;
 	}
 
 	public Vector getPosition() {
@@ -125,18 +131,18 @@ public class StandardDObject implements DObject {
 		this.applyForce(force, e.getPosition());
 	}
 
-	public boolean hits(DObject[] objects) {
+	public boolean hits(DObject objects) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	public void draw(Graphics g) {
 		Graphics2D ng = (Graphics2D) g;
-		ng.setColor(Color.black);
-		g.drawLine(0, 0, (int) (this.getX()), (int) (this.getY()));
+		ng.setColor(this.getColor());
+		//g.drawLine(0, 0, (int) (this.getX()), (int) (this.getY()));
 		ng.translate(this.getX(), this.getY());
 		ng.rotate(this.getAngle());
-		ng.drawRect(-2, -2, 4, 4);
+		this.getBounds().draw(ng);
 		ng.rotate(-this.getAngle());
 		ng.translate(-this.getX(), -this.getY());
 	}
@@ -157,6 +163,22 @@ public class StandardDObject implements DObject {
 	@Override
 	public void setMass(double mass) {
 		this.mass = mass;
+	}
+
+	public HitBox getBounds() {
+		return this.bounds;
+	}
+
+	public void setBounds(HitBox bounds) {
+		this.bounds = bounds;
+	}
+
+	public Color getColor() {
+		return this.color;
+	}
+
+	public void setColor(Color color) {
+		this.color = color;
 	}
 
 }

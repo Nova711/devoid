@@ -1,4 +1,3 @@
-LF91A
 fuel c 0 0 0 smallHull
 fuel c -4 -12 0 smallWingWingtipF L
 fuel c -4 12 0 smallWingWingtipF R
@@ -8,12 +7,12 @@ cockpit c 0 0 0 smallOvalCockpit
 weapon c 36 0 0 LK27
 accel c -8 -8 0 LC9A L
 accel c -8 8 0 LC9A R
-deccel c 16 -44 0 LC9 L
-deccel c 16 44 0 LC9 R
-leftStrafe c 6 -46 FC15 L
-leftStrafe c 6 46 FC15 L
-rightSrafe c 6 -46 FC15 R
-rightStrafe c 6 46 FC15 R
+deccel c 16 -44 1 LC9 R
+deccel c 16 44 1 LC9 L
+leftStrafe c 6 -46 0 FC15 R
+leftStrafe c 6 46 0 FC15 R
+rightStrafe c 6 -46 0 FC15 L
+rightStrafe c 6 46 0 FC15 L
 leftTurn ac 1
 leftTurn dc 0
 rightTurn ac 0

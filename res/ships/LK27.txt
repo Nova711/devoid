@@ -1,4 +1,3 @@
-LK27
 hp 150
 mass 400
 type kinetic

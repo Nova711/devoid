@@ -1,4 +1,3 @@
-smallCanard
 hp 10
 mass 100
 capacity 0

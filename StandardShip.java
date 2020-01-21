@@ -12,9 +12,11 @@ public class StandardShip extends StandardDObject implements Ship {
 	protected Vector thrust = new Vector(0, 0);
 
 	private double airFrameMass = 500;
-	private double thrusterThrottle = 100;
+	private double thrusterThrottle = 1;
 	private double prevAngularVelocity = 0;
 	private boolean flightMode = true;
+
+	private Vector navPoint = new Vector(0, 0);
 
 	protected HitBox bounds;
 	protected double delay = 1;
@@ -150,8 +152,10 @@ public class StandardShip extends StandardDObject implements Ship {
 	}
 
 	@Override
-	public boolean hits(DObject[] objects) {
-		// TODO Auto-generated method stub
+	public boolean hits(DObject objects) {
+		for (ShipComponent comp : this.shipComponents) {
+			return comp.hits(objects);
+		}
 		return false;
 	}
 
@@ -161,17 +165,16 @@ public class StandardShip extends StandardDObject implements Ship {
 		ng.setColor(Color.black);
 		ng.translate(this.getX(), this.getY());
 		ng.rotate(this.getAngle());
-		// ng.drawRect(-20, -10, 40, 20);
-		for (ShipComponent s : shipComponents)
+		for (ShipComponent s : shipComponents) {
 			s.draw(ng);
+		}
 		ng.rotate(-this.getAngle());
-		Vector temp = new Vector(this.getAngle(), 2);
-		g.drawLine(0, 0, (int) (temp.getX() * 5), (int) (temp.getY() * 5));
-		g.setColor(Color.red);
-		temp = new Vector(this.thrust.getAngle() + this.getAngle(), this.thrust.getMagnitude());
-		g.drawLine(0, 0, (int) (temp.getX() * 5), (int) (temp.getY() * 5));
 		g.setColor(Color.blue);
-		temp = new Vector(this.getVelocity().getAngle(), this.getVelocity().getMagnitude());
+		Vector temp = new Vector(this.getVelocity().getAngle(), this.getVelocity().getMagnitude());
+		g.drawLine(0, 0, (int) (temp.getX() * 25), (int) (temp.getY() * 25));
+		g.setColor(Color.red);
+		temp = new Vector(
+				Vector.fromXY(this.navPoint.getX() - this.getX(), this.navPoint.getY() - this.getY()).getAngle(), 1);
 		g.drawLine(0, 0, (int) (temp.getX() * 25), (int) (temp.getY() * 25));
 		ng.translate(-this.getX(), -this.getY());
 	}
@@ -272,7 +275,7 @@ public class StandardShip extends StandardDObject implements Ship {
 
 	@Override
 	public void toggleFlightMode() {
-		this.thrusterThrottle = 50;
+		this.thrusterThrottle = 1;
 		this.thrust = new Vector(0, 0);
 		this.flightMode = !this.flightMode;
 	}
@@ -291,6 +294,22 @@ public class StandardShip extends StandardDObject implements Ship {
 
 	public void setAirFrameMass(double mass) {
 		this.airFrameMass = mass;
+	}
+
+	public Cockpit getCockPit() {
+		return cockPit;
+	}
+
+	public void setCockPit(Cockpit cockPit) {
+		this.cockPit = cockPit;
+	}
+
+	public Vector getNavPoint() {
+		return navPoint;
+	}
+
+	public void setNavPoint(Vector navPoint) {
+		this.navPoint = navPoint;
 	}
 
 }

@@ -1,0 +1,7 @@
+fuel c 0 0 0 smallMissileBodyLong
+fuel c -7 -2 0 smallMissileFinLong
+fuel c -7 2 0 smallMissileFinLong R
+fuel c 9 0 0 smallMissileNoseLong
+accel c -8 0 0 FC73
+leftTurn c -10 1 0 FC11 R
+rightTurn c -10 -1 0 FC11

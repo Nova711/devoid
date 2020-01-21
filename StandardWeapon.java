@@ -17,13 +17,13 @@ public class StandardWeapon extends StandardDObject implements Weapon {
 	}
 
 	@Override
-	public void impact(DObject obj) {
+	public void impact(DObject obj, CollisionEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public boolean hits(DObject[] objects) {
+	public boolean hits(DObject objects) {
 		// TODO Auto-generated method stub
 		return false;
 	}

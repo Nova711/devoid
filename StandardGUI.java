@@ -28,18 +28,14 @@ public class StandardGUI implements GUI {
 				(int) (3.4 * this.width), (int) (3.4 * this.width), 180, -(int) (90 * (s.getFuel() / s.getMaxFuel())));
 		g.setColor(Color.black);
 		NumberFormat f = new DecimalFormat("#0.0");
-		this.drawText("" + s.getThrottle(), bounds.width - 1 * this.width, bounds.height - 1 * this.width, g);
-		this.drawText("" + f.format(s.getFuel()) + "/" + f.format(s.getMaxFuel()), bounds.width - 1 * this.width,
+		Util.drawText("" + s.getThrottle(), bounds.width - 1 * this.width, bounds.height - 1 * this.width, g);
+		Util.drawText("" + f.format(s.getFuel()) + "/" + f.format(s.getMaxFuel()), bounds.width - 1 * this.width,
 				bounds.height - 1 * this.width + 10, g);
-		this.drawText(s.getVelocity().toString(), 0, 10, g);
-		this.drawText("" + s.getAngularVelocity(), 0, 20, g);
-		this.drawText("" + s.getMass(), 0, 30, g);
-		this.drawText("" + s.getPosition(), 0, 40, g);
-		this.drawText("" + s.getAngle(), 0, 50, g);
-	}
-
-	public void drawText(String text, int x, int y, Graphics g) {
-		g.drawChars(text.toCharArray(), 0, text.length(), x, y);
+		Util.drawText(s.getVelocity().toString(), 0, 10, g);
+		Util.drawText("" + s.getAngularVelocity(), 0, 20, g);
+		Util.drawText("" + s.getMass(), 0, 30, g);
+		Util.drawText("" + s.getPosition(), 0, 40, g);
+		Util.drawText("" + s.getAngle(), 0, 50, g);
 	}
 
 }

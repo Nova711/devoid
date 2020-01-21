@@ -55,14 +55,35 @@ public class Vector {
 		return new Vector(Vector.calculateDirection(x, y), Vector.calculateMagnitude(x, y));
 	}
 
+	/**
+	 * Returns the direction of a vector in standard position with its tip at x,y
+	 * 
+	 * @param x the x coordinate of the tip
+	 * @param y the y coordinate of the tip
+	 * @return The direction of the vector
+	 */
 	public static double calculateDirection(double x, double y) {
 		return x < 0 ? Math.atan(y / x) + Math.PI : x == 0 ? 0 : Math.atan(y / x);
 	}
-
+	
+	/**
+	 * Returns the magnitude of a vector in standard position with its tip at x,y
+	 * 
+	 * @param x the x coordinate of the tip
+	 * @param y the y coordinate of the tip
+	 * @return The magnitude of the vector
+	 */
 	public static double calculateMagnitude(double x, double y) {
 		return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
 	}
 
+	/**
+	 * Returns a vector in standard position with its tip at x, y
+	 * 
+	 * @param x the x coordinate of the tip
+	 * @param y the y coordinate of the tip
+	 * @return A vector
+	 */
 	public static Vector fromXY(double x, double y) {
 		return new Vector(Vector.calculateDirection(x, y), Vector.calculateMagnitude(x, y));
 	}

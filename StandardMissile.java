@@ -10,6 +10,10 @@ public class StandardMissile extends StandardShip {
 
 	protected DObject target = null;
 
+	public StandardMissile() {
+
+	}
+
 	public StandardMissile(Vector position, Vector velocity, double mass) {
 		super(position, new Vector(0, 0), 5, 0, mass, 1, 0, 0);
 		this.setAirFrameMass(mass);

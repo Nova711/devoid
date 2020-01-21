@@ -1,4 +1,3 @@
-smallWingWingtipF
 hp 100
 mass 1000
 capacity 2500

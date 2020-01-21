@@ -5,6 +5,8 @@ import java.awt.Graphics;
 public interface DObject {
 
 	double getHP();
+	
+	void setHP(double hp);
 
 	Vector getPosition();
 
@@ -46,7 +48,7 @@ public interface DObject {
 
 	void impact(DObject obj, CollisionEvent e);
 
-	boolean hits(DObject[] objects);
+	boolean hits(DObject objects);
 
 	void draw(Graphics g);
 

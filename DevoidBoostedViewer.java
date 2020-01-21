@@ -2,6 +2,7 @@ package devoid_boosted;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
@@ -146,12 +147,12 @@ class TesterShip extends JComponent {
 	}
 
 	void drawWeapon(int xOff, int yOff, Graphics g) {
-		this.drawGunBarrel(xOff+4, yOff-1, g);
-		this.drawGunBarrel(xOff+5, yOff, g);
-		this.drawGunBarrel(xOff+5, yOff+1, g);
-		this.drawGunBarrel(xOff+4, yOff+2, g);
-		this.drawGunBarrel(xOff+3, yOff, g);
-		this.drawGunBarrel(xOff+3, yOff+1, g);
+		this.drawGunBarrel(xOff + 4, yOff - 1, g);
+		this.drawGunBarrel(xOff + 5, yOff, g);
+		this.drawGunBarrel(xOff + 5, yOff + 1, g);
+		this.drawGunBarrel(xOff + 4, yOff + 2, g);
+		this.drawGunBarrel(xOff + 3, yOff, g);
+		this.drawGunBarrel(xOff + 3, yOff + 1, g);
 		g.setColor(Color.DARK_GRAY);
 		int[] xPoints = { -2, 4, 4, -2 };
 		int[] yPoints = { -2, -2, 2, 2 };
@@ -159,7 +160,7 @@ class TesterShip extends JComponent {
 		p.translate(xOff, yOff);
 		this.fillPoly(p, g);
 	}
-	
+
 	void drawGunBarrel(int xOff, int yOff, Graphics g) {
 		g.setColor(Color.gray);
 		int[] xPoints = { 4, 4, 0, 0 };
@@ -171,7 +172,7 @@ class TesterShip extends JComponent {
 		int[] x1Points = { 1, 1, 0, 0 };
 		int[] y1Points = { -1, 0, 0, -1 };
 		p = new Polygon(x1Points, y1Points, xPoints.length);
-		p.translate(xOff+4, yOff);
+		p.translate(xOff + 4, yOff);
 		this.fillPoly(p, g);
 	}
 
@@ -344,23 +345,40 @@ class Interface extends JFrame implements KeyListener {
 class PhysicsBox extends JComponent implements Runnable {
 	private static final long serialVersionUID = 1l;
 	ArrayList<DObject> objects = new ArrayList<DObject>();
+	ArrayList<EventTrigger> events = new ArrayList<EventTrigger>();
 	// DObject[] objects = new DObject[50];
-	public boolean paused = true;
+	public boolean paused;
 	protected double scale = 1;
 	protected int slowDown = 1;
 	public int player;
-	StandardShip playerShip = new StandardShip(new Vector(0, 0), new Vector(0, 0.0000001), 100);
+	StandardShip playerShip = new FileShip(Util.src + "\\" + "LT172" + ".txt");
+	// new StandardShip(new Vector(0, 0), new Vector(0, 0.0000001), 100);
 	StandardGUI playerGUI = new StandardGUI();
 
 	public PhysicsBox() {
 		player = 0;
-		for (int i = 0; i < 50; i++) {
-			StandardMissile m1 = new StandardMissile(new Vector(Ex.rand(0, Math.PI * 2), Ex.rand(300, 1000)),
-					new Vector(0, 0.000000001), 100);
-			m1.setTarget(playerShip);
-			objects.add(m1);
-		}
+		/*
+		 * for (int i = 0; i < 50; i++) { StandardMissile m1 = new FileMissile(new
+		 * Vector(Ex.rand(0, Math.PI * 2), Ex.rand(300, 1000)), Util.src +
+		 * "\\" + "FE22" + ".txt"); // new StandardMissile(new Vector(Ex.rand(0, Math.PI
+		 * * 2), Ex.rand(300, 1000)), // new Vector(0, 0.000000001), 100);
+		 * m1.setAngle(Math.PI*Math.random()*2); m1.setTarget(playerShip);
+		 * objects.add(m1); }
+		 */
+		events.add(new EventTrigger(new Vector(0, 0), "Press the w key to move forward"));
+		events.add(new EventTrigger(new Vector(0, 400), "Press the s key to stop\nPress the a key to move left"));
+		events.add(new EventTrigger(Vector.fromXY(400, -400), "Press the d key to stop\nPress the s key to move down"));
+		events.add(
+				new EventTrigger(Vector.fromXY(-400, -400), "Press the w key to stop\nPress the d key to move right"));
+		events.add(new EventTrigger(Vector.fromXY(-400, 400),
+				"Press the a key to stop\nUse the left and right arrow\nkeys to turn until the red\nline faces up then move forward"));
+		events.add(new EventTrigger(new Vector(Math.PI / 4, 1000),
+				"Deccelerate\nThe red line shows the location\nof your navpoint\nfollow it"));
+		events.add(new EventTrigger(new Vector(3 * Math.PI / 4, 1500),
+				"You can change your throttle\n with the up and down arrow\nkeys"));
+		objects.addAll(events);
 		objects.add(playerShip);
+		playerShip.setThrottle(15);
 	}
 
 	public void pauseUnpause() {
@@ -461,6 +479,13 @@ class PhysicsBox extends JComponent implements Runnable {
 			e.printStackTrace();
 		}
 		playerGUI.draw(playerShip, this.getBounds(), ng);
+		if (this.paused) {
+			ng.setColor(Color.red);
+			Font font = new Font("Arial", Font.BOLD, 30);
+			ng.setFont(font);
+			Util.drawText("Simulation Paused", (int) this.getBounds().getCenterX()-"Simulation Paused".length()*8, (int) this.getBounds().getCenterY() - 100,
+					ng);
+		}
 	}
 
 	public void spawn(DObject obj) {
@@ -474,7 +499,13 @@ class PhysicsBox extends JComponent implements Runnable {
 					objects.get(i).update();
 				}
 				repaint();
-				Ex.timeout(0.0078125 * this.slowDown);
+				for (EventTrigger e : this.events)
+					e.checkForTrigger(playerShip.getPosition());
+				Ex.timeout(0.03125 * this.slowDown);
+				if (this.events.get(4).isTriggered())
+					playerShip.setNavPoint(this.events.get(5).getPosition());
+				if (this.events.get(5).isTriggered())
+					playerShip.setNavPoint(this.events.get(6).getPosition());
 			}
 			repaint();
 		}

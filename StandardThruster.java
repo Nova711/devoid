@@ -14,6 +14,7 @@ public class StandardThruster extends StandardDObject implements Thruster {
 	protected double throttle = 100;
 	protected double maxThrust = 0;
 	protected double specificImpulse = 0;
+	private double thrustOffset = 0;
 
 	protected boolean isThrusting;
 
@@ -33,6 +34,9 @@ public class StandardThruster extends StandardDObject implements Thruster {
 		super(position, new Vector(0, 0), 5, angle, 50, 1, 0, 0);
 		this.maxThrust = maxThrust;
 		this.specificImpulse = specificImpulse;
+		int[] x = { 20, -4, -4, 20 };
+		int[] y = { -4, -4, 4, 4 };
+		this.setBounds(new HitBox(0, 0, new Polygon(x, y, x.length)));
 	}
 
 	@Override
@@ -46,31 +50,9 @@ public class StandardThruster extends StandardDObject implements Thruster {
 	}
 
 	@Override
-	public boolean hits(DObject[] objects) {
+	public boolean hits(DObject objects) {
 		// TODO Auto-generated method stub
 		return false;
-	}
-
-	@Override
-	public void draw(Graphics g) {
-		Graphics2D ng = (Graphics2D) g;
-		ng.setColor(Color.black);
-		g.drawLine(0, 0, (int) (this.getX()), (int) (this.getY()));
-		ng.translate(this.getX(), this.getY());
-		ng.rotate(this.getAngle());
-		ng.fillRect(-8, -4, 20, 8);
-		int[] xPoints = { -8, -8, -12, -12 };
-		int[] yPoints = { -4, 4, 6, -6 };
-		ng.fillPolygon(new Polygon(xPoints, yPoints, xPoints.length));
-		ng.rotate(-this.getAngle());
-		ng.setColor(Color.red);
-		Vector temp = new Vector(this.getAngle(), 2);
-		g.drawLine(0, 0, (int) (temp.getX() * 5), (int) (temp.getY() * 5));
-		if (this.isThrusting()) {
-			temp = new Vector(this.getAngle(), this.maxThrust * this.throttle / 100);
-			g.drawLine(0, 0, (int) (temp.getX()), (int) (temp.getY()));
-		}
-		ng.translate(-this.getX(), -this.getY());
 	}
 
 	@Override
@@ -93,7 +75,7 @@ public class StandardThruster extends StandardDObject implements Thruster {
 		double fuelDrain = this.maxThrust * this.throttle / 100 / this.specificImpulse;
 		if (fuelDrain <= fuel.getFuel()) {
 			fuel.drain(fuelDrain);
-			return new Vector(this.getAngle(), this.maxThrust * this.throttle / 100);
+			return new Vector(this.getAngle() - this.thrustOffset, this.maxThrust * this.throttle / 100);
 		}
 		return new Vector(0, 0);
 	}
@@ -101,6 +83,10 @@ public class StandardThruster extends StandardDObject implements Thruster {
 	@Override
 	public double getMaxThrust() {
 		return this.maxThrust;
+	}
+
+	public void setMaxThrust(double maxThrust) {
+		this.maxThrust = maxThrust;
 	}
 
 	@Override
@@ -116,6 +102,18 @@ public class StandardThruster extends StandardDObject implements Thruster {
 	@Override
 	public double getSpecificImpulse() {
 		return this.specificImpulse;
+	}
+
+	public void setSpecificImpulse(double specificImpulse) {
+		this.specificImpulse = specificImpulse;
+	}
+
+	public double getThrustOffset() {
+		return thrustOffset;
+	}
+
+	public void setThrustOffset(double thrustOffset) {
+		this.thrustOffset = thrustOffset;
 	}
 
 }
