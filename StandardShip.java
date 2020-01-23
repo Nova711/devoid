@@ -16,6 +16,8 @@ public class StandardShip extends StandardDObject implements Ship {
 	private double prevAngularVelocity = 0;
 	private boolean flightMode = true;
 
+	private boolean isDampened;
+
 	private Vector navPoint = new Vector(0, 0);
 
 	protected HitBox bounds;
@@ -126,7 +128,7 @@ public class StandardShip extends StandardDObject implements Ship {
 		this.thrust = new Vector(0, 0);
 		if (!this.flightMode) {
 			for (Thruster t : this.accelThrusters) {
-				t.setThrottle(this.thrusterThrottle);
+				t.setThrottle(this.thrusterThrottle / 10);
 				t.activate();
 			}
 		}
@@ -140,6 +142,10 @@ public class StandardShip extends StandardDObject implements Ship {
 				// this.getAngularAcceleration(t));
 				t.deactivate();
 			}
+		}
+		if (this.isDampened) {
+			this.setVelocity(new Vector(this.getVelocity().getAngle(), this.getVelocity().getMagnitude() * 0.99));
+			this.setAngularVelocity(this.getAngularVelocity() * 0.99);
 		}
 		this.setPosition(this.getPosition().add(this.getVelocity()));
 		this.setAngle(this.getAngle() + this.getAngularVelocity());
@@ -163,20 +169,28 @@ public class StandardShip extends StandardDObject implements Ship {
 	public void draw(Graphics g) {
 		Graphics2D ng = (Graphics2D) g;
 		ng.setColor(Color.black);
-		ng.translate(this.getX(), this.getY());
+		ng.translate(this.getX(), this.getY());// moves the origin of the graphics object to the coordinates of this
+												// ship
 		ng.rotate(this.getAngle());
-		for (ShipComponent s : shipComponents) {
+		for (ShipComponent s : shipComponents) {// draws all of the components in this ship
 			s.draw(ng);
 		}
+		g.setColor(Color.black);
+		g.drawLine(0, 0, 25, 0);
+		g.setColor(Color.green);
+		g.drawArc(-25, -25, 50, 50, 0, (int) -Math.toDegrees(this.getAngularVelocity() * 50));// displays the angular
+																								// velocity of this ship
 		ng.rotate(-this.getAngle());
-		g.setColor(Color.blue);
-		Vector temp = new Vector(this.getVelocity().getAngle(), this.getVelocity().getMagnitude());
-		g.drawLine(0, 0, (int) (temp.getX() * 25), (int) (temp.getY() * 25));
+		g.setColor(Color.black);
+		g.drawLine(0, 0, 25, 0);
 		g.setColor(Color.red);
-		temp = new Vector(
+		Vector temp = new Vector(
 				Vector.fromXY(this.navPoint.getX() - this.getX(), this.navPoint.getY() - this.getY()).getAngle(), 1);
-		g.drawLine(0, 0, (int) (temp.getX() * 25), (int) (temp.getY() * 25));
-		ng.translate(-this.getX(), -this.getY());
+		g.drawLine(0, 0, (int) (temp.getX() * 25), (int) (temp.getY() * 25));// draws the navpoint line
+		g.setColor(Color.blue);
+		temp = new Vector(this.getVelocity().getAngle(), this.getVelocity().getMagnitude());
+		g.drawLine(0, 0, (int) (temp.getX() * 25), (int) (temp.getY() * 25));// draws the velocity line
+		ng.translate(-this.getX(), -this.getY());// moves the origin back to its original position
 	}
 
 	@Override
@@ -275,9 +289,13 @@ public class StandardShip extends StandardDObject implements Ship {
 
 	@Override
 	public void toggleFlightMode() {
-		this.thrusterThrottle = 1;
+		// this.thrusterThrottle = 1;
 		this.thrust = new Vector(0, 0);
 		this.flightMode = !this.flightMode;
+	}
+	
+	public void toggleDampening() {
+		this.isDampened = !this.isDampened;
 	}
 
 	@Override

@@ -22,7 +22,7 @@ public class FileShip extends StandardShip {
 			String line;
 			String[] lines;
 			while ((line = br.readLine()) != null) {
-				// Out.println(line);
+				//Out.println(line);
 				lines = line.substring(line.indexOf(" ") + 1).split(" ");
 				if (line.startsWith("fuel")) {
 					if (lines.length == 6) {
@@ -65,7 +65,9 @@ public class FileShip extends StandardShip {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		for (FuelTank f : this.fuelTanks) {
+			this.shipComponents.add(f);
+		}
 		for (Thruster t : this.leftStrafeThrusters) {
 			if (!this.thrusters.contains(t))
 				this.thrusters.add(t);
@@ -92,9 +94,6 @@ public class FileShip extends StandardShip {
 		}
 		for (Thruster t : this.thrusters) {
 			this.shipComponents.add(t);
-		}
-		for (FuelTank f : this.fuelTanks) {
-			this.shipComponents.add(f);
 		}
 		this.shipComponents.add(this.getCockPit());
 	}

@@ -3,8 +3,10 @@ package devoid_boosted;
 import java.awt.Graphics;
 import java.io.File;
 
+import in_out.Out;
+
 public class Util {
-	public static File src = new File(devoid_boosted.Util.class.getResource("res//ships").getPath());
+	public static File src = new File("devoid_boosted//res//ships").getAbsoluteFile();
 
 	public static double parseNextDouble(String s) {
 		return Double.parseDouble(s.substring(s.indexOf(" ")));

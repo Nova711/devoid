@@ -1,6 +1,7 @@
 package devoid_boosted;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
@@ -15,8 +16,8 @@ public class EventTrigger extends StandardDObject {
 	public EventTrigger(Vector position, String message) {
 		super(position, new Vector(0, 0), 0, Math.PI / 2, 0, 0, 0, 0);
 		this.setColor(Color.black);
-		int[] x = { 100, -100, -100, 100 };
-		int[] y = { -100, -100, 100, 100 };
+		int[] x = { 200, -200, -200, 200 };
+		int[] y = { -200, -200, 200, 200 };
 		this.setBounds(new HitBox(0, 0, new Polygon(x, y, x.length)));
 		this.message = message;
 	}
@@ -42,6 +43,10 @@ public class EventTrigger extends StandardDObject {
 		this.triggered = true;
 	}
 
+	public void reset() {
+		this.triggered = false;
+	}
+
 	@Override
 	public void update() {
 
@@ -56,12 +61,14 @@ public class EventTrigger extends StandardDObject {
 		this.getBounds().draw(ng);
 		ng.setColor(Color.white);
 		if (this.triggered) {
-			ng.setColor(Color.lightGray);
+			ng.setColor(Color.white);
+			Font font = new Font("Arial", Font.BOLD, 20);
+			ng.setFont(font);
 			int y = 0;
 			String[] messages = this.message.split("\n");
 			for (String s : messages) {
-				Util.drawText(s, -90, -90 + y, ng);
-				y += 10;
+				Util.drawText(s, -180, -180 + y, ng);
+				y += 30;
 			}
 		}
 		ng.rotate(-this.getAngle());

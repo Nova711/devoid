@@ -4,24 +4,72 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
+/**
+ * StandardDObject--Provides standard behavior for physics objects
+ * @author Carter Rye
+ */
 public class StandardDObject implements DObject {
+	/**
+	 * position--The position of this object relative to the origin
+	 */
 	private Vector position = new Vector(0, 0);
+	/**
+	 * velocity--The velocity of this object
+	 */
 	private Vector velocity = new Vector(0, 0);
 
+	/**
+	 * hp--The hit points of this object
+	 */
 	private double hp;
+	/**
+	 * angle--The angle of this object in radians
+	 */
 	private double angle;
+	/**
+	 * mass--The mass of this object
+	 */
 	private double mass;
-	// private double elasticity;
+	/**
+	 * angularVelocity--The angular velocity of this object in radians per interval
+	 */
 	private double angularVelocity;
+	/**
+	 * temperature--The temperature of this object
+	 */
 	private double temperature;
+	/**
+	 * environment--The environment this object is conatined in
+	 */
 	private PhysicsBox environment;
+	/**
+	 * bounds--The shape of the object
+	 */
 	private HitBox bounds;
+	/**
+	 * color--The color of this object
+	 */
 	private Color color = Color.black;
 
+	/**
+	 * Generates an empty StandardDObject
+	 */
 	public StandardDObject() {
 
 	}
 
+	/**
+	 * Generates a StandardDObject with the properties specified
+	 * 
+	 * @param position The position of this object
+	 * @param velocity The velocity of this object
+	 * @param hp The hit points of this object
+	 * @param angle The angle of this object
+	 * @param mass The mass of this object
+	 * @param elasticity The elasticity of this object
+	 * @param angularVelocity The angular velocity of this object in radians per interval
+	 * @param temperature The temperature of this object
+	 */
 	public StandardDObject(Vector position, Vector velocity, double hp, double angle, double mass, double elasticity,
 			double angularVelocity, double temperature) {
 		this.position = position;
@@ -33,7 +81,7 @@ public class StandardDObject implements DObject {
 		this.angularVelocity = angularVelocity;
 		this.temperature = temperature;
 	}
-
+	
 	public double getHP() {
 		return this.hp;
 	}
@@ -93,6 +141,11 @@ public class StandardDObject implements DObject {
 			this.setAngularVelocity(this.getAngularVelocity() + this.getAngularAcceleration(force, position));
 	}
 
+	/**
+	 * Calculates the angular acceleration experienced by this object
+	 * @param force The force applied to this object
+	 * @param position The position of the applied force
+	 */
 	public double getAngularAcceleration(Vector force, Vector position) {
 		double angularAcceleration = position.getMagnitude() * force.getMagnitude()
 				* Math.sin(force.getAngle() - position.getAngle()) / this.getI();
@@ -139,7 +192,6 @@ public class StandardDObject implements DObject {
 	public void draw(Graphics g) {
 		Graphics2D ng = (Graphics2D) g;
 		ng.setColor(this.getColor());
-		//g.drawLine(0, 0, (int) (this.getX()), (int) (this.getY()));
 		ng.translate(this.getX(), this.getY());
 		ng.rotate(this.getAngle());
 		this.getBounds().draw(ng);

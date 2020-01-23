@@ -10,35 +10,76 @@ public class Vector {
 	protected double angle;
 	protected double magnitude;
 
+	/**
+	 * Generates a copy of the vector v
+	 * 
+	 * @param v The vector to be copied
+	 */
 	public Vector(Vector v) {
 		this(v.angle, v.magnitude);
 	}
 
+	/**
+	 * Generates a a vector with the specified angle and magnitude
+	 * 
+	 * @param angle The angle of this vector
+	 * @param magnitude The magnitude of this vector
+	 */
 	public Vector(double angle, double magnitude) {
 		this.angle = angle;
 		this.magnitude = magnitude;
 	}
 
+	/**
+	 * Gets the angle of this vector
+	 * 
+	 * @return The angle of this vector
+	 */
 	public double getAngle() {
 		return angle;
 	}
 
+	/**
+	 * Sets the angle of this vector
+	 * 
+	 * @param angle The new angle of this vector
+	 */
 	public void setAngle(double angle) {
 		this.angle = angle;
 	}
 
+	/**
+	 * Gets the magnitude of this vector
+	 * 
+	 * @return The magnitude of this vector
+	 */
 	public double getMagnitude() {
 		return magnitude;
 	}
 
+	/**
+	 * Sets the magnitude of this vector
+	 * 
+	 * @param magnitude The new magnitude of this vector
+	 */
 	public void setMagnitude(double magnitude) {
 		this.magnitude = magnitude;
 	}
 
+	/**
+	 * Gets the x component of this vector
+	 * 
+	 * @return The x component of this vector
+	 */
 	public double getX() {
 		return Math.cos(this.angle) * this.magnitude;
 	}
 
+	/**
+	 * Gets the y component of this vector
+	 * 
+	 * @return The y component of this vector
+	 */
 	public double getY() {
 		return Math.sin(this.angle) * this.magnitude;
 	}

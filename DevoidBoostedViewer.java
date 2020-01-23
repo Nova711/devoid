@@ -41,208 +41,6 @@ public class DevoidBoostedViewer {
 
 }
 
-class DrawTest extends JFrame {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	public DrawTest() {
-		this.setSize(1200, 800);
-		this.setVisible(true);
-		JPanel pane = (JPanel) this.getContentPane();
-		pane.add(new TesterShip(100, 100));
-	}
-}
-
-class TesterShip extends JComponent {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	private int x, y;
-
-	public TesterShip(int x, int y) {
-		this.x = x;
-		this.y = y;
-		this.repaint();
-	}
-
-	@Override
-	public void paint(Graphics g) {
-		Graphics2D ng = (Graphics2D) g;
-		ng.scale(3, 3);
-		this.drawHull(0, 0, g);
-		this.drawLeftWing(-4, -12, g);
-		this.drawRightWing(-4, 12, g);
-		this.drawLeftCanard(28, -8, g);
-		this.drawRightCanard(28, 8, g);
-		this.drawCockpit(0, 0, g);
-		this.drawWeapon(36, 0, g);
-		this.drawLeftMainEngine(-8, -8, g);
-		this.drawRightMainEngine(-8, 8, g);
-		this.drawLeftEnginePod(16, -44, g);
-		this.drawRightEnginePod(16, 44, g);
-		this.drawSmallLeftEngine(6, -46, g);
-		this.drawSmallLeftEngine(6, 46, g);
-		this.drawSmallRightEngine(6, -46, g);
-		this.drawSmallRightEngine(6, 46, g);
-	}
-
-	void drawHull(int xOff, int yOff, Graphics g) {
-		g.setColor(Color.DARK_GRAY.brighter());
-		int[] xPoints = { 36, 40, 40, 36, -22, -22 };
-		int[] yPoints = { -8, -4, 4, 8, 8, -8 };
-		Polygon p = new Polygon(xPoints, yPoints, xPoints.length);
-		p.translate(xOff, yOff);
-		this.fillPoly(p, g);
-	}
-
-	void drawLeftWing(int xOff, int yOff, Graphics g) {
-		g.setColor(Color.gray);
-		int[] xPoints = { 8, -8, 19, 14, 24 };
-		int[] yPoints = { 0, 0, -27, -32, -32 };
-		Polygon p = new Polygon(xPoints, yPoints, xPoints.length);
-		p.translate(xOff, yOff);
-		this.fillPoly(p, g);
-	}
-
-	void drawRightWing(int xOff, int yOff, Graphics g) {
-		g.setColor(Color.gray);
-		int[] xPoints = { 8, -8, 19, 14, 24 };
-		int[] yPoints = { 0, 0, 27, 32, 32 };
-		Polygon p = new Polygon(xPoints, yPoints, xPoints.length);
-		p.translate(xOff, yOff);
-		this.fillPoly(p, g);
-	}
-
-	void drawLeftCanard(int xOff, int yOff, Graphics g) {
-		g.setColor(Color.gray);
-		int[] xPoints = { -4, -4, 4 };
-		int[] yPoints = { 0, -4, 0 };
-		Polygon p = new Polygon(xPoints, yPoints, xPoints.length);
-		p.translate(xOff, yOff);
-		this.fillPoly(p, g);
-	}
-
-	void drawRightCanard(int xOff, int yOff, Graphics g) {
-		g.setColor(Color.gray);
-		int[] xPoints = { -4, -4, 4 };
-		int[] yPoints = { 0, 4, 0 };
-		Polygon p = new Polygon(xPoints, yPoints, xPoints.length);
-		p.translate(xOff, yOff);
-		this.fillPoly(p, g);
-	}
-
-	void drawCockpit(int xOff, int yOff, Graphics g) {
-		g.setColor(Color.DARK_GRAY);
-		int[] xPoints = { 4, 8, 8, 4, -8, -12, -12, -8 };
-		int[] yPoints = { -6, -2, 2, 6, 6, 2, -2, -6 };
-		Polygon p = new Polygon(xPoints, yPoints, xPoints.length);
-		p.translate(xOff, yOff);
-		this.fillPoly(p, g);
-	}
-
-	void drawWeapon(int xOff, int yOff, Graphics g) {
-		this.drawGunBarrel(xOff + 4, yOff - 1, g);
-		this.drawGunBarrel(xOff + 5, yOff, g);
-		this.drawGunBarrel(xOff + 5, yOff + 1, g);
-		this.drawGunBarrel(xOff + 4, yOff + 2, g);
-		this.drawGunBarrel(xOff + 3, yOff, g);
-		this.drawGunBarrel(xOff + 3, yOff + 1, g);
-		g.setColor(Color.DARK_GRAY);
-		int[] xPoints = { -2, 4, 4, -2 };
-		int[] yPoints = { -2, -2, 2, 2 };
-		Polygon p = new Polygon(xPoints, yPoints, xPoints.length);
-		p.translate(xOff, yOff);
-		this.fillPoly(p, g);
-	}
-
-	void drawGunBarrel(int xOff, int yOff, Graphics g) {
-		g.setColor(Color.gray);
-		int[] xPoints = { 4, 4, 0, 0 };
-		int[] yPoints = { -1, 0, 0, -1 };
-		Polygon p = new Polygon(xPoints, yPoints, xPoints.length);
-		p.translate(xOff, yOff);
-		this.fillPoly(p, g);
-		g.setColor(Color.black);
-		int[] x1Points = { 1, 1, 0, 0 };
-		int[] y1Points = { -1, 0, 0, -1 };
-		p = new Polygon(x1Points, y1Points, xPoints.length);
-		p.translate(xOff + 4, yOff);
-		this.fillPoly(p, g);
-	}
-
-	void drawLeftMainEngine(int xOff, int yOff, Graphics g) {
-		g.setColor(Color.DARK_GRAY);
-		int[] xPoints = { 14, 16, -6, -12, -20, -14, -12, -8 };
-		int[] yPoints = { -4, 0, 0, 6, 6, 0, 0, -4 };
-		Polygon p = new Polygon(xPoints, yPoints, xPoints.length);
-		p.translate(xOff, yOff);
-		this.fillPoly(p, g);
-	}
-
-	void drawRightMainEngine(int xOff, int yOff, Graphics g) {
-		g.setColor(Color.DARK_GRAY);
-		int[] xPoints = { 14, 16, -6, -12, -20, -14, -12, -8 };
-		int[] yPoints = { 4, 0, 0, -6, -6, 0, 0, 4 };
-		Polygon p = new Polygon(xPoints, yPoints, xPoints.length);
-		p.translate(xOff, yOff);
-		this.fillPoly(p, g);
-	}
-
-	void drawLeftEnginePod(int xOff, int yOff, Graphics g) {
-		g.setColor(Color.DARK_GRAY);
-		int[] xPoints = { 8, 12, -8, -10, -8 };
-		int[] yPoints = { -4, 0, 0, -2, -4 };
-		Polygon p = new Polygon(xPoints, yPoints, xPoints.length);
-		p.translate(xOff, yOff);
-		this.fillPoly(p, g);
-	}
-
-	void drawRightEnginePod(int xOff, int yOff, Graphics g) {
-		g.setColor(Color.DARK_GRAY);
-		int[] xPoints = { 8, 12, -8, -10, -8 };
-		int[] yPoints = { 4, 0, 0, 2, 4 };
-		Polygon p = new Polygon(xPoints, yPoints, xPoints.length);
-		p.translate(xOff, yOff);
-		this.fillPoly(p, g);
-	}
-
-	void drawSmallLeftEngine(int xOff, int yOff, Graphics g) {
-		g.setColor(Color.DARK_GRAY.brighter());
-		int[] xPoints = { 0, -6, -2, 2 };
-		int[] yPoints = { 0, -6, -6, -2 };
-		Polygon p = new Polygon(xPoints, yPoints, xPoints.length);
-		p.translate(xOff, yOff);
-		this.fillPoly(p, g);
-	}
-
-	void drawSmallRightEngine(int xOff, int yOff, Graphics g) {
-		g.setColor(Color.DARK_GRAY.brighter());
-		int[] xPoints = { 0, -6, -2, 2 };
-		int[] yPoints = { 0, 6, 6, 2 };
-		Polygon p = new Polygon(xPoints, yPoints, xPoints.length);
-		p.translate(xOff, yOff);
-		this.fillPoly(p, g);
-	}
-
-	void drawPoly(Polygon p, Graphics g) {
-		Polygon p2 = new Polygon(p.xpoints, p.ypoints, p.npoints);
-		p2.translate(this.x, this.y);
-		g.drawPolygon(p2);
-	}
-
-	void fillPoly(Polygon p, Graphics g) {
-		Polygon p2 = new Polygon(p.xpoints, p.ypoints, p.npoints);
-		p2.translate(this.x, this.y);
-		g.fillPolygon(p2);
-	}
-}
-
 class Interface extends JFrame implements KeyListener {
 	/**
 	 * 
@@ -310,6 +108,10 @@ class Interface extends JFrame implements KeyListener {
 					tester.toggleFlightMode();
 					break;
 				}
+				case KeyEvent.VK_SPACE: {
+					tester.toggleDampening();
+					break;
+				}
 				case KeyEvent.VK_P: {
 					tester.pauseUnpause();
 					break;
@@ -330,6 +132,14 @@ class Interface extends JFrame implements KeyListener {
 					tester.speedUp();
 					break;
 				}
+				case KeyEvent.VK_ENTER: {
+					tester.start();
+					break;
+				}
+				case KeyEvent.VK_R: {
+					tester.reset();
+					break;
+				}
 				}
 			}
 		}
@@ -348,10 +158,11 @@ class PhysicsBox extends JComponent implements Runnable {
 	ArrayList<EventTrigger> events = new ArrayList<EventTrigger>();
 	// DObject[] objects = new DObject[50];
 	public boolean paused;
+	public boolean atStart;
 	protected double scale = 1;
 	protected int slowDown = 1;
 	public int player;
-	StandardShip playerShip = new FileShip(Util.src + "\\" + "LT172" + ".txt");
+	StandardShip playerShip = new FileShip(Util.src + "\\" + "LF109" + ".txt");
 	// new StandardShip(new Vector(0, 0), new Vector(0, 0.0000001), 100);
 	StandardGUI playerGUI = new StandardGUI();
 
@@ -365,20 +176,29 @@ class PhysicsBox extends JComponent implements Runnable {
 		 * m1.setAngle(Math.PI*Math.random()*2); m1.setTarget(playerShip);
 		 * objects.add(m1); }
 		 */
-		events.add(new EventTrigger(new Vector(0, 0), "Press the w key to move forward"));
-		events.add(new EventTrigger(new Vector(0, 400), "Press the s key to stop\nPress the a key to move left"));
-		events.add(new EventTrigger(Vector.fromXY(400, -400), "Press the d key to stop\nPress the s key to move down"));
-		events.add(
-				new EventTrigger(Vector.fromXY(-400, -400), "Press the w key to stop\nPress the d key to move right"));
+		events.add(new EventTrigger(new Vector(0, 0), "Tap the w key to move forward"));
+		events.add(new EventTrigger(new Vector(0, 400), "Tap the s key to stop\nTap the a key to move left"));
+		events.add(new EventTrigger(Vector.fromXY(400, -400), "Tap the d key to stop\nTap the s key to move down"));
+		events.add(new EventTrigger(Vector.fromXY(-400, -400), "Tap the w key to stop\nTap the d key to move right"));
 		events.add(new EventTrigger(Vector.fromXY(-400, 400),
-				"Press the a key to stop\nUse the left and right arrow\nkeys to turn until the red\nline faces up then move forward"));
+				"Tap the a key to stop\nUse the left and right arrow\nkeys to turn until the red\nline faces up then move forward"));
 		events.add(new EventTrigger(new Vector(Math.PI / 4, 1000),
 				"Deccelerate\nThe red line shows the location\nof your navpoint\nfollow it"));
 		events.add(new EventTrigger(new Vector(3 * Math.PI / 4, 1500),
-				"You can change your throttle\n with the up and down arrow\nkeys"));
+				"You can change your throttle\nwith the up and down arrow\nkeys"));
 		objects.addAll(events);
+		Vector pos = new Vector(3 * Math.PI / 4, 1500);
+		double x = pos.getX();
+		double y = pos.getY();
+		FileShip temp = new FileShip(Util.src + "\\" + "LF91A.txt");
+		temp.setPosition(Vector.fromXY(x, y + 300));
+		objects.add(temp);
+		temp = new FileShip(Util.src + "\\" + "LT172.txt");
+		temp.setPosition(Vector.fromXY(x - 100, y + 300));
+		objects.add(temp);
 		objects.add(playerShip);
 		playerShip.setThrottle(15);
+		this.atStart = true;
 	}
 
 	public void pauseUnpause() {
@@ -424,6 +244,10 @@ class PhysicsBox extends JComponent implements Runnable {
 	public void toggleFlightMode() {
 		playerShip.toggleFlightMode();
 	}
+	
+	public void toggleDampening() {
+		playerShip.toggleDampening();
+	}
 
 	public double getScale() {
 		return this.scale;
@@ -445,6 +269,20 @@ class PhysicsBox extends JComponent implements Runnable {
 		this.slowDown = 1;
 	}
 
+	public void start() {
+		this.atStart = false;
+	}
+
+	public void reset() {
+		for (EventTrigger e : this.events) {
+			e.reset();
+		}
+		playerShip = new FileShip(Util.src + "\\" + "LF109" + ".txt");
+		objects.add(playerShip);
+		playerShip.setThrottle(15);
+
+	}
+
 	public void paint(Graphics g) {
 		AffineTransform tx = new AffineTransform();
 		tx.translate(this.getBounds().getCenterX(), this.getBounds().getCenterY());
@@ -461,7 +299,7 @@ class PhysicsBox extends JComponent implements Runnable {
 				if (i == 0 & j == 0) {
 					ng.setColor(Color.blue);
 				}
-				ng.fillRect(i * 50, j * 50, 25, 25);
+				ng.fillRect(i * 48 - 12, j * 48 - 12, 24, 24);
 				if (i == 0 & j == 0) {
 					ng.setColor(Color.gray);
 				}
@@ -479,12 +317,30 @@ class PhysicsBox extends JComponent implements Runnable {
 			e.printStackTrace();
 		}
 		playerGUI.draw(playerShip, this.getBounds(), ng);
-		if (this.paused) {
+		if (this.atStart) {
+			ng.setColor(Color.black);
+			ng.fillRect(0, 0, this.getBounds().width, this.getBounds().height);
+			Font font = new Font("Arial", Font.BOLD, 30);
+			ng.setFont(font);
+			g.setColor(Color.white);
+			Util.drawText("Controls", 10, 30, ng);
+			Util.drawText("W - Strafe Forwards", 10, 70, ng);
+			Util.drawText("A - Strafe Left", 10, 100, ng);
+			Util.drawText("S - Strafe Backwards", 10, 130, ng);
+			Util.drawText("D - Strafe Right", 10, 160, ng);
+			Util.drawText("Up Arrow - Throttle Up", 10, 190, ng);
+			Util.drawText("Down Arrow - Throttle Down", 10, 220, ng);
+			Util.drawText("Left Arrow - Throttle Up", 10, 250, ng);
+			Util.drawText("Right Arrow - Throttle Down", 10, 280, ng);
+			Util.drawText("Spacebar - Toggle Dampener", 10, 310, ng);
+			Util.drawText("R - Reset", 10, 340, ng);
+			Util.drawText("Press Enter To Continue", 10, 400, ng);
+		} else if (this.paused) {
 			ng.setColor(Color.red);
 			Font font = new Font("Arial", Font.BOLD, 30);
 			ng.setFont(font);
-			Util.drawText("Simulation Paused", (int) this.getBounds().getCenterX()-"Simulation Paused".length()*8, (int) this.getBounds().getCenterY() - 100,
-					ng);
+			Util.drawText("Simulation Paused", (int) this.getBounds().getCenterX() - "Simulation Paused".length() * 8,
+					(int) this.getBounds().getCenterY() - 100, ng);
 		}
 	}
 
@@ -494,7 +350,7 @@ class PhysicsBox extends JComponent implements Runnable {
 
 	public void run() {
 		while (true) {
-			while (!this.paused) {
+			while (!this.paused & !this.atStart) {
 				for (int i = 0; i < objects.size(); i++) {
 					objects.get(i).update();
 				}
@@ -502,10 +358,10 @@ class PhysicsBox extends JComponent implements Runnable {
 				for (EventTrigger e : this.events)
 					e.checkForTrigger(playerShip.getPosition());
 				Ex.timeout(0.03125 * this.slowDown);
-				if (this.events.get(4).isTriggered())
-					playerShip.setNavPoint(this.events.get(5).getPosition());
-				if (this.events.get(5).isTriggered())
-					playerShip.setNavPoint(this.events.get(6).getPosition());
+				for (int i = 0; i < this.events.size() - 1; i++) {
+					if (this.events.get(i).isTriggered())
+						this.playerShip.setNavPoint(this.events.get(i + 1).getPosition());
+				}
 			}
 			repaint();
 		}
