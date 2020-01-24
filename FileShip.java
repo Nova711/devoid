@@ -46,6 +46,8 @@ public class FileShip extends StandardShip {
 					}
 				} else if (line.startsWith("accel")) {
 					this.accelThrusters.add(this.parse(lines));
+				}  else if (line.startsWith("cruise")) {
+					this.cruiseThrusters.add(this.parse(lines));
 				} else if (line.startsWith("deccel")) {
 					this.deccelThrusters.add(this.parse(lines));
 				} else if (line.startsWith("leftStrafe")) {
@@ -65,36 +67,15 @@ public class FileShip extends StandardShip {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		for (FuelTank f : this.fuelTanks) {
-			this.shipComponents.add(f);
-		}
-		for (Thruster t : this.leftStrafeThrusters) {
-			if (!this.thrusters.contains(t))
-				this.thrusters.add(t);
-		}
-		for (Thruster t : this.rightStrafeThrusters) {
-			if (!this.thrusters.contains(t))
-				this.thrusters.add(t);
-		}
-		for (Thruster t : this.accelThrusters) {
-			if (!this.thrusters.contains(t))
-				this.thrusters.add(t);
-		}
-		for (Thruster t : this.deccelThrusters) {
-			if (!this.thrusters.contains(t))
-				this.thrusters.add(t);
-		}
-		for (Thruster t : this.leftTurnThrusters) {
-			if (!this.thrusters.contains(t))
-				this.thrusters.add(t);
-		}
-		for (Thruster t : this.rightTurnThrusters) {
-			if (!this.thrusters.contains(t))
-				this.thrusters.add(t);
-		}
-		for (Thruster t : this.thrusters) {
-			this.shipComponents.add(t);
-		}
+		this.shipComponents.addAll(fuelTanks);
+		this.thrusters.addAll(accelThrusters);
+		this.thrusters.addAll(cruiseThrusters);
+		this.thrusters.addAll(deccelThrusters);
+		this.thrusters.addAll(leftStrafeThrusters);
+		this.thrusters.addAll(leftTurnThrusters);
+		this.thrusters.addAll(rightStrafeThrusters);
+		this.thrusters.addAll(rightTurnThrusters);
+		this.shipComponents.addAll(thrusters);
 		this.shipComponents.add(this.getCockPit());
 	}
 

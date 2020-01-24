@@ -112,6 +112,10 @@ class Interface extends JFrame implements KeyListener {
 					tester.toggleDampening();
 					break;
 				}
+				case KeyEvent.VK_C: {
+					//tester.toggleCruise();
+					break;
+				}
 				case KeyEvent.VK_P: {
 					tester.pauseUnpause();
 					break;
@@ -243,6 +247,10 @@ class PhysicsBox extends JComponent implements Runnable {
 
 	public void toggleFlightMode() {
 		playerShip.toggleFlightMode();
+	}
+
+	public void toggleCruise() {
+		playerShip.toggleCruise();
 	}
 	
 	public void toggleDampening() {

@@ -24,4 +24,6 @@ interface Ship extends DObject {
 	double getFuel();
 
 	void toggleFlightMode();
+	
+	void toggleCruise();
 }

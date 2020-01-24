@@ -33,7 +33,7 @@ public class StandardGUI implements GUI {
 		Util.drawText("" + s.getThrottle(), bounds.width - 1 * this.width, bounds.height - 1 * this.width, g);
 		Util.drawText("" + f.format(s.getFuel()) + "/" + f.format(s.getMaxFuel()), bounds.width - 1 * this.width,
 				bounds.height - 1 * this.width + 10, g);
-		//Util.drawText(s.getVelocity().toString(), 0, 10, g);
+		//Util.drawText(f.format(s.getVelocity().getMagnitude()), 0, 10, g);
 		//Util.drawText("" + s.getAngularVelocity(), 0, 20, g);
 		//Util.drawText("" + s.getMass(), 0, 30, g);
 		//Util.drawText("" + s.getPosition(), 0, 40, g);

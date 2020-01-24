@@ -15,6 +15,7 @@ public class StandardShip extends StandardDObject implements Ship {
 	private double thrusterThrottle = 1;
 	private double prevAngularVelocity = 0;
 	private boolean flightMode = true;
+	private boolean isCruising;
 
 	private boolean isDampened;
 
@@ -29,6 +30,7 @@ public class StandardShip extends StandardDObject implements Ship {
 	ArrayList<Thruster> leftStrafeThrusters = new ArrayList<Thruster>();
 	ArrayList<Thruster> rightStrafeThrusters = new ArrayList<Thruster>();
 	ArrayList<Thruster> accelThrusters = new ArrayList<Thruster>();
+	ArrayList<Thruster> cruiseThrusters = new ArrayList<Thruster>();
 	ArrayList<Thruster> deccelThrusters = new ArrayList<Thruster>();
 	ArrayList<Thruster> leftTurnThrusters = new ArrayList<Thruster>();
 	ArrayList<Thruster> rightTurnThrusters = new ArrayList<Thruster>();
@@ -127,7 +129,7 @@ public class StandardShip extends StandardDObject implements Ship {
 	public void update() {
 		this.thrust = new Vector(0, 0);
 		if (!this.flightMode) {
-			for (Thruster t : this.accelThrusters) {
+			for (Thruster t : this.isCruising ? this.cruiseThrusters : this.accelThrusters) {
 				t.setThrottle(this.thrusterThrottle / 10);
 				t.activate();
 			}
@@ -211,7 +213,7 @@ public class StandardShip extends StandardDObject implements Ship {
 
 	@Override
 	public void accel() {
-		for (Thruster t : this.accelThrusters) {
+		for (Thruster t : this.isCruising ? this.cruiseThrusters : this.accelThrusters) {
 			t.setThrottle(this.thrusterThrottle);
 			t.activate();
 		}
@@ -293,7 +295,12 @@ public class StandardShip extends StandardDObject implements Ship {
 		this.thrust = new Vector(0, 0);
 		this.flightMode = !this.flightMode;
 	}
-	
+
+	@Override
+	public void toggleCruise() {
+		this.isCruising = !this.isCruising;
+	}
+
 	public void toggleDampening() {
 		this.isDampened = !this.isDampened;
 	}
