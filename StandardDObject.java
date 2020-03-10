@@ -3,9 +3,13 @@ package devoid_boosted;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
+
+import in_out.Out;
 
 /**
  * StandardDObject--Provides standard behavior for physics objects
+ * 
  * @author Carter Rye
  */
 public class StandardDObject implements DObject {
@@ -21,7 +25,7 @@ public class StandardDObject implements DObject {
 	/**
 	 * hp--The hit points of this object
 	 */
-	private double hp;
+	private double hp = 1;
 	/**
 	 * angle--The angle of this object in radians
 	 */
@@ -39,7 +43,7 @@ public class StandardDObject implements DObject {
 	 */
 	private double temperature;
 	/**
-	 * environment--The environment this object is conatined in
+	 * environment--The environment this object is contained in
 	 */
 	private PhysicsBox environment;
 	/**
@@ -51,6 +55,10 @@ public class StandardDObject implements DObject {
 	 */
 	private Color color = Color.black;
 
+	private HitBox accent;
+
+	private Color accentColor = Color.black;
+
 	/**
 	 * Generates an empty StandardDObject
 	 */
@@ -61,14 +69,15 @@ public class StandardDObject implements DObject {
 	/**
 	 * Generates a StandardDObject with the properties specified
 	 * 
-	 * @param position The position of this object
-	 * @param velocity The velocity of this object
-	 * @param hp The hit points of this object
-	 * @param angle The angle of this object
-	 * @param mass The mass of this object
-	 * @param elasticity The elasticity of this object
-	 * @param angularVelocity The angular velocity of this object in radians per interval
-	 * @param temperature The temperature of this object
+	 * @param position        The position of this object
+	 * @param velocity        The velocity of this object
+	 * @param hp              The hit points of this object
+	 * @param angle           The angle of this object
+	 * @param mass            The mass of this object
+	 * @param elasticity      The elasticity of this object
+	 * @param angularVelocity The angular velocity of this object in radians per
+	 *                        interval
+	 * @param temperature     The temperature of this object
 	 */
 	public StandardDObject(Vector position, Vector velocity, double hp, double angle, double mass, double elasticity,
 			double angularVelocity, double temperature) {
@@ -81,7 +90,7 @@ public class StandardDObject implements DObject {
 		this.angularVelocity = angularVelocity;
 		this.temperature = temperature;
 	}
-	
+
 	public double getHP() {
 		return this.hp;
 	}
@@ -111,7 +120,12 @@ public class StandardDObject implements DObject {
 	}
 
 	public double getI() {
-		return this.getMass() * Math.pow(this.getPosition().getMagnitude(), 2);
+		if (this.getPosition().getMagnitude() != 0)
+			return this.getMass() * Math.pow(this.getPosition().getMagnitude(), 2);
+		else {
+			Rectangle rect = this.getBounds().getBounds().getBounds();
+			return (this.getMass() * (Math.pow(rect.width, 2) + Math.pow(rect.getHeight(), 2)) / 12);
+		}
 	}
 
 	public void setX(double x) {
@@ -141,9 +155,15 @@ public class StandardDObject implements DObject {
 			this.setAngularVelocity(this.getAngularVelocity() + this.getAngularAcceleration(force, position));
 	}
 
+	public void applyTorque(double torque) {
+		double angularAcceleration = torque / this.getI();
+		this.setAngularVelocity(this.getAngularVelocity() + angularAcceleration);
+	}
+
 	/**
 	 * Calculates the angular acceleration experienced by this object
-	 * @param force The force applied to this object
+	 * 
+	 * @param force    The force applied to this object
 	 * @param position The position of the applied force
 	 */
 	public double getAngularAcceleration(Vector force, Vector position) {
@@ -169,7 +189,17 @@ public class StandardDObject implements DObject {
 	}
 
 	public void update() {
-		// TODO Auto-generated method stub
+		if (this.getEnvironment() != null) {
+			for (DObject obj : this.getEnvironment().objects) {
+				if (!obj.equals(this)) {
+					Vector force = Util.calculateGravity(this.getMass(), obj.getMass(), this.getPosition(),
+							obj.getPosition());
+					obj.applyForce(force, Vector.zero);
+				}
+			}
+		}
+		this.setPosition(this.getPosition().add(this.getVelocity()));
+		this.setAngle(this.getAngle() + this.getAngularVelocity());
 	}
 
 	public void impact(DObject obj, CollisionEvent e) {
@@ -189,12 +219,19 @@ public class StandardDObject implements DObject {
 		return false;
 	}
 
+	public boolean checkForDestruction() {
+		return this.hp <= 0;
+	}
+
 	public void draw(Graphics g) {
 		Graphics2D ng = (Graphics2D) g;
-		ng.setColor(this.getColor());
 		ng.translate(this.getX(), this.getY());
 		ng.rotate(this.getAngle());
+		ng.setColor(this.getColor());
 		this.getBounds().draw(ng);
+		ng.setColor(this.getAccentColor());
+		if (this.getAccent() != null)
+			this.getAccent().draw(ng);
 		ng.rotate(-this.getAngle());
 		ng.translate(-this.getX(), -this.getY());
 	}
@@ -231,6 +268,22 @@ public class StandardDObject implements DObject {
 
 	public void setColor(Color color) {
 		this.color = color;
+	}
+
+	public Color getAccentColor() {
+		return this.accentColor;
+	}
+
+	public void setAccentColor(Color color) {
+		this.accentColor = color;
+	}
+
+	public HitBox getAccent() {
+		return accent;
+	}
+
+	public void setAccent(HitBox accent) {
+		this.accent = accent;
 	}
 
 }

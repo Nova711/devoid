@@ -5,7 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
 
-public class StandardFuelTank extends StandardDObject implements FuelTank {
+public class StandardFuelTank extends StandardShipComponent implements FuelTank {
 
 	protected double hp = 5;
 	protected double tankMass = 5;

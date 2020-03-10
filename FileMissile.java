@@ -21,16 +21,20 @@ public class FileMissile extends StandardMissile {
 				// Out.println(line);
 				lines = line.substring(line.indexOf(" ") + 1).split(" ");
 				if (line.startsWith("fuel")) {
-					if (lines.length == 6) {
-						this.fuelTanks.add(
-								new FileFuelTank(FileShip.parseCoords(lines), Double.parseDouble(lines[3]) * Math.PI,
-										Util.src.getAbsolutePath() + "\\" + lines[4] + ".txt", lines[5]));
+					if (lines.length == 8) {
+						this.fuelTanks.add(new FileFuelTank(FileShip.parseCoords(lines),
+								Double.parseDouble(lines[3]) * Math.PI,
+								Util.src.getAbsolutePath() + "\\" + lines[4] + ".txt", lines[5], lines[6], lines[7]));
+					} else if (lines.length == 6) {
+						this.fuelTanks.add(new FileFuelTank(FileShip.parseCoords(lines),
+								Double.parseDouble(lines[3]) * Math.PI,
+								Util.src.getAbsolutePath() + "\\" + lines[4] + ".txt", lines[5], "null", "null"));
 					} else {
 						this.fuelTanks.add(
 								new FileFuelTank(FileShip.parseCoords(lines), Double.parseDouble(lines[3]) * Math.PI,
-										Util.src.getAbsolutePath() + "\\" + lines[4] + ".txt", "L"));
+										Util.src.getAbsolutePath() + "\\" + lines[4] + ".txt", "L", "null", "null"));
 					}
-				}else if (line.startsWith("accel")) {
+				} else if (line.startsWith("accel")) {
 					this.accelThrusters.add(this.parse(lines));
 				} else if (line.startsWith("deccel")) {
 					this.deccelThrusters.add(this.parse(lines));
@@ -99,11 +103,14 @@ public class FileMissile extends StandardMissile {
 			return this.rightStrafeThrusters.get(Integer.parseInt(s[1]));
 		}
 		}
+		if (s.length == 8)
+			return new FileThruster(FileShip.parseCoords(s), Double.parseDouble(s[3]) * Math.PI,
+					Util.src.getAbsolutePath() + "\\" + s[4] + ".txt", s[5], s[6], s[7]);
 		if (s.length == 6)
 			return new FileThruster(FileShip.parseCoords(s), Double.parseDouble(s[3]) * Math.PI,
-					Util.src.getAbsolutePath() + "\\" + s[4] + ".txt", s[5]);
+					Util.src.getAbsolutePath() + "\\" + s[4] + ".txt", s[5], "null", "null");
 		return new FileThruster(FileShip.parseCoords(s), Double.parseDouble(s[3]) * Math.PI,
-				Util.src.getAbsolutePath() + "\\" + s[4] + ".txt", "L");
+				Util.src.getAbsolutePath() + "\\" + s[4] + ".txt", "L", "null", "null");
 	}
 
 }

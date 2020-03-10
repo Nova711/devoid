@@ -4,7 +4,15 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-public class StandardWeapon extends StandardDObject implements Weapon {
+public class StandardWeapon extends StandardShipComponent implements Weapon {
+	private int projectileType;
+	private double rateOfFire;
+	private double reloadTime;
+	private int clipSize;
+	
+	public StandardWeapon() {
+		
+	}
 
 	public StandardWeapon(Vector position, double angle) {
 		super(position, new Vector(0, 0), 5, angle, 5, 1, 0, 0);
@@ -29,20 +37,12 @@ public class StandardWeapon extends StandardDObject implements Weapon {
 	}
 
 	@Override
-	public void draw(Graphics g) {
-		Graphics2D ng = (Graphics2D) g;
-		ng.setColor(Color.black);
-		ng.translate(this.getX(), this.getY());
-		ng.rotate(this.getAngle());
-		ng.drawRect(-2, -2, 4, 4);
-		ng.rotate(-this.getAngle());
-		ng.translate(-this.getX(), -this.getY());
-	}
-
-	@Override
 	public int getProjectileType() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.projectileType;
+	}
+	
+	public void setProjectileType(int type) {
+		this.projectileType = type;
 	}
 
 	@Override
@@ -53,20 +53,29 @@ public class StandardWeapon extends StandardDObject implements Weapon {
 
 	@Override
 	public double getRateOfFire() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.reloadTime;
+	}
+
+	public void setRateOfFire(double rateOfFire) {
+		this.rateOfFire = rateOfFire;
 	}
 
 	@Override
 	public double getReloadTime() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.reloadTime;
+	}
+
+	public void setReloadTime(double time) {
+		this.reloadTime = time;
 	}
 
 	@Override
 	public int getClipSize() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.clipSize;
+	}
+
+	public void setClipSize(int size) {
+		this.clipSize = size;
 	}
 
 	@Override

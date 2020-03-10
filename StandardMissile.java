@@ -137,7 +137,7 @@ public class StandardMissile extends StandardShip {
 		ng.setColor(Color.black);
 		ng.translate(this.getX(), this.getY());
 		ng.rotate(this.getAngle());
-		ng.drawRect(-20, -10, 40, 20);
+		//ng.drawRect(-20, -10, 40, 20);
 		for (ShipComponent s : shipComponents)
 			s.draw(ng);
 		ng.rotate(-this.getAngle());

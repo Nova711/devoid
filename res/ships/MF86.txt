@@ -1,0 +1,30 @@
+fuel c 12 0 0 roundSwordBlade
+fuel c -20 0 0 crescentCrosspiece
+fuel c -80 0 0 hiltOvalWarpCrystal
+fuel c 26 0 0 ovalWarpCrystal
+fuel c 94 0 0 ovalWarpCrystal
+cockpit c -8 0 0 smallSlimOvalCockpit
+weapon c -12 -44 0 MEP391
+weapon c -12 44 0 MEP391 R
+accel c -16 -28 0 LCN9 R
+accel c -16 28 0 LCN9
+cruise c -24 -8 0 MCN9
+cruise c -24 8 0 MCN9 R
+deccel c -20 -24 1 LCN9
+deccel c -20 24 1 LCN9 R
+leftStrafe c 72 4 -0.5 FCN9
+leftStrafe c 72 4 -0.5 FCN9 R
+leftStrafe c -72 4 -0.5 FCN9
+leftStrafe c -72 4 -0.5 FCN9 R
+rightStrafe c 72 -4 0.5 FCN9
+rightStrafe c 72 -4 0.5 FCN9 R
+rightStrafe c -72 -4 0.5 FCN9
+rightStrafe c -72 -4 0.5 FCN9 R
+leftTurn ls 0
+leftTurn ls 1
+leftTurn rs 2
+leftTurn rs 3
+rightTurn ls 2
+rightTurn ls 3
+rightTurn rs 0
+rightTurn rs 1

@@ -1,0 +1,16 @@
+fuel c 0 0 0 smallRectHull
+fuel c -2 0 0 smallAsymTurret
+fuel c 0 -14 0 smallAmmoBox
+cockpit c 10 4 0 smallHalfOctCockpit R
+weapon c 2 -4 0 MEK72
+cruise c -20 -8 0 LFP46
+cruise c -20 8 0 LFP46 R
+accel c -18 0 0 LCN31
+leftStrafe c 14 16 -0.5 FCN7 R
+leftStrafe c -14 16 -0.5 FCN7
+rightStrafe c 14 -16 0.5 FCN7
+rightStrafe c -14 -16 0.5 FCN7 R
+leftTurn ls 0
+leftTurn rs 1
+rightTurn ls 1
+rightTurn rs 0

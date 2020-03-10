@@ -1,6 +1,6 @@
 package devoid_boosted;
 
-public class StandardCockpit extends StandardDObject implements Cockpit {
+public class StandardCockpit extends StandardShipComponent implements Cockpit {
 	
 	public StandardCockpit() {
 		

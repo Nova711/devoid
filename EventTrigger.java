@@ -15,7 +15,7 @@ public class EventTrigger extends StandardDObject {
 
 	public EventTrigger(Vector position, String message) {
 		super(position, new Vector(0, 0), 0, Math.PI / 2, 0, 0, 0, 0);
-		this.setColor(Color.black);
+		this.setColor(Color.white);
 		int[] x = { 200, -200, -200, 200 };
 		int[] y = { -200, -200, 200, 200 };
 		this.setBounds(new HitBox(0, 0, new Polygon(x, y, x.length)));
@@ -24,7 +24,7 @@ public class EventTrigger extends StandardDObject {
 
 	public EventTrigger(Vector position, Polygon bounds, String message) {
 		super(position, new Vector(0, 0), 0, Math.PI / 2, 0, 0, 0, 0);
-		this.setColor(Color.black);
+		this.setColor(Color.white);
 		this.setBounds(new HitBox(0, 0, bounds));
 		this.message = message;
 	}
@@ -59,9 +59,9 @@ public class EventTrigger extends StandardDObject {
 		ng.translate(this.getX(), this.getY());
 		ng.rotate(this.getAngle());
 		this.getBounds().draw(ng);
-		ng.setColor(Color.white);
+		ng.setColor(Color.black);
 		if (this.triggered) {
-			ng.setColor(Color.white);
+			ng.setColor(Color.black);
 			Font font = new Font("Arial", Font.BOLD, 20);
 			ng.setFont(font);
 			int y = 0;

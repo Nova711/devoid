@@ -1,0 +1,14 @@
+fuel c -4 0 0 crescentCrosspiece
+cockpit c 8 0 0 smallSlimOvalCockpit
+weapon c 4 -44 0 MEP391
+weapon c 4 44 0 MEP391 R
+accel c 0 -28 0 LCN9 R
+accel c 0 28 0 LCN9
+cruise c -8 -8 0 MCN9
+cruise c -8 8 0 MCN9 R
+deccel c -4 -24 1 LCN9
+deccel c -4 24 1 LCN9 R
+leftTurn ac 1
+leftTurn dc 0
+rightTurn ac 0
+rightTuen dc 1

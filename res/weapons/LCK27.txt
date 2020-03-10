@@ -3,7 +3,10 @@ mass 400
 type kinetic
 shoots standardBullet
 velocity 100
+rate 5
 spread 0.25
-color 64,64,64
+reload 100
+clip 100
+color 80,80,80
 x -2,4,4,-2
 y -2,-2,2,2

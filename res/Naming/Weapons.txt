@@ -1,0 +1,20 @@
+Format: (Size)(Propulsion)(Payload)(Model)
+
+Size
+	F: Featherlight
+	L: Light
+	M: Medium
+	H: Heavy
+	U: Ultraheavy
+Propulsion
+	E: Electric
+	C: Chemical
+	P: Pneumatic
+	M: Melee
+Payload
+	K: Kinetic
+	E: Explosive
+	P: Plasma
+	L: Laser
+	C: Corrosive
+	B: Biological

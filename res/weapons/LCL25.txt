@@ -1,0 +1,9 @@
+hp 150
+mass 400
+type kinetic
+shoots standardBullet
+velocity 100
+spread 0.25
+color 80,80,80
+x 14,12,4,2,-2,-4,-4,12
+y 0,-2,-2,-4,-4,-2,2,2

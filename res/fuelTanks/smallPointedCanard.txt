@@ -1,0 +1,6 @@
+hp 10
+mass 100
+capacity 0
+color 64,64,64
+x 4,-12,-4
+y 0,-8,0

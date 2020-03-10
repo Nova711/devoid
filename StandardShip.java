@@ -25,19 +25,21 @@ public class StandardShip extends StandardDObject implements Ship {
 	protected double delay = 1;
 	public boolean bounced;
 
-	ArrayList<ShipComponent> shipComponents = new ArrayList<ShipComponent>();
-	ArrayList<Thruster> thrusters = new ArrayList<Thruster>();
-	ArrayList<Thruster> leftStrafeThrusters = new ArrayList<Thruster>();
-	ArrayList<Thruster> rightStrafeThrusters = new ArrayList<Thruster>();
-	ArrayList<Thruster> accelThrusters = new ArrayList<Thruster>();
-	ArrayList<Thruster> cruiseThrusters = new ArrayList<Thruster>();
-	ArrayList<Thruster> deccelThrusters = new ArrayList<Thruster>();
-	ArrayList<Thruster> leftTurnThrusters = new ArrayList<Thruster>();
-	ArrayList<Thruster> rightTurnThrusters = new ArrayList<Thruster>();
-	ArrayList<FuelTank> fuelTanks = new ArrayList<FuelTank>();
-	ArrayList<PowerSource> powerSources = new ArrayList<PowerSource>();
-	ArrayList<Battery> batteries = new ArrayList<Battery>();
-	Cockpit cockPit;
+	protected ArrayList<ShipComponent> shipComponents = new ArrayList<ShipComponent>();
+	protected ArrayList<Thruster> thrusters = new ArrayList<Thruster>();
+	protected ArrayList<Thruster> leftStrafeThrusters = new ArrayList<Thruster>();
+	protected ArrayList<Thruster> rightStrafeThrusters = new ArrayList<Thruster>();
+	protected ArrayList<Thruster> accelThrusters = new ArrayList<Thruster>();
+	protected ArrayList<Thruster> cruiseThrusters = new ArrayList<Thruster>();
+	protected ArrayList<Thruster> deccelThrusters = new ArrayList<Thruster>();
+	protected ArrayList<Thruster> leftTurnThrusters = new ArrayList<Thruster>();
+	protected ArrayList<Thruster> rightTurnThrusters = new ArrayList<Thruster>();
+	protected ArrayList<ReactionWheel> reactionWheels = new ArrayList<ReactionWheel>();
+	protected ArrayList<FuelTank> fuelTanks = new ArrayList<FuelTank>();
+	protected ArrayList<Weapon> weapons = new ArrayList<Weapon>();
+	protected ArrayList<PowerSource> powerSources = new ArrayList<PowerSource>();
+	protected ArrayList<Battery> batteries = new ArrayList<Battery>();
+	protected Cockpit cockPit = new StandardCockpit();
 
 	public StandardShip() {
 
@@ -62,37 +64,6 @@ public class StandardShip extends StandardDObject implements Ship {
 		this.rightTurnThrusters.add(this.leftStrafeThrusters.get(1));
 		this.rightTurnThrusters.add(this.rightStrafeThrusters.get(0));
 		this.fuelTanks.add(new StandardFuelTank(new Vector(0, 0)));
-
-		for (Thruster t : this.leftStrafeThrusters) {
-			if (!this.thrusters.contains(t))
-				this.thrusters.add(t);
-		}
-		for (Thruster t : this.rightStrafeThrusters) {
-			if (!this.thrusters.contains(t))
-				this.thrusters.add(t);
-		}
-		for (Thruster t : this.accelThrusters) {
-			if (!this.thrusters.contains(t))
-				this.thrusters.add(t);
-		}
-		for (Thruster t : this.deccelThrusters) {
-			if (!this.thrusters.contains(t))
-				this.thrusters.add(t);
-		}
-		for (Thruster t : this.leftTurnThrusters) {
-			if (!this.thrusters.contains(t))
-				this.thrusters.add(t);
-		}
-		for (Thruster t : this.rightTurnThrusters) {
-			if (!this.thrusters.contains(t))
-				this.thrusters.add(t);
-		}
-		for (Thruster t : this.thrusters) {
-			this.shipComponents.add(t);
-		}
-		for (FuelTank f : this.fuelTanks) {
-			this.shipComponents.add(f);
-		}
 		this.setMass(this.getMass());
 	}
 
@@ -149,8 +120,7 @@ public class StandardShip extends StandardDObject implements Ship {
 			this.setVelocity(new Vector(this.getVelocity().getAngle(), this.getVelocity().getMagnitude() * 0.99));
 			this.setAngularVelocity(this.getAngularVelocity() * 0.99);
 		}
-		this.setPosition(this.getPosition().add(this.getVelocity()));
-		this.setAngle(this.getAngle() + this.getAngularVelocity());
+		super.update();
 	}
 
 	@Override
@@ -190,7 +160,7 @@ public class StandardShip extends StandardDObject implements Ship {
 				Vector.fromXY(this.navPoint.getX() - this.getX(), this.navPoint.getY() - this.getY()).getAngle(), 1);
 		g.drawLine(0, 0, (int) (temp.getX() * 25), (int) (temp.getY() * 25));// draws the navpoint line
 		g.setColor(Color.blue);
-		temp = new Vector(this.getVelocity().getAngle(), this.getVelocity().getMagnitude());
+		temp = new Vector(this.getVelocity().getAngle(), 10 * Math.log10(this.getVelocity().getMagnitude() / 10 + 1));
 		g.drawLine(0, 0, (int) (temp.getX() * 25), (int) (temp.getY() * 25));// draws the velocity line
 		ng.translate(-this.getX(), -this.getY());// moves the origin back to its original position
 	}
@@ -321,20 +291,36 @@ public class StandardShip extends StandardDObject implements Ship {
 		this.airFrameMass = mass;
 	}
 
-	public Cockpit getCockPit() {
-		return cockPit;
-	}
-
-	public void setCockPit(Cockpit cockPit) {
-		this.cockPit = cockPit;
-	}
-
 	public Vector getNavPoint() {
 		return navPoint;
 	}
 
 	public void setNavPoint(Vector navPoint) {
 		this.navPoint = navPoint;
+	}
+
+	public Cockpit getCockpit() {
+		return this.cockPit;
+	}
+
+	public void setCockpit(Cockpit cockpit) {
+		this.cockPit = cockpit;
+		this.resetComponents();
+	}
+
+	public void resetComponents() {
+		this.shipComponents = new ArrayList<ShipComponent>();
+		this.shipComponents.addAll(fuelTanks);
+		this.shipComponents.addAll(weapons);
+		this.thrusters.addAll(accelThrusters);
+		this.thrusters.addAll(cruiseThrusters);
+		this.thrusters.addAll(deccelThrusters);
+		this.thrusters.addAll(leftStrafeThrusters);
+		this.thrusters.addAll(leftTurnThrusters);
+		this.thrusters.addAll(rightStrafeThrusters);
+		this.thrusters.addAll(rightTurnThrusters);
+		this.shipComponents.addAll(thrusters);
+		this.shipComponents.add(this.getCockpit());
 	}
 
 }

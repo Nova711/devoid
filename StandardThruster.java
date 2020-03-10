@@ -7,7 +7,7 @@ import java.awt.Polygon;
 
 import rift.Out;
 
-public class StandardThruster extends StandardDObject implements Thruster {
+public class StandardThruster extends StandardShipComponent implements Thruster {
 
 	protected double hp = 5;
 	protected double mass = 50;

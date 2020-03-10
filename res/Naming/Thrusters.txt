@@ -1,0 +1,18 @@
+Format: (Size)(Power)(Propellent)(Model)
+
+Size
+	F: Featherlight
+	L: Light
+	M: Medium
+	H: Heavy
+	U: Ultraheavy
+Power
+	C: Chemical
+	E: Electric
+	N: Nuclear
+	B: Beamed
+	F: Fusion
+Propellent
+	N: Neutral
+	I: Ion
+	P: Plasma

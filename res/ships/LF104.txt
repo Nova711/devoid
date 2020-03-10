@@ -1,0 +1,27 @@
+fuel c 4 0 0 smallSmoothPointedHull
+fuel c -8 -8 0 smallTaperedWing
+fuel c -8 8 0 smallTaperedWing R
+cockpit c 12 0 0 smallRTeardropCockpit
+weapon c -4 -20 0 MCL10
+weapon c -6 -28 0 MCL10
+weapon c -8 -36 0 MCL10
+weapon c -4 20 0 MCL10 R
+weapon c -6 28 0 MCL10 R
+weapon c -8 36 0 MCL10 R
+cruise c -20 0 0 MFP21
+accel c -12 -44 0 LCN59
+accel c -12 44 0 LCN59 R
+deccel c -4 -44 1 LCN59 R
+deccel c -4 44 1 LCN59
+leftStrafe c 28 6 -0.5 FCN13 R
+leftStrafe c -28 6 -0.5 FCN13 R
+rightStrafe c 28 -6 0.5 FCN13
+rightStrafe c -28 -6 0.5 FCN13
+leftTurn ac 1
+leftTurn dc 0
+leftTurn ls 0
+leftTurn rs 1
+rightTurn ac 0
+rightTurn dc 1
+rightTurn ls 1
+rightTurn rs 0

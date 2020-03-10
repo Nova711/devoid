@@ -5,18 +5,18 @@ fuel c 16 8 0 smallWingLERX R
 fuel c -12 -8 0 smallSlantedTailSurface
 fuel c -12 8 0 smallSlantedTailSurface R
 cockpit c 40 0 0 smallDoubleOvalCockpit
-weapon c -20 -34 0 LP83
-weapon c -20 34 0 LP83
-accel c -32 -36 0 LC9
-accel c -32 -36 0 LC9 R
-accel c -32 36 0 LC9
-accel c -32 36 0 LC9 R
-deccel c -16 -40 1 LC9
-deccel c -16 40 1 LC9 R
-leftStrafe c 28 12 -0.5 FC9 R
-leftStrafe c -28 12 -0.5 FC9
-rightStrafe c 28 -12 0.5 FC9
-rightStrafe c -28 -12 0.5 FC9 R
+weapon c -20 -34 0 LEP83
+weapon c -20 34 0 LEP83
+accel c -32 -36 0 LCN9
+accel c -32 -36 0 LCN9 R
+accel c -32 36 0 LCN9
+accel c -32 36 0 LCN9 R
+deccel c -16 -40 1 LCN9
+deccel c -16 40 1 LCN9 R
+leftStrafe c 28 12 -0.5 FCN9 R
+leftStrafe c -28 12 -0.5 FCN9
+rightStrafe c 28 -12 0.5 FCN9
+rightStrafe c -28 -12 0.5 FCN9 R
 leftTurn ls 0
 leftTurn rs 1
 rightTurn ls 1

@@ -22,31 +22,49 @@ public class FileShip extends StandardShip {
 			String line;
 			String[] lines;
 			while ((line = br.readLine()) != null) {
-				//Out.println(line);
+				// Out.println(line);
 				lines = line.substring(line.indexOf(" ") + 1).split(" ");
 				if (line.startsWith("fuel")) {
-					if (lines.length == 6) {
-						this.fuelTanks.add(
-								new FileFuelTank(FileShip.parseCoords(lines), Double.parseDouble(lines[3]) * Math.PI,
-										Util.src.getAbsolutePath() + "\\" + lines[4] + ".txt", lines[5]));
+					if (lines.length == 8) {
+						this.fuelTanks.add(new FileFuelTank(FileShip.parseCoords(lines),
+								Double.parseDouble(lines[3]) * Math.PI,
+								Util.src.getAbsolutePath() + "\\fuelTanks\\" + lines[4] + ".txt", lines[5], lines[6], lines[7]));
+					} else if (lines.length == 6) {
+						this.fuelTanks.add(new FileFuelTank(FileShip.parseCoords(lines),
+								Double.parseDouble(lines[3]) * Math.PI,
+								Util.src.getAbsolutePath() + "\\fuelTanks\\" + lines[4] + ".txt", lines[5], "null", "null"));
 					} else {
 						this.fuelTanks.add(
 								new FileFuelTank(FileShip.parseCoords(lines), Double.parseDouble(lines[3]) * Math.PI,
-										Util.src.getAbsolutePath() + "\\" + lines[4] + ".txt", "L"));
+										Util.src.getAbsolutePath() + "\\fuelTanks\\" + lines[4] + ".txt", "L", "null", "null"));
 					}
 				} else if (line.startsWith("cockpit")) {
-					if (lines.length == 6) {
+					if (lines.length == 8) {
 						this.cockPit = new FileCockpit(FileShip.parseCoords(lines),
 								Double.parseDouble(lines[3]) * Math.PI,
-								Util.src.getAbsolutePath() + "\\" + lines[4] + ".txt", lines[5]);
+								Util.src.getAbsolutePath() + "\\cockpits\\" + lines[4] + ".txt", lines[5], lines[6], lines[7]);
+					} else if (lines.length == 6) {
+						this.cockPit = new FileCockpit(FileShip.parseCoords(lines),
+								Double.parseDouble(lines[3]) * Math.PI,
+								Util.src.getAbsolutePath() + "\\cockpits\\" + lines[4] + ".txt", lines[5], "null", "null");
 					} else {
 						this.cockPit = new FileCockpit(FileShip.parseCoords(lines),
 								Double.parseDouble(lines[3]) * Math.PI,
-								Util.src.getAbsolutePath() + "\\" + lines[4] + ".txt", "L");
+								Util.src.getAbsolutePath() + "\\cockpits\\" + lines[4] + ".txt", "L", "null", "null");
+					}
+				} else if (line.startsWith("weapon")) {
+					if (lines.length == 6) {
+						this.weapons
+								.add(new FileWeapon(FileShip.parseCoords(lines), Double.parseDouble(lines[3]) * Math.PI,
+										Util.src.getAbsolutePath() + "\\weapons\\" + lines[4] + ".txt", lines[5]));
+					} else {
+						this.weapons
+								.add(new FileWeapon(FileShip.parseCoords(lines), Double.parseDouble(lines[3]) * Math.PI,
+										Util.src.getAbsolutePath() + "\\weapons\\" + lines[4] + ".txt", "L"));
 					}
 				} else if (line.startsWith("accel")) {
 					this.accelThrusters.add(this.parse(lines));
-				}  else if (line.startsWith("cruise")) {
+				} else if (line.startsWith("cruise")) {
 					this.cruiseThrusters.add(this.parse(lines));
 				} else if (line.startsWith("deccel")) {
 					this.deccelThrusters.add(this.parse(lines));
@@ -67,16 +85,7 @@ public class FileShip extends StandardShip {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		this.shipComponents.addAll(fuelTanks);
-		this.thrusters.addAll(accelThrusters);
-		this.thrusters.addAll(cruiseThrusters);
-		this.thrusters.addAll(deccelThrusters);
-		this.thrusters.addAll(leftStrafeThrusters);
-		this.thrusters.addAll(leftTurnThrusters);
-		this.thrusters.addAll(rightStrafeThrusters);
-		this.thrusters.addAll(rightTurnThrusters);
-		this.shipComponents.addAll(thrusters);
-		this.shipComponents.add(this.getCockPit());
+		this.resetComponents();
 	}
 
 	@Override
@@ -109,11 +118,14 @@ public class FileShip extends StandardShip {
 			return this.rightStrafeThrusters.get(Integer.parseInt(s[1]));
 		}
 		}
+		if (s.length == 8)
+			return new FileThruster(FileShip.parseCoords(s), Double.parseDouble(s[3]) * Math.PI,
+					Util.src.getAbsolutePath() + "\\thrusters\\" + s[4] + ".txt", s[5], s[6], s[7]);
 		if (s.length == 6)
 			return new FileThruster(FileShip.parseCoords(s), Double.parseDouble(s[3]) * Math.PI,
-					Util.src.getAbsolutePath() + "\\" + s[4] + ".txt", s[5]);
+					Util.src.getAbsolutePath() + "\\thrusters\\" + s[4] + ".txt", s[5], "null", "null");
 		return new FileThruster(FileShip.parseCoords(s), Double.parseDouble(s[3]) * Math.PI,
-				Util.src.getAbsolutePath() + "\\" + s[4] + ".txt", "L");
+				Util.src.getAbsolutePath() + "\\thrusters\\" + s[4] + ".txt", "L", "null", "null");
 	}
 
 	static Vector parseCoords(String[] s) {
