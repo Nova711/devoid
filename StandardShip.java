@@ -21,7 +21,7 @@ public class StandardShip extends StandardDObject implements Ship {
 
 	private Vector navPoint = new Vector(0, 0);
 
-	protected HitBox bounds;
+	protected ArrayList<CustomPolygon> bounds;
 	protected double delay = 1;
 	public boolean bounced;
 
@@ -321,6 +321,11 @@ public class StandardShip extends StandardDObject implements Ship {
 		this.thrusters.addAll(rightTurnThrusters);
 		this.shipComponents.addAll(thrusters);
 		this.shipComponents.add(this.getCockpit());
+	}
+	
+	@Override
+	public ArrayList<CustomPolygon> getBounds() {
+		return this.bounds;
 	}
 
 }

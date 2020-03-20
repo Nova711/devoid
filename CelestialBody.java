@@ -10,6 +10,8 @@ public class CelestialBody extends StandardDObject {
 
 	private double radius;
 	private double atmosphereHeight;
+	private Color color;
+	private Color accentColor;
 
 	public CelestialBody() {
 	}
@@ -57,6 +59,22 @@ public class CelestialBody extends StandardDObject {
 		}
 		this.setPosition(this.getPosition().add(this.getVelocity()));
 		this.setAngle(this.getAngle() + this.getAngularVelocity());
+	}
+
+	public Color getColor() {
+		return color;
+	}
+
+	public void setColor(Color color) {
+		this.color = color;
+	}
+
+	public Color getAccentColor() {
+		return accentColor;
+	}
+
+	public void setAccentColor(Color accentColor) {
+		this.accentColor = accentColor;
 	}
 
 }

@@ -3,7 +3,10 @@ package devoid_boosted;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Polygon;
 import java.awt.Rectangle;
+import java.awt.geom.Area;
+import java.util.ArrayList;
 
 import in_out.Out;
 
@@ -46,18 +49,8 @@ public class StandardDObject implements DObject {
 	 * environment--The environment this object is contained in
 	 */
 	private PhysicsBox environment;
-	/**
-	 * bounds--The shape of the object
-	 */
-	private HitBox bounds;
-	/**
-	 * color--The color of this object
-	 */
-	private Color color = Color.black;
 
-	private HitBox accent;
-
-	private Color accentColor = Color.black;
+	private ArrayList<CustomPolygon> bounds = new ArrayList<CustomPolygon>();
 
 	/**
 	 * Generates an empty StandardDObject
@@ -123,7 +116,7 @@ public class StandardDObject implements DObject {
 		if (this.getPosition().getMagnitude() != 0)
 			return this.getMass() * Math.pow(this.getPosition().getMagnitude(), 2);
 		else {
-			Rectangle rect = this.getBounds().getBounds().getBounds();
+			Rectangle rect = this.getBoundingPolygon().getBounds();
 			return (this.getMass() * (Math.pow(rect.width, 2) + Math.pow(rect.getHeight(), 2)) / 12);
 		}
 	}
@@ -227,11 +220,9 @@ public class StandardDObject implements DObject {
 		Graphics2D ng = (Graphics2D) g;
 		ng.translate(this.getX(), this.getY());
 		ng.rotate(this.getAngle());
-		ng.setColor(this.getColor());
-		this.getBounds().draw(ng);
-		ng.setColor(this.getAccentColor());
-		if (this.getAccent() != null)
-			this.getAccent().draw(ng);
+		for (CustomPolygon p : this.getBounds()) {
+			p.draw(ng);
+		}
 		ng.rotate(-this.getAngle());
 		ng.translate(-this.getX(), -this.getY());
 	}
@@ -254,36 +245,26 @@ public class StandardDObject implements DObject {
 		this.mass = mass;
 	}
 
-	public HitBox getBounds() {
-		return this.bounds;
+	public ArrayList<CustomPolygon> getBounds() {
+		return bounds;
 	}
 
-	public void setBounds(HitBox bounds) {
+	public void setBounds(ArrayList<CustomPolygon> bounds) {
 		this.bounds = bounds;
 	}
 
-	public Color getColor() {
-		return this.color;
+	public void setBounds(CustomPolygon... bounds) {
+		this.bounds = new ArrayList<CustomPolygon>();
+		for (CustomPolygon p : bounds) {
+			this.bounds.add(p);
+		}
 	}
 
-	public void setColor(Color color) {
-		this.color = color;
-	}
-
-	public Color getAccentColor() {
-		return this.accentColor;
-	}
-
-	public void setAccentColor(Color color) {
-		this.accentColor = color;
-	}
-
-	public HitBox getAccent() {
-		return accent;
-	}
-
-	public void setAccent(HitBox accent) {
-		this.accent = accent;
+	public Polygon getBoundingPolygon() {
+		Area a = new Area();
+		for (CustomPolygon p : this.getBounds())
+			a.add(new Area(p.getBounds()));
+		return CustomPolygon.convertFromArea(a);
 	}
 
 }

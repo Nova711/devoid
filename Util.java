@@ -47,11 +47,17 @@ public class Util {
 	 */
 	public static Vector calculateGravity(double mass1, double mass2, Vector pos1, Vector pos2) {
 		Vector displacement = pos1.subtract(pos2);
-		if(displacement.getMagnitude()==0.0) {
+		if (displacement.getMagnitude() == 0.0) {
 			return Vector.zero;
 		}
 		Vector pull = new Vector(displacement.getAngle(),
 				Util.G * mass1 * mass2 / Math.pow(displacement.getMagnitude(), 2));
 		return pull;
+	}
+
+	public static Vector calculateAirResistance(double airDensity, double coefficientOfDrag, double area,
+			Vector velocity) {
+		return new Vector(velocity.getAngle() + Math.PI,
+				airDensity * coefficientOfDrag * area / 2 * Math.pow(velocity.getMagnitude(), 2));
 	}
 }

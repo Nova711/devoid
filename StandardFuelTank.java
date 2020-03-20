@@ -47,7 +47,7 @@ public class StandardFuelTank extends StandardShipComponent implements FuelTank 
 		this.setMass(this.getMass());
 		int[] x = { 2, -2, -2, 2 };
 		int[] y = { -2, -2, 2, 2 };
-		this.setBounds(new HitBox(0, 0, new Polygon(x, y, x.length)));
+		//this.setBounds(new HitBox(0, 0, new Polygon(x, y, x.length)));
 	}
 
 	@Override

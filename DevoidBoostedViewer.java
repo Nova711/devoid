@@ -169,11 +169,11 @@ class PhysicsBox extends JComponent implements Runnable {
 	StandardShip playerShip = new FileShip(Util.src + "\\ships\\" + "MF22594" + ".txt");
 	// new StandardShip(new Vector(0, 0), new Vector(0, 0.0000001), 100);
 	StandardGUI playerGUI = new StandardGUI();
-	CelestialBody testPlanet = new CelestialBody(new Vector(0,2000), 5.972*Math.pow(10, 18), 1000, 100);
+	CelestialBody testPlanet = new CelestialBody(new Vector(0, 10000), 5.972 * Math.pow(10, 18), 1000, 100);
 
 	public PhysicsBox() {
 		testPlanet.setEnvironment(this);
-		objects.add(testPlanet);
+		//objects.add(testPlanet);
 		player = 0;
 
 		events.add(new EventTrigger(new Vector(0, 0), "Tap the w key to move forward"));
@@ -188,14 +188,13 @@ class PhysicsBox extends JComponent implements Runnable {
 				"You can change your throttle\nwith the up and down arrow\nkeys"));
 		objects.addAll(events);
 		/*
-		for (int i = 0; i < 50; i++) {
-			StandardMissile m1 = new FileMissile(new Vector(Ex.rand(0, Math.PI * 2), Ex.rand(300, 1000)),
-					Util.src + "\\" + "FE22" + ".txt"); // new StandardMissile(new Vector(Ex.rand(0, Math.PI
-			// * 2), Ex.rand(300, 1000)), // new Vector(0, 0.000000001), 100);
-			m1.setAngle(Math.PI * Math.random() * 2);
-			m1.setTarget(playerShip);
-			objects.add(m1);
-		}*/
+		 * for (int i = 0; i < 50; i++) { StandardMissile m1 = new FileMissile(new
+		 * Vector(Ex.rand(0, Math.PI * 2), Ex.rand(300, 1000)), Util.src +
+		 * "\\" + "FE22" + ".txt"); // new StandardMissile(new Vector(Ex.rand(0, Math.PI
+		 * // * 2), Ex.rand(300, 1000)), // new Vector(0, 0.000000001), 100);
+		 * m1.setAngle(Math.PI * Math.random() * 2); m1.setTarget(playerShip);
+		 * objects.add(m1); }
+		 */
 		Vector pos = new Vector(3 * Math.PI / 4, 1500);
 		double x = pos.getX();
 		double y = pos.getY();
@@ -382,7 +381,7 @@ class PhysicsBox extends JComponent implements Runnable {
 	public void paint(Graphics g) {
 		Graphics2D ng = (Graphics2D) g;
 		ng.setColor(Color.black);
-		ng.fillRect(-1, -1, (int)this.getBounds().getWidth()+1, (int)this.getBounds().getHeight()+1);
+		ng.fillRect(-1, -1, (int) this.getBounds().getWidth() + 1, (int) this.getBounds().getHeight() + 1);
 		AffineTransform tx = new AffineTransform();
 		tx.translate(this.getBounds().getCenterX(), this.getBounds().getCenterY());
 		tx.rotate(-playerShip.getAngle() - Math.PI / 2);
@@ -405,13 +404,17 @@ class PhysicsBox extends JComponent implements Runnable {
 			}
 		}
 		for (int i = 0; i < objects.size(); i++) {
-			if (!objects.get(i).equals(playerShip))
+			if (!(objects.get(i).equals(playerShip) | objects.get(i).getPosition().subtract(playerShip.getPosition())
+					.getMagnitude() > 2 * 1/this.scale * Math.sqrt(
+							Math.pow(this.getBounds().getWidth(), 2) + Math.pow(this.getBounds().getHeight(), 2))))
 				objects.get(i).draw(ng);
 		}
 		playerShip.draw(ng);
 		ng.setColor(Color.cyan);
-		Vector forceLine = Util.calculateGravity(this.testPlanet.getMass(), this.playerShip.getMass(), this.testPlanet.getPosition(), this.playerShip.getPosition());
-		ng.drawLine((int)playerShip.getX(), (int)playerShip.getY(), (int)(playerShip.getX() + forceLine.getX()), (int)(playerShip.getY() + forceLine.getY()));
+		Vector forceLine = Util.calculateGravity(this.testPlanet.getMass(), this.playerShip.getMass(),
+				this.testPlanet.getPosition(), this.playerShip.getPosition());
+		ng.drawLine((int) playerShip.getX(), (int) playerShip.getY(), (int) (playerShip.getX() + forceLine.getX()),
+				(int) (playerShip.getY() + forceLine.getY()));
 		try {
 			ng.transform(tx.createInverse());
 		} catch (NoninvertibleTransformException e) {

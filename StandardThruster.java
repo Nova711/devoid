@@ -36,7 +36,7 @@ public class StandardThruster extends StandardShipComponent implements Thruster 
 		this.specificImpulse = specificImpulse;
 		int[] x = { 20, -4, -4, 20 };
 		int[] y = { -4, -4, 4, 4 };
-		this.setBounds(new HitBox(0, 0, new Polygon(x, y, x.length)));
+		//this.setBounds(new HitBox(0, 0, new Polygon(x, y, x.length)));
 	}
 
 	@Override

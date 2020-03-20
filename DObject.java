@@ -173,7 +173,7 @@ public interface DObject {
 	 * @param objects The object possibly being collided with
 	 * @return If there is a collision
 	 */
-	boolean hits(DObject objects);
+	boolean hits(DObject object);
 
 	boolean checkForDestruction();
 

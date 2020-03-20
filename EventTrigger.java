@@ -13,24 +13,22 @@ public class EventTrigger extends StandardDObject {
 	public EventTrigger() {
 	}
 
-	public EventTrigger(Vector position, String message) {
+	public EventTrigger(Vector position, CustomPolygon bounds, String message) {
 		super(position, new Vector(0, 0), 0, Math.PI / 2, 0, 0, 0, 0);
-		this.setColor(Color.white);
-		int[] x = { 200, -200, -200, 200 };
-		int[] y = { -200, -200, 200, 200 };
-		this.setBounds(new HitBox(0, 0, new Polygon(x, y, x.length)));
+		this.setBounds(bounds);
 		this.message = message;
 	}
 
-	public EventTrigger(Vector position, Polygon bounds, String message) {
+	public EventTrigger(Vector position, String message) {
 		super(position, new Vector(0, 0), 0, Math.PI / 2, 0, 0, 0, 0);
-		this.setColor(Color.white);
-		this.setBounds(new HitBox(0, 0, bounds));
+		int[] x = { 200, -200, -200, 200 };
+		int[] y = { -200, -200, 200, 200 };
+		this.setBounds(new CustomPolygon(x,y,Color.white));
 		this.message = message;
 	}
 
 	public void checkForTrigger(Vector position) {
-		if (this.getBounds().getBounds().contains(position.getX() - this.getPosition().getX(),
+		if (this.getBoundingPolygon().contains(position.getX() - this.getPosition().getX(),
 				position.getY() - this.getPosition().getY()))
 			this.trigger();
 	}
@@ -55,10 +53,10 @@ public class EventTrigger extends StandardDObject {
 	@Override
 	public void draw(Graphics g) {
 		Graphics2D ng = (Graphics2D) g;
-		ng.setColor(this.getColor());
 		ng.translate(this.getX(), this.getY());
 		ng.rotate(this.getAngle());
-		this.getBounds().draw(ng);
+		for(CustomPolygon p:this.getBounds())
+			p.draw(ng);
 		ng.setColor(Color.black);
 		if (this.triggered) {
 			ng.setColor(Color.black);
