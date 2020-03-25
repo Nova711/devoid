@@ -1,6 +1,6 @@
 hp 700
 mass 1700
-thrust 132400
+thrust 1324000
 impulse 7000
 color 100,100,100
 x 8,4,-4,-8,-12,8

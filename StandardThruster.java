@@ -36,7 +36,7 @@ public class StandardThruster extends StandardShipComponent implements Thruster 
 		this.specificImpulse = specificImpulse;
 		int[] x = { 20, -4, -4, 20 };
 		int[] y = { -4, -4, 4, 4 };
-		//this.setBounds(new HitBox(0, 0, new Polygon(x, y, x.length)));
+		// this.setBounds(new HitBox(0, 0, new Polygon(x, y, x.length)));
 	}
 
 	@Override
@@ -72,10 +72,12 @@ public class StandardThruster extends StandardShipComponent implements Thruster 
 
 	@Override
 	public Vector thrust(FuelTank fuel) {
-		double fuelDrain = this.maxThrust * this.throttle / 100 / this.specificImpulse;
+		double fuelDrain = this.maxThrust * this.throttle / 100 / this.specificImpulse
+				/ (double) this.getEnvironment().getTickrate() * 4;
 		if (fuelDrain <= fuel.getFuel()) {
 			fuel.drain(fuelDrain);
-			return new Vector(this.getAngle() - this.thrustOffset, this.maxThrust * this.throttle / 100);
+			return new Vector(this.getAngle() - this.thrustOffset,
+					this.maxThrust * this.throttle / 100 / (double) this.getEnvironment().getTickrate() * 4);
 		}
 		return new Vector(0, 0);
 	}

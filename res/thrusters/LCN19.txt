@@ -1,6 +1,6 @@
 hp 550
 mass 1500
-thrust 60950
+thrust 609500
 impulse 10000
 color 100,100,100
 x 4,-8,-12,4

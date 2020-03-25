@@ -150,8 +150,11 @@ public class StandardShip extends StandardDObject implements Ship {
 		g.setColor(Color.black);
 		g.drawLine(0, 0, 25, 0);
 		g.setColor(Color.green);
-		g.drawArc(-25, -25, 50, 50, 0, (int) -Math.toDegrees(this.getAngularVelocity() * 50));// displays the angular
-																								// velocity of this ship
+		g.drawArc(-25, -25, 50, 50, 0,
+				(int) -Math.toDegrees(this.getAngularVelocity() * 50 / (double) this.getEnvironment().getTickrate()));// displays
+																														// the
+																														// angular
+		// velocity of this ship
 		ng.rotate(-this.getAngle());
 		g.setColor(Color.black);
 		g.drawLine(0, 0, 25, 0);
@@ -160,7 +163,9 @@ public class StandardShip extends StandardDObject implements Ship {
 				Vector.fromXY(this.navPoint.getX() - this.getX(), this.navPoint.getY() - this.getY()).getAngle(), 1);
 		g.drawLine(0, 0, (int) (temp.getX() * 25), (int) (temp.getY() * 25));// draws the navpoint line
 		g.setColor(Color.blue);
-		temp = new Vector(this.getVelocity().getAngle(), 10 * Math.log10(this.getVelocity().getMagnitude() / 10 + 1));
+		temp = new Vector(this.getVelocity().getAngle(), 10 * Math.log10(
+				this.getVelocity().scalarMultiply(1 / (double) this.getEnvironment().getTickrate()).getMagnitude() / 10
+						+ 1));
 		g.drawLine(0, 0, (int) (temp.getX() * 25), (int) (temp.getY() * 25));// draws the velocity line
 		ng.translate(-this.getX(), -this.getY());// moves the origin back to its original position
 	}
@@ -322,10 +327,16 @@ public class StandardShip extends StandardDObject implements Ship {
 		this.shipComponents.addAll(thrusters);
 		this.shipComponents.add(this.getCockpit());
 	}
-	
+
 	@Override
 	public ArrayList<CustomPolygon> getBounds() {
 		return this.bounds;
 	}
 
+	@Override
+	public void setEnvironment(PhysicsBox b) {
+		super.setEnvironment(b);
+		for (ShipComponent comp : this.shipComponents)
+			comp.setEnvironment(b);
+	}
 }

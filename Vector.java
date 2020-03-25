@@ -112,6 +112,12 @@ public class Vector {
 		return new Vector(Vector.calculateDirection(x, y), Vector.calculateMagnitude(x, y));
 	}
 
+	public Vector scalarMultiply(double k) {
+		double x = this.getX() * k;
+		double y = this.getY() * k;
+		return new Vector(Vector.calculateDirection(x, y), Vector.calculateMagnitude(x, y));
+	}
+
 	public Vector rotate(Double angle) {
 		return new Vector(this.getAngle() + angle, this.getMagnitude());
 	}

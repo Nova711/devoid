@@ -1,6 +1,6 @@
 hp 10
 mass 20
-thrust 10000
+thrust 100000
 impulse 10000
 color 64,64,64
 x 4,3,-4,-5,-4,3

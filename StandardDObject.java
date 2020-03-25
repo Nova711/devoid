@@ -182,17 +182,16 @@ public class StandardDObject implements DObject {
 	}
 
 	public void update() {
-		if (this.getEnvironment() != null) {
-			for (DObject obj : this.getEnvironment().objects) {
-				if (!obj.equals(this)) {
-					Vector force = Util.calculateGravity(this.getMass(), obj.getMass(), this.getPosition(),
-							obj.getPosition());
-					obj.applyForce(force, Vector.zero);
-				}
-			}
+		if (this.getEnvironment() != null) {/*
+											 * for (DObject obj : this.getEnvironment().objects) { if
+											 * (!obj.equals(this)) { Vector force =
+											 * Util.calculateGravity(this.getMass(), obj.getMass(), this.getPosition(),
+											 * obj.getPosition()); obj.applyForce(force, Vector.zero); } }
+											 */
 		}
-		this.setPosition(this.getPosition().add(this.getVelocity()));
-		this.setAngle(this.getAngle() + this.getAngularVelocity());
+		this.setPosition(this.getPosition()
+				.add(this.getVelocity().scalarMultiply(1 / (double) this.getEnvironment().getTickrate() * 4)));
+		this.setAngle(this.getAngle() + this.getAngularVelocity() / (double) this.getEnvironment().getTickrate());
 	}
 
 	public void impact(DObject obj, CollisionEvent e) {

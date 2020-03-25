@@ -60,4 +60,11 @@ public class Util {
 		return new Vector(velocity.getAngle() + Math.PI,
 				airDensity * coefficientOfDrag * area / 2 * Math.pow(velocity.getMagnitude(), 2));
 	}
+	public static void timeout(long time) {
+		try {
+			Thread.sleep(time);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 }

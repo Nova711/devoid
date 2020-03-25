@@ -166,6 +166,7 @@ class PhysicsBox extends JComponent implements Runnable {
 	protected double scale = 1;
 	protected int slowDown = 1;
 	public int player;
+	private int tickrate = 32;
 	StandardShip playerShip = new FileShip(Util.src + "\\ships\\" + "MF22594" + ".txt");
 	// new StandardShip(new Vector(0, 0), new Vector(0, 0.0000001), 100);
 	StandardGUI playerGUI = new StandardGUI();
@@ -173,7 +174,7 @@ class PhysicsBox extends JComponent implements Runnable {
 
 	public PhysicsBox() {
 		testPlanet.setEnvironment(this);
-		//objects.add(testPlanet);
+		// objects.add(testPlanet);
 		player = 0;
 
 		events.add(new EventTrigger(new Vector(0, 0), "Tap the w key to move forward"));
@@ -207,7 +208,8 @@ class PhysicsBox extends JComponent implements Runnable {
 		objects.add(playerShip);
 		playerShip.setThrottle(15);
 		this.atStart = true;
-		playerShip.setEnvironment(this);
+		for (DObject obj : this.objects)
+			obj.setEnvironment(this);
 	}
 
 	public void pauseUnpause() {
@@ -280,6 +282,14 @@ class PhysicsBox extends JComponent implements Runnable {
 
 	public void resetSpeed() {
 		this.slowDown = 1;
+	}
+
+	public int getTickrate() {
+		return tickrate;
+	}
+
+	public void setTickrate(int tickrate) {
+		this.tickrate = tickrate;
 	}
 
 	public void start() {
@@ -376,6 +386,7 @@ class PhysicsBox extends JComponent implements Runnable {
 		playerShip = new FileShip(Util.src + "\\ships\\" + shipName + ".txt");
 		objects.add(playerShip);
 		playerShip.setThrottle(15);
+		playerShip.setEnvironment(this);
 	}
 
 	public void paint(Graphics g) {
@@ -405,7 +416,7 @@ class PhysicsBox extends JComponent implements Runnable {
 		}
 		for (int i = 0; i < objects.size(); i++) {
 			if (!(objects.get(i).equals(playerShip) | objects.get(i).getPosition().subtract(playerShip.getPosition())
-					.getMagnitude() > 2 * 1/this.scale * Math.sqrt(
+					.getMagnitude() > 2 * 1 / this.scale * Math.sqrt(
 							Math.pow(this.getBounds().getWidth(), 2) + Math.pow(this.getBounds().getHeight(), 2))))
 				objects.get(i).draw(ng);
 		}
@@ -413,8 +424,11 @@ class PhysicsBox extends JComponent implements Runnable {
 		ng.setColor(Color.cyan);
 		Vector forceLine = Util.calculateGravity(this.testPlanet.getMass(), this.playerShip.getMass(),
 				this.testPlanet.getPosition(), this.playerShip.getPosition());
-		ng.drawLine((int) playerShip.getX(), (int) playerShip.getY(), (int) (playerShip.getX() + forceLine.getX()),
-				(int) (playerShip.getY() + forceLine.getY()));
+		/*
+		 * ng.drawLine((int) playerShip.getX(), (int) playerShip.getY(), (int)
+		 * (playerShip.getX() + forceLine.getX()), (int) (playerShip.getY() +
+		 * forceLine.getY()));
+		 */
 		try {
 			ng.transform(tx.createInverse());
 		} catch (NoninvertibleTransformException e) {
@@ -454,18 +468,28 @@ class PhysicsBox extends JComponent implements Runnable {
 	}
 
 	public void run() {
+		long startTime;
+		long endTime;
+		long pauseTime;
 		while (true) {
 			while (!this.paused & !this.atStart) {
+				startTime = System.currentTimeMillis();
 				for (int i = 0; i < objects.size(); i++) {
 					objects.get(i).update();
 				}
 				repaint();
 				for (EventTrigger e : this.events)
 					e.checkForTrigger(playerShip.getPosition());
-				Ex.timeout(0.03125 * this.slowDown);
 				for (int i = 0; i < this.events.size() - 1; i++) {
 					if (this.events.get(i).isTriggered())
 						this.playerShip.setNavPoint(this.events.get(i + 1).getPosition());
+				}
+				endTime = System.currentTimeMillis();
+				pauseTime = (long) ((1 / (double) this.getTickrate()) * 1000 - (endTime - startTime));
+				// in_out.Out.println(startTime+" "+endTime+" "+pauseTime+" "+(double)pauseTime
+				// / 1000);
+				if (pauseTime > 0) {
+					Util.timeout(pauseTime * this.slowDown);
 				}
 			}
 			repaint();

@@ -1,6 +1,6 @@
 hp 500
 mass 2100
-thrust 131100
+thrust 1311000
 impulse 10000
 color 100,100,100
 x 4,-12,-8,-4,-12,4

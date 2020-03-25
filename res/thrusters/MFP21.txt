@@ -1,6 +1,6 @@
 hp 400
 mass 2600
-thrust 69300
+thrust 693000
 impulse 1000000
 color 192,192,192
 x 20,-24,-16,-24,20,16
