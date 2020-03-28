@@ -26,9 +26,13 @@ public class ComponentReader {
 
 	public ComponentReader(String fileName, String direction, PhysicsBox environment) {
 		try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
-			while ((line = br.readLine().trim()) != null) {
+			//Out.println(fileName);
+			while ((line = br.readLine()) != null) {
+				//Out.println(line);
+				line = line.trim();
 				if (line.equals("type scf")) {
 					this.legacy = false;
+					//Out.println("\tNon Legacy");
 				} else if (line.startsWith("hp")) {
 					this.setHP(Util.parseNextDouble(line));
 				} else if (line.startsWith("mass")) {
@@ -43,44 +47,61 @@ public class ComponentReader {
 					this.setThrustOffset(Util.parseNextDouble(line) * Math.PI);
 				} else if (line.equals("poly {")) {
 					currentCustPoly = new CustomPolygon();
-					while ((line = br.readLine()) != null & !line.equals("}")) {
+					while ((line = br.readLine()) != null & !line.contains("}")) {
+						//Out.println("\t"+line);
+						line = line.trim();
 						if (line.equals("hole {")) {
-							while ((line = br.readLine()) != null & !line.equals("}")) {
+							while ((line = br.readLine()) != null & !line.contains("}")) {
+								//Out.println("\t\t"+line);
+								line = line.trim();
 								if (line.startsWith("x")) {
-									x = Util.parseIntArray(line.substring(line.indexOf(" ")));
+									tx = Util.parseDoubleArray(line.substring(line.indexOf(" ")));
+									x = new int[tx.length];
+									for (int i = 0; i < tx.length; i++) {
+										x[i] = Util.round(tx[i] * environment.getPixelsPerMetre());
+									}
 								} else if (line.startsWith("y")) {
-									y = Util.parseIntArray(line.substring(line.indexOf(" ")));
+									ty = Util.parseDoubleArray(line.substring(line.indexOf(" ")));
+									y = new int[ty.length];
+									for (int i = 0; i < ty.length; i++) {
+										y[i] = Util.round(ty[i] * environment.getPixelsPerMetre());
+									}
 									if (direction.equals("R")) {
 										y = Util.mirror(y);
 									}
 								}
-							}
-							for (int i = 0; i < x.length; i++) {
-								x[i] *= environment.getPixelsPerMetre();
-								y[i] *= environment.getPixelsPerMetre();
 							}
 							tempPoly = new Polygon(x, y, x.length);
 							currentCustPoly.addHole(tempPoly);
 						} else if (line.endsWith("body {")) {
-							while ((line = br.readLine()) != null & !line.equals("}")) {
+							while ((line = br.readLine()) != null & !line.contains("}")) {
+								//Out.println("\t\t"+line);
+								line = line.trim();
 								if (line.startsWith("x")) {
-									x = Util.parseIntArray(line.substring(line.indexOf(" ")));
+									tx = Util.parseDoubleArray(line.substring(line.indexOf(" ")));
+									x = new int[tx.length];
+									for (int i = 0; i < tx.length; i++) {
+										x[i] = Util.round(tx[i] * environment.getPixelsPerMetre());
+									}
 								} else if (line.startsWith("y")) {
-									y = Util.parseIntArray(line.substring(line.indexOf(" ")));
+									ty = Util.parseDoubleArray(line.substring(line.indexOf(" ")));
+									y = new int[ty.length];
+									for (int i = 0; i < ty.length; i++) {
+										y[i] = Util.round(ty[i] * environment.getPixelsPerMetre());
+									}
 									if (direction.equals("R")) {
 										y = Util.mirror(y);
 									}
 								}
-							}
-							for (int i = 0; i < x.length; i++) {
-								x[i] *= environment.getPixelsPerMetre();
-								y[i] *= environment.getPixelsPerMetre();
 							}
 							tempPoly = new Polygon(x, y, x.length);
 							currentCustPoly.setBounds(tempPoly);
 						} else if (line.startsWith("color")) {
 							int[] rgb = Util.parseIntArray(line.substring(line.indexOf(" ")));
-							currentCustPoly.setColor(new Color(rgb[0], rgb[1], rgb[2]));
+							if (rgb.length == 3)
+								currentCustPoly.setColor(new Color(rgb[0], rgb[1], rgb[2]));
+							else
+								currentCustPoly.setColor(new Color(rgb[0], rgb[1], rgb[2], rgb[3]));
 						}
 					}
 					tempBounds.add(currentCustPoly);
