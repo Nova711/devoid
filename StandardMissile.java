@@ -14,14 +14,14 @@ public class StandardMissile extends StandardShip {
 
 	}
 
-	public StandardMissile(Vector position, Vector velocity, double mass) {
-		super(position, new Vector(0, 0), 5, 0, mass, 1, 0, 0);
+	public StandardMissile(Vector position, Vector velocity, double mass, PhysicsBox environment) {
+		super(position, new Vector(0, 0), 5, 0, mass, 1, 0, 0, environment);
 		this.setAirFrameMass(mass);
-		this.accelThrusters.add(new StandardThruster(Vector.fromXY(-15, 5), 0, 1200, 90));
-		this.accelThrusters.add(new StandardThruster(Vector.fromXY(-15, -5), 0, 1200, 90));
+		this.accelThrusters.add(new StandardThruster(Vector.fromXY(-15, 5), 0, 1200, 90, environment));
+		this.accelThrusters.add(new StandardThruster(Vector.fromXY(-15, -5), 0, 1200, 90, environment));
 		this.leftTurnThrusters.add(this.accelThrusters.get(0));
 		this.rightTurnThrusters.add(this.accelThrusters.get(1));
-		this.fuelTanks.add(new StandardFuelTank(new Vector(0, 0)));
+		this.fuelTanks.add(new StandardFuelTank(new Vector(0, 0), environment));
 
 		for (Thruster t : this.leftStrafeThrusters) {
 			if (!this.thrusters.contains(t))
@@ -137,7 +137,7 @@ public class StandardMissile extends StandardShip {
 		ng.setColor(Color.black);
 		ng.translate(this.getX(), this.getY());
 		ng.rotate(this.getAngle());
-		//ng.drawRect(-20, -10, 40, 20);
+		// ng.drawRect(-20, -10, 40, 20);
 		for (ShipComponent s : shipComponents)
 			s.draw(ng);
 		ng.rotate(-this.getAngle());

@@ -7,11 +7,12 @@ import java.io.IOException;
 
 public class FileMissile extends StandardMissile {
 
-	public FileMissile(String filePath) {
-		this(new Vector(0, 0), filePath);
+	public FileMissile(String filePath, PhysicsBox environment) {
+		this(new Vector(0, 0), filePath, environment);
 	}
 
-	public FileMissile(Vector position, String filePath) {
+	public FileMissile(Vector position, String filePath, PhysicsBox environment) {
+		this.setEnvironment(environment);
 		this.setPosition(position);
 		this.setThrottle(100);
 		try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
@@ -22,17 +23,20 @@ public class FileMissile extends StandardMissile {
 				lines = line.substring(line.indexOf(" ") + 1).split(" ");
 				if (line.startsWith("fuel")) {
 					if (lines.length == 8) {
-						this.fuelTanks.add(new FileFuelTank(FileShip.parseCoords(lines),
-								Double.parseDouble(lines[3]) * Math.PI,
-								Util.src.getAbsolutePath() + "\\" + lines[4] + ".txt", lines[5], lines[6], lines[7]));
+						this.fuelTanks.add(
+								new FileFuelTank(FileShip.parseCoords(lines), Double.parseDouble(lines[3]) * Math.PI,
+										Util.src.getAbsolutePath() + "\\" + lines[4] + ".txt", lines[5], lines[6],
+										lines[7], environment));
 					} else if (lines.length == 6) {
-						this.fuelTanks.add(new FileFuelTank(FileShip.parseCoords(lines),
-								Double.parseDouble(lines[3]) * Math.PI,
-								Util.src.getAbsolutePath() + "\\" + lines[4] + ".txt", lines[5], "null", "null"));
+						this.fuelTanks.add(
+								new FileFuelTank(FileShip.parseCoords(lines), Double.parseDouble(lines[3]) * Math.PI,
+										Util.src.getAbsolutePath() + "\\" + lines[4] + ".txt", lines[5], "null", "null",
+										environment));
 					} else {
 						this.fuelTanks.add(
 								new FileFuelTank(FileShip.parseCoords(lines), Double.parseDouble(lines[3]) * Math.PI,
-										Util.src.getAbsolutePath() + "\\" + lines[4] + ".txt", "L", "null", "null"));
+										Util.src.getAbsolutePath() + "\\" + lines[4] + ".txt", "L", "null", "null",
+										environment));
 					}
 				} else if (line.startsWith("accel")) {
 					this.accelThrusters.add(this.parse(lines));
@@ -105,12 +109,12 @@ public class FileMissile extends StandardMissile {
 		}
 		if (s.length == 8)
 			return new FileThruster(FileShip.parseCoords(s), Double.parseDouble(s[3]) * Math.PI,
-					Util.src.getAbsolutePath() + "\\" + s[4] + ".txt", s[5], s[6], s[7]);
+					Util.src.getAbsolutePath() + "\\" + s[4] + ".txt", s[5], s[6], s[7], this.getEnvironment());
 		if (s.length == 6)
 			return new FileThruster(FileShip.parseCoords(s), Double.parseDouble(s[3]) * Math.PI,
-					Util.src.getAbsolutePath() + "\\" + s[4] + ".txt", s[5], "null", "null");
+					Util.src.getAbsolutePath() + "\\" + s[4] + ".txt", s[5], "null", "null", this.getEnvironment());
 		return new FileThruster(FileShip.parseCoords(s), Double.parseDouble(s[3]) * Math.PI,
-				Util.src.getAbsolutePath() + "\\" + s[4] + ".txt", "L", "null", "null");
+				Util.src.getAbsolutePath() + "\\" + s[4] + ".txt", "L", "null", "null", this.getEnvironment());
 	}
 
 }

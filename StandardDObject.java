@@ -73,7 +73,7 @@ public class StandardDObject implements DObject {
 	 * @param temperature     The temperature of this object
 	 */
 	public StandardDObject(Vector position, Vector velocity, double hp, double angle, double mass, double elasticity,
-			double angularVelocity, double temperature) {
+			double angularVelocity, double temperature, PhysicsBox environment) {
 		this.position = position;
 		this.velocity = velocity;
 		this.hp = hp;
@@ -82,6 +82,7 @@ public class StandardDObject implements DObject {
 		// this.elasticity = elasticity;
 		this.angularVelocity = angularVelocity;
 		this.temperature = temperature;
+		this.environment = environment;
 	}
 
 	public double getHP() {
@@ -190,7 +191,7 @@ public class StandardDObject implements DObject {
 											 */
 		}
 		this.setPosition(this.getPosition()
-				.add(this.getVelocity().scalarMultiply(1 / (double) this.getEnvironment().getTickrate() * 4)));
+				.add(this.getVelocity().scalarMultiply(1 / (double) this.getEnvironment().getTickrate())));
 		this.setAngle(this.getAngle() + this.getAngularVelocity() / (double) this.getEnvironment().getTickrate());
 	}
 
@@ -217,13 +218,15 @@ public class StandardDObject implements DObject {
 
 	public void draw(Graphics g) {
 		Graphics2D ng = (Graphics2D) g;
-		ng.translate(this.getX(), this.getY());
+		ng.translate(this.getX() * this.getEnvironment().getPixelsPerMetre(),
+				this.getY() * this.getEnvironment().getPixelsPerMetre());
 		ng.rotate(this.getAngle());
 		for (CustomPolygon p : this.getBounds()) {
 			p.draw(ng);
 		}
 		ng.rotate(-this.getAngle());
-		ng.translate(-this.getX(), -this.getY());
+		ng.translate(-this.getX() * this.getEnvironment().getPixelsPerMetre(),
+				-this.getY() * this.getEnvironment().getPixelsPerMetre());
 	}
 
 	public PhysicsBox getEnvironment() {

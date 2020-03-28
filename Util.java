@@ -22,6 +22,15 @@ public class Util {
 		return retValues;
 	}
 
+	public static double[] parseDoubleArray(String values) {
+		String[] arr = values.split(",");
+		double[] retValues = new double[arr.length];
+		for (int i = 0; i < arr.length; i++) {
+			retValues[i] = Double.parseDouble(arr[i].trim());
+		}
+		return retValues;
+	}
+
 	public static int[] mirror(int[] arr) {
 		if (arr == null)
 			return arr;
@@ -60,11 +69,16 @@ public class Util {
 		return new Vector(velocity.getAngle() + Math.PI,
 				airDensity * coefficientOfDrag * area / 2 * Math.pow(velocity.getMagnitude(), 2));
 	}
+
 	public static void timeout(long time) {
 		try {
 			Thread.sleep(time);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static int round(double d) {
+		return (int) (d > 0 ? d + 0.5 : d - 0.5);
 	}
 }

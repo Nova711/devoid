@@ -10,10 +10,10 @@ import java.util.ArrayList;
 
 public class FileFuelTank extends StandardFuelTank {
 	public FileFuelTank(Vector position, double angle, String fileName, String direction, String color,
-			String accentColor) {
+			String accentColor, PhysicsBox environment) {
 		this.setPosition(position);
 		this.setAngle(angle);
-		ComponentReader cr = new ComponentReader(fileName, direction);
+		ComponentReader cr = new ComponentReader(fileName, direction, environment);
 		this.setTankMass(cr.getMass());
 		this.setCapacity(cr.getCapacity());
 		this.setBounds(cr.getBounds());

@@ -1,19 +1,19 @@
-fuel c 4 0 0 shortFighterHull
-fuel c 24 0 0 fighterNose
-fuel c 4 0 0 arrowHead
-fuel c -16 -2 0 shortBar
-fuel c -16 2 0 shortBar R
-fuel c -12 -22 0 smallSpikedRectPlate
-fuel c -12 22 0 smallSpikedRectPlate R
-fuel c -12 -34 0 slimFSweptWing
-fuel c -12 34 0 slimFSweptWing R
-cockpit c 24 0 0 smallSlimOvalCockpit
-weapon c 40 0 0 LCL51
-accel c -16 -14 0 MCN93
-accel c -16 14 0 MCN93 R
-deccel c 12 -14 1 LCN19 R
-deccel c 12 14 1 LCN19
-leftTurn c -20 26 0 LCN25 R
-leftTurn c -8 -30 1 LCN25
-rightTurn c -20 -26 0 LCN25
-rightTurn c -8 30 1 LCN25 R
+fuel c 0.5 0 0 shortFighterHull
+fuel c 3 0 0 fighterNose
+fuel c 0.5 0 0 arrowHead
+fuel c -2 -0.25 0 shortBar
+fuel c -2 0.25 0 shortBar R
+fuel c -1.5 -2.75 0 smallSpikedRectPlate
+fuel c -1.5 2.75 0 smallSpikedRectPlate R
+fuel c -1.5 -4.25 0 slimFSweptWing
+fuel c -1.5 4.25 0 slimFSweptWing R
+cockpit c 3 0 0 smallSlimOvalCockpit
+weapon c 5 0 0 LCL51
+accel c -2 -1.75 0 MCN93
+accel c -2 1.75 0 MCN93 R
+deccel c 1.5 -1.75 1 LCN19 R
+deccel c 1.5 1.75 1 LCN19
+leftTurn c -2.5 3.25 0 LCN25 R
+leftTurn c -1 -3.75 1 LCN25
+rightTurn c -2.5 -3.25 0 LCN25
+rightTurn c -1 3.75 1 LCN25 R

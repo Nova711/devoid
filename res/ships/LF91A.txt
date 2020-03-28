@@ -1,18 +1,18 @@
 fuel c 0 0 0 smallHull
-fuel c -4 -12 0 smallWingWingtipF L
-fuel c -4 12 0 smallWingWingtipF R
-fuel c 28 -8 0 smallCanard L
-fuel c 28 8 0 smallCanard R
+fuel c -0.5 -1.5 0 smallWingWingtipF L
+fuel c -0.5 1.5 0 smallWingWingtipF R
+fuel c 3.5 -1 0 smallCanard L
+fuel c 3.5 1 0 smallCanard R
 cockpit c 0 0 0 smallOvalCockpit
-weapon c 36 0 0 LCK27
-accel c -8 -8 0 LCN9A L
-accel c -8 8 0 LCN9A R
-deccel c 16 -44 1 LCN9 R
-deccel c 16 44 1 LCN9 L
-leftStrafe c 0 46 -0.5 LCN7
-rightStrafe c 0 -46 0.5 LCN7 R
-leftTurn c 4 -48 1 FCN9 R
-leftTurn c 6 24 0 FCN9 R
-rightTurn c 4 48 1 FCN9
-rightTurn c 6 -24 0 FCN9
+weapon c 4.5 0 0 LCK27
+accel c -1 -1 0 LCN9A L
+accel c -1 1 0 LCN9A R
+deccel c 2 -5.5 1 LCN9 R
+deccel c 2 5.5 1 LCN9 L
+leftStrafe c 0 5.75 -0.5 LCN7
+rightStrafe c 0 -5.75 0.5 LCN7 R
+leftTurn c 0.5 -6 1 FCN9 R
+leftTurn c 0.75 3 0 FCN9 R
+rightTurn c 0.5 6 1 FCN9
+rightTurn c 0.75 -3 0 FCN9
 

@@ -42,8 +42,8 @@ public class StandardFuelTank extends StandardShipComponent implements FuelTank 
 
 	}
 
-	public StandardFuelTank(Vector position) {
-		super(position, new Vector(0, 0), 5, 0, 5, 1, 0, 0);
+	public StandardFuelTank(Vector position, PhysicsBox environment) {
+		super(position, new Vector(0, 0), 5, 0, 5, 1, 0, 0, environment);
 		this.setMass(this.getMass());
 		int[] x = { 2, -2, -2, 2 };
 		int[] y = { -2, -2, 2, 2 };

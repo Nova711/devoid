@@ -1,28 +1,28 @@
-fuel c 20 0 0 slantedRectWing
-fuel c 20 0 0 slantedRectWing R
-fuel c -4 0 0 ovalHull
-fuel c -6 0 0 warpDrive
-cockpit c 16 0 0 ovalCockpit
-weapon c -20 -40 0 squareBombBay
-weapon c -40 -56 0 squareBombBay
-weapon c -20 40 0 squareBombBay R
-weapon c -40 56 0 squareBombBay R
-cruise c -36 -4 0 LFP98
-cruise c -36 4 0 LFP98 R
-accel c -60 -68 0 LCN9
-accel c -60 -68 0 LCN9 R
-accel c -56 -72 0 LCN9
-accel c -52 -76 0 LCN9
-accel c -48 -80 0 LCN9
-accel c -60 68 0 LCN9
-accel c -60 68 0 LCN9 R
-accel c -56 72 0 LCN9 R
-accel c -52 76 0 LCN9 R
-accel c -48 80 0 LCN9 R
-leftStrafe c 24 12 -0.5 FCN9 R
-leftStrafe c -24 12 -0.5 FCN9
-rightStrafe c 24 -12 0.5 FCN9
-rightStrafe c -24 -12 0.5 FCN9 R
+fuel c 2.5 0 0 slantedRectWing
+fuel c 2.5 0 0 slantedRectWing R
+fuel c -0.5 0 0 ovalHull
+fuel c -0.75 0 0 warpDrive
+cockpit c 2 0 0 ovalCockpit
+weapon c -2.5 -5 0 squareBombBay
+weapon c -5 -7 0 squareBombBay
+weapon c -2.5 5 0 squareBombBay R
+weapon c -5 7 0 squareBombBay R
+cruise c -4.5 -0.5 0 LFP98
+cruise c -4.5 0.5 0 LFP98 R
+accel c -7.5 -8.5 0 LCN9
+accel c -7.5 -8.5 0 LCN9 R
+accel c -7 -9 0 LCN9
+accel c -6.5 -9.5 0 LCN9
+accel c -6 -10 0 LCN9
+accel c -7.5 8.5 0 LCN9
+accel c -7.5 8.5 0 LCN9 R
+accel c -7 9 0 LCN9 R
+accel c -6.5 9.5 0 LCN9 R
+accel c -6 10 0 LCN9 R
+leftStrafe c 3 1.5 -0.5 FCN9 R
+leftStrafe c -3 1.5 -0.5 FCN9
+rightStrafe c 3 -1.5 0.5 FCN9
+rightStrafe c -3 -1.5 0.5 FCN9 R
 leftTurn ls 0
 leftTurn rs 1
 rightTurn ls 1

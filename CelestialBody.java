@@ -16,8 +16,8 @@ public class CelestialBody extends StandardDObject {
 	public CelestialBody() {
 	}
 
-	public CelestialBody(Vector position, double mass, double radius, double atmosphereHeight) {
-		this(position, new Vector(0, 0), 1, 0, mass, 1, 0, 0);
+	public CelestialBody(Vector position, double mass, double radius, double atmosphereHeight, PhysicsBox environment) {
+		this(position, new Vector(0, 0), 1, 0, mass, 1, 0, 0, environment);
 		this.radius = radius;
 		this.atmosphereHeight = atmosphereHeight;
 		this.setColor(new Color(0x228B22));
@@ -25,8 +25,8 @@ public class CelestialBody extends StandardDObject {
 	}
 
 	public CelestialBody(Vector position, Vector velocity, double hp, double angle, double mass, double elasticity,
-			double angularVelocity, double temperature) {
-		super(position, velocity, hp, angle, mass, elasticity, angularVelocity, temperature);
+			double angularVelocity, double temperature, PhysicsBox environment) {
+		super(position, velocity, hp, angle, mass, elasticity, angularVelocity, temperature, environment);
 	}
 
 	@Override
@@ -47,12 +47,14 @@ public class CelestialBody extends StandardDObject {
 		if (this.getEnvironment() != null) {
 			for (DObject obj : this.getEnvironment().objects) {
 				if (!obj.equals(this)) {
-					if(this.getPosition().subtract(obj.getPosition()).getMagnitude() > this.radius) {
-					Vector force = Util.calculateGravity(this.getMass(), obj.getMass(), this.getPosition(),
-							obj.getPosition());
-					obj.applyForce(force, Vector.zero);
-					}else if(this.getPosition().subtract(obj.getPosition()).getMagnitude() < this.radius + this.atmosphereHeight) {
-						obj.setVelocity(new Vector(obj.getVelocity().getAngle(), obj.getVelocity().getMagnitude() * 0.9));
+					if (this.getPosition().subtract(obj.getPosition()).getMagnitude() > this.radius) {
+						Vector force = Util.calculateGravity(this.getMass(), obj.getMass(), this.getPosition(),
+								obj.getPosition());
+						obj.applyForce(force, Vector.zero);
+					} else if (this.getPosition().subtract(obj.getPosition()).getMagnitude() < this.radius
+							+ this.atmosphereHeight) {
+						obj.setVelocity(
+								new Vector(obj.getVelocity().getAngle(), obj.getVelocity().getMagnitude() * 0.9));
 					}
 				}
 			}

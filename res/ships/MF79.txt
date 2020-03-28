@@ -1,26 +1,26 @@
-fuel c -20 -8 0 swordBladeHalf
-fuel c -20 8 0 swordBladeHalf R
-fuel c -36 0 0 swordHandle
-fuel c -46 0 0 smallHullExtension
-fuel c -60 0 0 smallHullExtension
-fuel c -28 0 0 hookedCrosspiece
-fuel c -92 0 0 octPommel
-cockpit c -24 -12 0 quarterOvalCockpit
-weapon c -24 0 0 HEK749
-accel c -96 0 0 LCN9
-accel c -96 0 0 LCN9 R
-cruise c -32 -36 0 MCN9 R
-cruise c -32 36 0 MCN9
-deccel c -28 -40 1 LCN9 R
-deccel c -28 40 1 LCN9
-leftStrafe c 92 8 -0.5 FCN9
-leftStrafe c 92 8 -0.5 FCN9 R
-leftStrafe c -92 8 -0.5 FCN9
-leftStrafe c -92 8 -0.5 FCN9 R
-rightStrafe c 92 -8 0.5 FCN9
-rightStrafe c 92 -8 0.5 FCN9 R
-rightStrafe c -92 -8 0.5 FCN9
-rightStrafe c -92 -8 0.5 FCN9 R
+fuel c -2.5 -1 0 swordBladeHalf
+fuel c -2.5 1 0 swordBladeHalf R
+fuel c -4.5 0 0 swordHandle
+fuel c -5.75 0 0 smallHullExtension
+fuel c -7.5 0 0 smallHullExtension
+fuel c -3.5 0 0 hookedCrosspiece
+fuel c -11.5 0 0 octPommel
+cockpit c -3 -1.5 0 quarterOvalCockpit
+weapon c -3 0 0 HEK749
+accel c -12 0 0 LCN9
+accel c -12 0 0 LCN9 R
+cruise c -4 -4.5 0 MCN9 R
+cruise c -4 4.5 0 MCN9
+deccel c -3.5 -5 1 LCN9 R
+deccel c -3.5 5 1 LCN9
+leftStrafe c 11.5 1 -0.5 FCN9
+leftStrafe c 11.5 1 -0.5 FCN9 R
+leftStrafe c -11.5 1 -0.5 FCN9
+leftStrafe c -11.5 1 -0.5 FCN9 R
+rightStrafe c 11.5 -1 0.5 FCN9
+rightStrafe c 11.5 -1 0.5 FCN9 R
+rightStrafe c -11.5 -1 0.5 FCN9
+rightStrafe c -11.5 -1 0.5 FCN9 R
 leftTurn ls 0
 leftTurn ls 1
 leftTurn rs 2

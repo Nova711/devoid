@@ -45,16 +45,16 @@ public class StandardShip extends StandardDObject implements Ship {
 
 	}
 
-	public StandardShip(Vector position, Vector velocity, double mass) {
-		super(position, velocity, 5, 0, mass, 1, 0, 0);
-		this.accelThrusters.add(new StandardThruster(Vector.fromXY(-60, 30), 0, 1000));
-		this.accelThrusters.add(new StandardThruster(Vector.fromXY(-60, -30), 0, 1000));
-		this.deccelThrusters.add(new StandardThruster(Vector.fromXY(60, 30), Math.PI, 1000));
-		this.deccelThrusters.add(new StandardThruster(Vector.fromXY(60, -30), Math.PI, 1000));
-		this.leftStrafeThrusters.add(new StandardThruster(Vector.fromXY(20, 20), -Math.PI / 2));
-		this.leftStrafeThrusters.add(new StandardThruster(Vector.fromXY(-20, 20), -Math.PI / 2));
-		this.rightStrafeThrusters.add(new StandardThruster(Vector.fromXY(20, -20), Math.PI / 2));
-		this.rightStrafeThrusters.add(new StandardThruster(Vector.fromXY(-20, -20), Math.PI / 2));
+	public StandardShip(Vector position, Vector velocity, double mass, PhysicsBox environment) {
+		super(position, velocity, 5, 0, mass, 1, 0, 0, environment);
+		this.accelThrusters.add(new StandardThruster(Vector.fromXY(-60, 30), 0, 1000, environment));
+		this.accelThrusters.add(new StandardThruster(Vector.fromXY(-60, -30), 0, 1000, environment));
+		this.deccelThrusters.add(new StandardThruster(Vector.fromXY(60, 30), Math.PI, 1000, environment));
+		this.deccelThrusters.add(new StandardThruster(Vector.fromXY(60, -30), Math.PI, 1000, environment));
+		this.leftStrafeThrusters.add(new StandardThruster(Vector.fromXY(20, 20), -Math.PI / 2, environment));
+		this.leftStrafeThrusters.add(new StandardThruster(Vector.fromXY(-20, 20), -Math.PI / 2, environment));
+		this.rightStrafeThrusters.add(new StandardThruster(Vector.fromXY(20, -20), Math.PI / 2, environment));
+		this.rightStrafeThrusters.add(new StandardThruster(Vector.fromXY(-20, -20), Math.PI / 2, environment));
 		this.leftTurnThrusters.add(this.accelThrusters.get(0));
 		this.leftTurnThrusters.add(this.deccelThrusters.get(1));
 		this.leftTurnThrusters.add(this.leftStrafeThrusters.get(0));
@@ -63,13 +63,13 @@ public class StandardShip extends StandardDObject implements Ship {
 		this.rightTurnThrusters.add(this.deccelThrusters.get(0));
 		this.rightTurnThrusters.add(this.leftStrafeThrusters.get(1));
 		this.rightTurnThrusters.add(this.rightStrafeThrusters.get(0));
-		this.fuelTanks.add(new StandardFuelTank(new Vector(0, 0)));
+		this.fuelTanks.add(new StandardFuelTank(new Vector(0, 0), environment));
 		this.setMass(this.getMass());
 	}
 
 	public StandardShip(Vector position, Vector velocity, double hp, double angle, double mass, double elasticity,
-			double angularVelocity, double temperature) {
-		super(position, velocity, hp, angle, mass, elasticity, angularVelocity, temperature);
+			double angularVelocity, double temperature, PhysicsBox environment) {
+		super(position, velocity, hp, angle, mass, elasticity, angularVelocity, temperature, environment);
 	}
 
 	@Override
@@ -101,7 +101,7 @@ public class StandardShip extends StandardDObject implements Ship {
 		this.thrust = new Vector(0, 0);
 		if (!this.flightMode) {
 			for (Thruster t : this.isCruising ? this.cruiseThrusters : this.accelThrusters) {
-				t.setThrottle(this.thrusterThrottle / 10);
+				t.setThrottle(this.thrusterThrottle);
 				t.activate();
 			}
 		}
@@ -141,8 +141,11 @@ public class StandardShip extends StandardDObject implements Ship {
 	public void draw(Graphics g) {
 		Graphics2D ng = (Graphics2D) g;
 		ng.setColor(Color.black);
-		ng.translate(this.getX(), this.getY());// moves the origin of the graphics object to the coordinates of this
-												// ship
+		ng.translate(this.getX() * this.getEnvironment().getPixelsPerMetre(),
+				this.getY() * this.getEnvironment().getPixelsPerMetre());// moves the origin of the graphics object to
+																			// the coordinates of
+		// this
+		// ship
 		ng.rotate(this.getAngle());
 		for (ShipComponent s : shipComponents) {// draws all of the components in this ship
 			s.draw(ng);
@@ -167,7 +170,9 @@ public class StandardShip extends StandardDObject implements Ship {
 				this.getVelocity().scalarMultiply(1 / (double) this.getEnvironment().getTickrate()).getMagnitude() / 10
 						+ 1));
 		g.drawLine(0, 0, (int) (temp.getX() * 25), (int) (temp.getY() * 25));// draws the velocity line
-		ng.translate(-this.getX(), -this.getY());// moves the origin back to its original position
+		ng.translate(-this.getX() * this.getEnvironment().getPixelsPerMetre(),
+				-this.getY() * this.getEnvironment().getPixelsPerMetre());// moves the origin back to its original
+																			// position
 	}
 
 	@Override

@@ -9,13 +9,13 @@ public class StandardWeapon extends StandardShipComponent implements Weapon {
 	private double rateOfFire;
 	private double reloadTime;
 	private int clipSize;
-	
+
 	public StandardWeapon() {
-		
+
 	}
 
-	public StandardWeapon(Vector position, double angle) {
-		super(position, new Vector(0, 0), 5, angle, 5, 1, 0, 0);
+	public StandardWeapon(Vector position, double angle, PhysicsBox environment) {
+		super(position, new Vector(0, 0), 5, angle, 5, 1, 0, 0, environment);
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class StandardWeapon extends StandardShipComponent implements Weapon {
 	public int getProjectileType() {
 		return this.projectileType;
 	}
-	
+
 	public void setProjectileType(int type) {
 		this.projectileType = type;
 	}
@@ -80,8 +80,10 @@ public class StandardWeapon extends StandardShipComponent implements Weapon {
 
 	@Override
 	public void fire(double angle) {
-		this.getEnvironment().spawn(new Bullet(this.getPosition(),
-				new Vector(this.getVelocity().angle, this.getVelocity().getMagnitude() + 20), this.getAngle() + angle));
+		this.getEnvironment()
+				.spawn(new Bullet(this.getPosition(),
+						new Vector(this.getVelocity().angle, this.getVelocity().getMagnitude() + 20),
+						this.getAngle() + angle, this.getEnvironment()));
 	}
 
 }

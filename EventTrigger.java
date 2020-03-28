@@ -13,23 +13,24 @@ public class EventTrigger extends StandardDObject {
 	public EventTrigger() {
 	}
 
-	public EventTrigger(Vector position, CustomPolygon bounds, String message) {
-		super(position, new Vector(0, 0), 0, Math.PI / 2, 0, 0, 0, 0);
+	public EventTrigger(Vector position, CustomPolygon bounds, String message, PhysicsBox environment) {
+		super(position, new Vector(0, 0), 0, Math.PI / 2, 0, 0, 0, 0, environment);
 		this.setBounds(bounds);
 		this.message = message;
 	}
 
-	public EventTrigger(Vector position, String message) {
-		super(position, new Vector(0, 0), 0, Math.PI / 2, 0, 0, 0, 0);
+	public EventTrigger(Vector position, String message, PhysicsBox environment) {
+		super(position, new Vector(0, 0), 0, Math.PI / 2, 0, 0, 0, 0, environment);
 		int[] x = { 200, -200, -200, 200 };
 		int[] y = { -200, -200, 200, 200 };
-		this.setBounds(new CustomPolygon(x,y,Color.white));
+		this.setBounds(new CustomPolygon(x, y, Color.white));
 		this.message = message;
 	}
 
 	public void checkForTrigger(Vector position) {
-		if (this.getBoundingPolygon().contains(position.getX() - this.getPosition().getX(),
-				position.getY() - this.getPosition().getY()))
+		if (this.getBoundingPolygon().contains(
+				(position.getX() - this.getPosition().getX()) * this.getEnvironment().getPixelsPerMetre(),
+				(position.getY() - this.getPosition().getY()) * this.getEnvironment().getPixelsPerMetre()))
 			this.trigger();
 	}
 
@@ -53,9 +54,10 @@ public class EventTrigger extends StandardDObject {
 	@Override
 	public void draw(Graphics g) {
 		Graphics2D ng = (Graphics2D) g;
-		ng.translate(this.getX(), this.getY());
+		ng.translate(this.getX() * this.getEnvironment().getPixelsPerMetre(),
+				this.getY() * this.getEnvironment().getPixelsPerMetre());
 		ng.rotate(this.getAngle());
-		for(CustomPolygon p:this.getBounds())
+		for (CustomPolygon p : this.getBounds())
 			p.draw(ng);
 		ng.setColor(Color.black);
 		if (this.triggered) {
@@ -70,7 +72,8 @@ public class EventTrigger extends StandardDObject {
 			}
 		}
 		ng.rotate(-this.getAngle());
-		ng.translate(-this.getX(), -this.getY());
+		ng.translate(-this.getX() * this.getEnvironment().getPixelsPerMetre(),
+				-this.getY() * this.getEnvironment().getPixelsPerMetre());
 	}
 
 }

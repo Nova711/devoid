@@ -1,21 +1,21 @@
-fuel c 4 0 0 smallPointedHull
-fuel c 0 -8 0 smallFSweptWingLERX
-fuel c 0 8 0 smallFSweptWingLERX R
-fuel c -24 -8 0 pointedFin
-fuel c -24 8 0 pointedFin R
-cockpit c 20 0 0 smallPointedOvalCockpit
-weapon c 8 -36 0 LCL25
-weapon c 8 36 0 LCL25 R
-cruise c -16 0 0 MFP59
-accel c -36 -8 0 MCN47
-accel c -36 8 0 MCN47 R
-deccel c 4 -28 1 LCN36
-deccel c 4 28 1 LCN36 R
-leftStrafe c 20 12 -0.5 FCN27 R
-leftStrafe c -20 12 -0.5 FCN27
-rightStrafe c 20 -12 0.5 FCN27
-rightStrafe c -20 -12 0.5 FCN27 R
-leftTurn c 20 -52 1 FCN27
-leftTurn c 20 52 0 FCN27 R
-rightTurn c 20 -52 0 FCN27
-rightTurn c 20 52 1 FCN27 R
+fuel c 0.5 0 0 smallPointedHull
+fuel c 0 -1 0 smallFSweptWingLERX
+fuel c 0 1 0 smallFSweptWingLERX R
+fuel c -3 -1 0 pointedFin
+fuel c -3 1 0 pointedFin R
+cockpit c 2.5 0 0 smallPointedOvalCockpit
+weapon c 1 -4.5 0 LCL25
+weapon c 1 4.5 0 LCL25 R
+cruise c -2 0 0 MFP59
+accel c -4.5 -1 0 MCN47
+accel c -4.5 1 0 MCN47 R
+deccel c 0.5 -3.5 1 LCN36
+deccel c 0.5 3.5 1 LCN36 R
+leftStrafe c 2.5 1.5 -0.5 FCN27 R
+leftStrafe c -2.5 1.5 -0.5 FCN27
+rightStrafe c 2.5 -1.5 0.5 FCN27
+rightStrafe c -2.5 -1.5 0.5 FCN27 R
+leftTurn c 2.5 -6.5 1 FCN27
+leftTurn c 2.5 6.5 0 FCN27 R
+rightTurn c 2.5 -6.5 0 FCN27
+rightTurn c 2.5 6.5 1 FCN27 R

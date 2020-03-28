@@ -12,8 +12,8 @@ public class StandardShipComponent extends StandardDObject implements ShipCompon
 	}
 
 	public StandardShipComponent(Vector position, Vector velocity, double hp, double angle, double mass,
-			double elasticity, double angularVelocity, double temperature) {
-		super(position, velocity, hp, angle, mass, elasticity, angularVelocity, temperature);
+			double elasticity, double angularVelocity, double temperature, PhysicsBox environment) {
+		super(position, velocity, hp, angle, mass, elasticity, angularVelocity, temperature, environment);
 	}
 
 	@Override

@@ -18,16 +18,16 @@ public class ComponentReader {
 	private CustomPolygon currentCustPoly = new CustomPolygon();
 	private Polygon tempPoly = new Polygon();
 	private int[] x = null, y = null;
+	private double[] tx, ty;
 	private boolean legacy = true;
 	private int[] ax;
 	private int[] ay;
 	private Color color, accentColor;
 
-	public ComponentReader(String fileName, String direction) {
+	public ComponentReader(String fileName, String direction, PhysicsBox environment) {
 		try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
-			while ((line = br.readLine()) != null) {
-				//Out.println(line);
-				if (line.equals("sc1")) {
+			while ((line = br.readLine().trim()) != null) {
+				if (line.equals("type scf")) {
 					this.legacy = false;
 				} else if (line.startsWith("hp")) {
 					this.setHP(Util.parseNextDouble(line));
@@ -55,6 +55,10 @@ public class ComponentReader {
 									}
 								}
 							}
+							for (int i = 0; i < x.length; i++) {
+								x[i] *= environment.getPixelsPerMetre();
+								y[i] *= environment.getPixelsPerMetre();
+							}
 							tempPoly = new Polygon(x, y, x.length);
 							currentCustPoly.addHole(tempPoly);
 						} else if (line.endsWith("body {")) {
@@ -67,6 +71,10 @@ public class ComponentReader {
 										y = Util.mirror(y);
 									}
 								}
+							}
+							for (int i = 0; i < x.length; i++) {
+								x[i] *= environment.getPixelsPerMetre();
+								y[i] *= environment.getPixelsPerMetre();
 							}
 							tempPoly = new Polygon(x, y, x.length);
 							currentCustPoly.setBounds(tempPoly);

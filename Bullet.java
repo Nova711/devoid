@@ -5,8 +5,8 @@ public class Bullet extends StandardDObject {
 	protected double hp = 5;
 	protected double mass = 50;
 
-	public Bullet(Vector position, Vector velocity, double angle) {
-		super(position, velocity, 5, angle, 50, 1, 0, 0);
+	public Bullet(Vector position, Vector velocity, double angle, PhysicsBox environment) {
+		super(position, velocity, 5, angle, 50, 1, 0, 0, environment);
 	}
 
 	@Override

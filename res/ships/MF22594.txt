@@ -1,47 +1,47 @@
-fuel c 8 0 0 jawSwordBlade
-fuel c -24 -8 0 spike
-fuel c -24 8 0 spike R
-fuel c -12 -8 0 smallSpike
-fuel c -12 8 0 smallSpike R
-cockpit c -16 0 0 smallLongTeardropCockpit
-weapon c 4 -4 0.5 FMC16
-weapon c 12 -4 0.5 FMC16
-weapon c 20 -4 0.5 FMC16
-weapon c 28 -4 0.5 FMC16
-weapon c 36 -4 0.5 FMC16
-weapon c 44 -4 0.5 FMC16
-weapon c 52 -4 0.5 FMC16
-weapon c 60 -4 0.5 FMC16
-weapon c 68 -4 0.5 FMC16
-weapon c 92 -4 0.5 FMC16
-weapon c 100 -4 0.5 FMC16
-weapon c 108 -4 0.5 FMC16
-weapon c 4 4 -0.5 FMC16 R
-weapon c 12 4 -0.5 FMC16 R
-weapon c 20 4 -0.5 FMC16 R
-weapon c 28 4 -0.5 FMC16 R
-weapon c 36 4 -0.5 FMC16 R
-weapon c 44 4 -0.5 FMC16 R
-weapon c 52 4 -0.5 FMC16 R
-weapon c 60 4 -0.5 FMC16 R
-weapon c 68 4 -0.5 FMC16 R
-weapon c 92 4 -0.5 FMC16 R
-weapon c 100 4 -0.5 FMC16 R
-weapon c 108 4 -0.5 FMC16 R
-accel c -20 -8 0 LCN9
-accel c -20 8 0 LCN9 R
-cruise c -28 -36 0 MCN9
-cruise c -28 36 0 MCN9 R
-deccel c 136 0 1 LCN9 R
-deccel c 136 0 1 LCN9
-leftStrafe c 76 4 -0.5 FCN9 R
-leftStrafe c 84 4 -0.5 FCN9 R
-leftStrafe c -76 4 -0.5 FCN9
-leftStrafe c -84 4 -0.5 FCN9
-rightStrafe c 76 -4 0.5 FCN9
-rightStrafe c 84 -4 0.5 FCN9
-rightStrafe c -76 -4 0.5 FCN9 R
-rightStrafe c -84 -4 0.5 FCN9 R
+fuel c 1 0 0 jawSwordBlade
+fuel c -3 -1 0 spike
+fuel c -3 1 0 spike R
+fuel c -1.5 -1 0 smallSpike
+fuel c -1.5 1 0 smallSpike R
+cockpit c -0.5 0 0 smallLongTeardropCockpit
+weapon c 0.5 -0.5 0.5 FMC16
+weapon c 1.5 -0.5 0.5 FMC16
+weapon c 2.5 -0.5 0.5 FMC16
+weapon c 3.5 -0.5 0.5 FMC16
+weapon c 4.5 -0.5 0.5 FMC16
+weapon c 5.5 -0.5 0.5 FMC16
+weapon c 6.5 -0.5 0.5 FMC16
+weapon c 7.5 -0.5 0.5 FMC16
+weapon c 8.5 -0.5 0.5 FMC16
+weapon c 11.5 -0.5 0.5 FMC16
+weapon c 12.5 -0.5 0.5 FMC16
+weapon c 13.5 -0.5 0.5 FMC16
+weapon c 0.5 0.5 -0.5 FMC16 R
+weapon c 1.5 0.5 -0.5 FMC16 R
+weapon c 2.5 0.5 -0.5 FMC16 R
+weapon c 3.5 0.5 -0.5 FMC16 R
+weapon c 4.5 0.5 -0.5 FMC16 R
+weapon c 5.5 0.5 -0.5 FMC16 R
+weapon c 6.5 0.5 -0.5 FMC16 R
+weapon c 7.5 0.5 -0.5 FMC16 R
+weapon c 8.5 0.5 -0.5 FMC16 R
+weapon c 11.5 0.5 -0.5 FMC16 R
+weapon c 12.5 0.5 -0.5 FMC16 R
+weapon c 13.5 0.5 -0.5 FMC16 R
+accel c -2.5 -1 0 LCN9
+accel c -2.5 1 0 LCN9 R
+cruise c -3.5 -4.5 0 MCN9
+cruise c -3.5 4.5 0 MCN9 R
+deccel c 17 0 1 LCN9 R
+deccel c 17 0 1 LCN9
+leftStrafe c 9.5 0.5 -0.5 FCN9 R
+leftStrafe c 10.5 0.5 -0.5 FCN9 R
+leftStrafe c -9.5 0.5 -0.5 FCN9
+leftStrafe c -10.5 0.5 -0.5 FCN9
+rightStrafe c 9.5 -0.5 0.5 FCN9
+rightStrafe c 10.5 -0.5 0.5 FCN9
+rightStrafe c -9.5 -0.5 0.5 FCN9 R
+rightStrafe c -10.5 -0.5 0.5 FCN9 R
 leftTurn ls 0
 leftTurn ls 1
 leftTurn rs 2

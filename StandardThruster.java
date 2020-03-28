@@ -22,16 +22,17 @@ public class StandardThruster extends StandardShipComponent implements Thruster 
 
 	}
 
-	public StandardThruster(Vector position, double angle) {
-		this(position, angle, 500);
+	public StandardThruster(Vector position, double angle, PhysicsBox environment) {
+		this(position, angle, 500, environment);
 	}
 
-	public StandardThruster(Vector position, double angle, double maxThrust) {
-		this(position, angle, maxThrust, 100);
+	public StandardThruster(Vector position, double angle, double maxThrust, PhysicsBox environment) {
+		this(position, angle, maxThrust, 100, environment);
 	}
 
-	public StandardThruster(Vector position, double angle, double maxThrust, double specificImpulse) {
-		super(position, new Vector(0, 0), 5, angle, 50, 1, 0, 0);
+	public StandardThruster(Vector position, double angle, double maxThrust, double specificImpulse,
+			PhysicsBox environment) {
+		super(position, new Vector(0, 0), 5, angle, 50, 1, 0, 0, environment);
 		this.maxThrust = maxThrust;
 		this.specificImpulse = specificImpulse;
 		int[] x = { 20, -4, -4, 20 };
@@ -73,11 +74,11 @@ public class StandardThruster extends StandardShipComponent implements Thruster 
 	@Override
 	public Vector thrust(FuelTank fuel) {
 		double fuelDrain = this.maxThrust * this.throttle / 100 / this.specificImpulse
-				/ (double) this.getEnvironment().getTickrate() * 4;
+				/ (double) this.getEnvironment().getTickrate();
 		if (fuelDrain <= fuel.getFuel()) {
 			fuel.drain(fuelDrain);
 			return new Vector(this.getAngle() - this.thrustOffset,
-					this.maxThrust * this.throttle / 100 / (double) this.getEnvironment().getTickrate() * 4);
+					this.maxThrust * this.throttle / 100 / (double) this.getEnvironment().getTickrate());
 		}
 		return new Vector(0, 0);
 	}

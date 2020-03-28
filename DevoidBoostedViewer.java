@@ -167,26 +167,29 @@ class PhysicsBox extends JComponent implements Runnable {
 	protected int slowDown = 1;
 	public int player;
 	private int tickrate = 32;
-	StandardShip playerShip = new FileShip(Util.src + "\\ships\\" + "MF22594" + ".txt");
+	private int pixelsPerMetre = 8;
+	StandardShip playerShip = new FileShip(Util.src + "\\ships\\" + "MF22594" + ".txt", this);
 	// new StandardShip(new Vector(0, 0), new Vector(0, 0.0000001), 100);
 	StandardGUI playerGUI = new StandardGUI();
-	CelestialBody testPlanet = new CelestialBody(new Vector(0, 10000), 5.972 * Math.pow(10, 18), 1000, 100);
+	CelestialBody testPlanet = new CelestialBody(new Vector(0, 10000), 5.972 * Math.pow(10, 18), 1000, 100, this);
 
 	public PhysicsBox() {
-		testPlanet.setEnvironment(this);
 		// objects.add(testPlanet);
 		player = 0;
 
-		events.add(new EventTrigger(new Vector(0, 0), "Tap the w key to move forward"));
-		events.add(new EventTrigger(new Vector(0, 400), "Tap the s key to stop\nTap the a key to move left"));
-		events.add(new EventTrigger(Vector.fromXY(400, -400), "Tap the d key to stop\nTap the s key to move down"));
-		events.add(new EventTrigger(Vector.fromXY(-400, -400), "Tap the w key to stop\nTap the d key to move right"));
+		events.add(new EventTrigger(new Vector(0, 0), "Tap the w key to move forward", this));
+		events.add(new EventTrigger(new Vector(0, 400), "Tap the s key to stop\nTap the a key to move left", this));
+		events.add(
+				new EventTrigger(Vector.fromXY(400, -400), "Tap the d key to stop\nTap the s key to move down", this));
+		events.add(new EventTrigger(Vector.fromXY(-400, -400), "Tap the w key to stop\nTap the d key to move right",
+				this));
 		events.add(new EventTrigger(Vector.fromXY(-400, 400),
-				"Tap the a key to stop\nUse the left and right arrow\nkeys to turn until the red\nline faces up then move forward"));
+				"Tap the a key to stop\nUse the left and right arrow\nkeys to turn until the red\nline faces up then move forward",
+				this));
 		events.add(new EventTrigger(new Vector(Math.PI / 4, 1000),
-				"Deccelerate\nThe red line shows the location\nof your navpoint\nfollow it"));
+				"Deccelerate\nThe red line shows the location\nof your navpoint\nfollow it", this));
 		events.add(new EventTrigger(new Vector(3 * Math.PI / 4, 1500),
-				"You can change your throttle\nwith the up and down arrow\nkeys"));
+				"You can change your throttle\nwith the up and down arrow\nkeys", this));
 		objects.addAll(events);
 		/*
 		 * for (int i = 0; i < 50; i++) { StandardMissile m1 = new FileMissile(new
@@ -199,14 +202,14 @@ class PhysicsBox extends JComponent implements Runnable {
 		Vector pos = new Vector(3 * Math.PI / 4, 1500);
 		double x = pos.getX();
 		double y = pos.getY();
-		FileShip temp = new FileShip(Util.src + "\\ships\\" + "LF91A.txt");
+		FileShip temp = new FileShip(Util.src + "\\ships\\" + "LF91A.txt", this);
 		temp.setPosition(Vector.fromXY(x, y + 300));
 		objects.add(temp);
-		temp = new FileShip(Util.src + "\\ships\\" + "LT172.txt");
+		temp = new FileShip(Util.src + "\\ships\\" + "LT172.txt", this);
 		temp.setPosition(Vector.fromXY(x - 100, y + 300));
 		objects.add(temp);
 		objects.add(playerShip);
-		playerShip.setThrottle(15);
+		playerShip.setThrottle(50);
 		this.atStart = true;
 		for (DObject obj : this.objects)
 			obj.setEnvironment(this);
@@ -292,6 +295,14 @@ class PhysicsBox extends JComponent implements Runnable {
 		this.tickrate = tickrate;
 	}
 
+	public int getPixelsPerMetre() {
+		return pixelsPerMetre;
+	}
+
+	public void setPixelsPerMetre(int pixelsPerMetre) {
+		this.pixelsPerMetre = pixelsPerMetre;
+	}
+
 	public void start() {
 		this.atStart = false;
 	}
@@ -301,7 +312,7 @@ class PhysicsBox extends JComponent implements Runnable {
 			e.reset();
 		}
 		String shipName = "LF109";
-		switch ((int) (Math.random() * 21)) {
+		switch ((int) (Math.random() * 18)) {
 		case 0: {
 			shipName = "LF109";
 			break;
@@ -366,26 +377,18 @@ class PhysicsBox extends JComponent implements Runnable {
 			shipName = "MF18002";
 			break;
 		}
-		case 17: {
+		case 16: {
 			shipName = "MF86";
 			break;
 		}
-		case 18: {
-			shipName = "LF21315";
-			break;
-		}
-		case 19: {
-			shipName = "LF79";
-			break;
-		}
-		case 20: {
+		case 17: {
 			shipName = "MF22594";
 			break;
 		}
 		}
-		playerShip = new FileShip(Util.src + "\\ships\\" + shipName + ".txt");
+		playerShip = new FileShip(Util.src + "\\ships\\" + shipName + ".txt", this);
 		objects.add(playerShip);
-		playerShip.setThrottle(15);
+		playerShip.setThrottle(50);
 		playerShip.setEnvironment(this);
 	}
 
@@ -397,10 +400,11 @@ class PhysicsBox extends JComponent implements Runnable {
 		tx.translate(this.getBounds().getCenterX(), this.getBounds().getCenterY());
 		tx.rotate(-playerShip.getAngle() - Math.PI / 2);
 		tx.scale(this.scale, this.scale);
-		Vector cameraPos = this.playerShip.cockPit.getPosition().rotate(this.playerShip.getAngle());
+		Vector cameraPos = this.playerShip.cockPit.getPosition().rotate(this.playerShip.getAngle())
+				.scalarMultiply(this.getPixelsPerMetre());
 		tx.translate(-this.getBounds().getCenterX(), -this.getBounds().getCenterY());
-		tx.translate(-playerShip.getX() - cameraPos.getX() + this.getBounds().getCenterX(),
-				-playerShip.getY() - cameraPos.getY() + this.getBounds().getCenterY());
+		tx.translate(-playerShip.getX() * this.getPixelsPerMetre() - cameraPos.getX() + this.getBounds().getCenterX(),
+				-playerShip.getY() * this.getPixelsPerMetre() - cameraPos.getY() + this.getBounds().getCenterY());
 		ng.transform(tx);
 		ng.setColor(Color.gray);
 		for (int i = -100; i < 100; i++) {

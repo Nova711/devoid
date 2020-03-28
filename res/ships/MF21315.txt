@@ -1,20 +1,20 @@
-fuel c -28 0 0 swordBlade
-fuel c -28 0 0 trapezoidCrosspiece
-cockpit c -24 0 0 smallOvalCockpit
-weapon c 36 0 0 HEL431
-accel c -28 -44 0 MCN9
-accel c -28 44 0 MCN9 R
-cruise c -76 0 0 HCN9
-deccel c -24 -8 1 LCN9 R
-deccel c -24 8 1 LCN9
-leftStrafe c 48 4 -0.5 FCN9
-leftStrafe c 48 4 -0.5 FCN9 R
-leftStrafe c -48 4 -0.5 FCN9
-leftStrafe c -48 4 -0.5 FCN9 R
-rightStrafe c 48 -4 0.5 FCN9
-rightStrafe c 48 -4 0.5 FCN9 R
-rightStrafe c -48 -4 0.5 FCN9
-rightStrafe c -48 -4 0.5 FCN9 R
+fuel c -3.5 0 0 swordBlade
+fuel c -3.5 0 0 trapezoidCrosspiece
+cockpit c -3 0 0 smallOvalCockpit
+weapon c 4.5 0 0 HEL431
+accel c -3.5 -5.5 0 MCN9
+accel c -3.5 5.5 0 MCN9 R
+cruise c -9.5 0 0 HCN9
+deccel c -3 -1 1 LCN9 R
+deccel c -3 1 1 LCN9
+leftStrafe c 6 0.5 -0.5 FCN9
+leftStrafe c 6 0.5 -0.5 FCN9 R
+leftStrafe c -6 0.5 -0.5 FCN9
+leftStrafe c -6 0.5 -0.5 FCN9 R
+rightStrafe c 6 -0.5 0.5 FCN9
+rightStrafe c 6 -0.5 0.5 FCN9 R
+rightStrafe c -6 -0.5 0.5 FCN9
+rightStrafe c -6 -0.5 0.5 FCN9 R
 leftTurn ls 0
 leftTurn ls 1
 leftTurn rs 2

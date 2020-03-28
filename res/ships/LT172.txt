@@ -1,13 +1,13 @@
 fuel c 0 0 0 smallRectHull
-cockpit c 2 0 0 smallOvalCockpit
-accel c -22 -14 0 FCN9
-accel c -22 14 0 FCN9 R
-deccel c 22 -14 1 FCN9 R
-deccel c 22 14 1 FCN9
-leftStrafe c 14 16 -0.5 FCN7 R
-leftStrafe c -14 16 -0.5 FCN7
-rightStrafe c 14 -16 0.5 FCN7
-rightStrafe c -14 -16 0.5 FCN7 R
+cockpit c 0 0 0 smallOvalCockpit
+accel c -2.75 -1.75 0 FCN9
+accel c -2.75 1.75 0 FCN9 R
+deccel c 2.75 -1.75 1 FCN9 R
+deccel c 2.75 1.75 1 FCN9
+leftStrafe c 1.75 2 -0.5 FCN7 R
+leftStrafe c -1.75 2 -0.5 FCN7
+rightStrafe c 1.75 -2 0.5 FCN7
+rightStrafe c -1.75 -2 0.5 FCN7 R
 leftTurn ls 0
 leftTurn rs 1
 rightTurn ls 1

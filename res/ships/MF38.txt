@@ -1,24 +1,24 @@
-fuel c 6 0 0 fighterHull
-fuel c -6 0 0 smallLongHullExtension
-fuel c -2 -16 0 trapezoidWing
-fuel c -2 16 0 trapezoidWing R
-fuel c 18 -32 0 smallDropTank
-fuel c 10 -48 0 smallDropTank
-fuel c 2 -64 0 smallDropTank
-fuel c 18 32 0 smallDropTank
-fuel c 10 48 0 smallDropTank
-fuel c 2 64 0 smallDropTank
-cockpit c 38 0 0 pointedOvalCockpit
-weapon c 50 0 0 LCL29 R
-accel c -34 -8 0 MCN81
-accel c -34 8 0 MCN81 R
-deccel c 26 -8 1 LCN81 R
-deccel c 26 8 1 LCN81
-leftStrafe c 30 14 -0.5 FCN13 R
-leftStrafe c -30 14 -0.5 FCN13 R
-rightStrafe c 30 -14 0.5 FCN13
-rightStrafe c -30 -14 0.5 FCN13
-leftTurn c -2 -80 1 LCN81 R
-leftTurn c -18 80 0 LCN81 R
-rightTurn c -2 80 1 LCN81
-rightTurn c -18 -80 0 LCN81
+fuel c 0.75 0 0 fighterHull
+fuel c -0.75 0 0 smallLongHullExtension
+fuel c -0.25 -2 0 trapezoidWing
+fuel c -0.25 2 0 trapezoidWing R
+fuel c 2.25 -4 0 smallDropTank
+fuel c 1.25 -6 0 smallDropTank
+fuel c 0.25 -8 0 smallDropTank
+fuel c 2.25 4 0 smallDropTank
+fuel c 1.25 6 0 smallDropTank
+fuel c 0.25 8 0 smallDropTank
+cockpit c 4.75 0 0 pointedOvalCockpit
+weapon c 6.25 0 0 LCL29 R
+accel c -4.25 -1 0 MCN81
+accel c -4.25 1 0 MCN81 R
+deccel c 3.25 -1 1 LCN81 R
+deccel c 3.25 1 1 LCN81
+leftStrafe c 3.75 1.75 -0.5 FCN13 R
+leftStrafe c -3.75 1.75 -0.5 FCN13 R
+rightStrafe c 3.75 -1.75 0.5 FCN13
+rightStrafe c -3.75 -1.75 0.5 FCN13
+leftTurn c -0.25 -10 1 LCN81 R
+leftTurn c -2.25 10 0 LCN81 R
+rightTurn c -0.25 10 1 LCN81
+rightTurn c -2.25 -10 0 LCN81

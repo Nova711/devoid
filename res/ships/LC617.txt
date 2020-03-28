@@ -1,19 +1,19 @@
-fuel c -24 0 0 smallUHull
-fuel c 36 -16 1 smallThinPylon
-fuel c 36 16 0 smallThinPylon
-fuel c -12 -16 1 smallThinPylon
-fuel c -12 16 0 smallThinPylon
-fuel c 12 0 0 standardShippingContainer
-cockpit c -32 0 0 smallCircleCockpit
-accel c -46 -20 0 FCN13
-accel c -46 20 0 FCN13 R
-deccel c 46 -20 1 FCN13 R
-deccel c 46 20 1 FCN13
-leftStrafe c 38 20 -0.5 FCN14 R
-leftStrafe c -38 20 -0.5 FCN14
-rightStrafe c 38 -20 0.5 FCN14
-rightStrafe c -38 -20 0.5 FCN14 R
-leftTurn c 42 20 -0.5 FCN14 R
-leftTurn c -42 -20 0.5 FCN14 R
-rightTurn c -42 20 -0.5 FCN14
-rightTurn c 42 -20 0.5 FCN14
+fuel c -3 0 0 smallUHull
+fuel c 4.5 -2 1 smallThinPylon
+fuel c 4.5 2 0 smallThinPylon
+fuel c -1.5 -2 1 smallThinPylon
+fuel c -1.5 2 0 smallThinPylon
+fuel c 1.5 0 0 standardShippingContainer
+cockpit c -4 0 0 smallCircleCockpit
+accel c -5.75 -2.5 0 FCN13
+accel c -5.75 2.5 0 FCN13 R
+deccel c 5.75 -2.5 1 FCN13 R
+deccel c 5.75 2.5 1 FCN13
+leftStrafe c 4.75 2.5 -0.5 FCN14 R
+leftStrafe c -4.75 2.5 -0.5 FCN14
+rightStrafe c 4.75 -2.5 0.5 FCN14
+rightStrafe c -4.75 -2.5 0.5 FCN14 R
+leftTurn c 5.25 2.5 -0.5 FCN14 R
+leftTurn c -5.25 -2.5 0.5 FCN14 R
+rightTurn c -5.25 2.5 -0.5 FCN14
+rightTurn c 5.25 -2.5 0.5 FCN14

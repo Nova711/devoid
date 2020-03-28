@@ -1,18 +1,18 @@
-fuel c -24 -8 0 smallHullPod
-fuel c -28 0 0 fSerpentineWing R
-fuel c -28 -20 0 smallDropTank
-fuel c -28 8 0 pointedFin R
-cockpit c -24 -8 0 smallOvalCockpit
-weapo n c 50 0 0 LEL29 R
-accel c -38 0 0 MCN81 R
-deccel c 44 0 1 LCN81 R
-deccel c 32 0 1 LCN81
-leftStrafe c 0 20 -0.5 LCN9 R
-rightStrafe c 0 16 0.5 LCN9 R
-leftStrafe c 16 16 -0.5 LCN9 R
-leftStrafe c -16 16 -0.5 LCN9
-rightStrafe c -16 12 0.5 LCN9
-rightStrafe c 16 12 0.5 LCN9 R
+fuel c -3 -1 0 smallHullPod
+fuel c -3.5 0 0 fSerpentineWing R
+fuel c -3.5 -2.5 0 smallDropTank
+fuel c -3.5 1 0 pointedFin R
+cockpit c -2.5 -1 0 smallOvalCockpit
+weapo n c 0.75 0 0 LEL29 R
+accel c -4.75 0 0 MCN81 R
+deccel c 5.5 0 1 LCN81 R
+deccel c 4 0 1 LCN81
+leftStrafe c 0 2.5 -0.5 LCN9 R
+rightStrafe c 0 2 0.5 LCN9 R
+leftStrafe c 2 2 -0.5 LCN9 R
+leftStrafe c -2 2 -0.5 LCN9
+rightStrafe c -2 1.5 0.5 LCN9
+rightStrafe c 2 1.5 0.5 LCN9 R
 leftTurn ls 1
 leftTurn rs 1
 rightTurn ls 2
