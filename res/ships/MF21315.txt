@@ -1,6 +1,6 @@
 fuel c -3.5 0 0 swordBlade
 fuel c -3.5 0 0 trapezoidCrosspiece
-cockpit c -3 0 0 smallOvalCockpit
+cockpit c -3 0 0 smallSingleSeatOvalCockpit
 weapon c 4.5 0 0 HEL431
 accel c -3.5 -5.5 0 MCN9
 accel c -3.5 5.5 0 MCN9 R

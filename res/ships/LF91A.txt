@@ -3,7 +3,7 @@ fuel c -0.5 -1.5 0 smallWingWingtipF L
 fuel c -0.5 1.5 0 smallWingWingtipF R
 fuel c 3.5 -1 0 smallCanard L
 fuel c 3.5 1 0 smallCanard R
-cockpit c 0 0 0 smallOvalCockpit
+cockpit c 0 0 0 smallSingleSeatOvalCockpit
 weapon c 4.5 0 0 LCK27
 accel c -1 -1 0 LCN9A L
 accel c -1 1 0 LCN9A R

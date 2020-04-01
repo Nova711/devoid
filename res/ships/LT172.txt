@@ -1,5 +1,5 @@
 fuel c 0 0 0 smallRectHull
-cockpit c 0 0 0 smallOvalCockpit
+cockpit c 0 0 0 smallTwoSeatOvalCockpit
 accel c -2.75 -1.75 0 FCN9
 accel c -2.75 1.75 0 FCN9 R
 deccel c 2.75 -1.75 1 FCN9 R

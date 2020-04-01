@@ -168,7 +168,7 @@ class PhysicsBox extends JComponent implements Runnable {
 	public int player;
 	private int tickrate = 32;
 	private int pixelsPerMetre = 8;
-	StandardShip playerShip = new FileShip(Util.src + "\\ships\\" + "MF22594" + ".txt", this);
+	StandardShip playerShip = new FileShip(Util.src + "\\ships\\" + "MF18002" + ".txt", this);
 	// new StandardShip(new Vector(0, 0), new Vector(0, 0.0000001), 100);
 	StandardGUI playerGUI = new StandardGUI();
 	CelestialBody testPlanet = new CelestialBody(new Vector(0, 10000), 5.972 * Math.pow(10, 18), 1000, 100, this);

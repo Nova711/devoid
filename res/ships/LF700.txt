@@ -2,7 +2,7 @@ fuel c -3 -1 0 smallHullPod
 fuel c -3.5 0 0 fSerpentineWing R
 fuel c -3.5 -2.5 0 smallDropTank
 fuel c -3.5 1 0 pointedFin R
-cockpit c -2.5 -1 0 smallOvalCockpit
+cockpit c -2.5 -1 0 smallSingleSeatOvalCockpit
 weapo n c 0.75 0 0 LEL29 R
 accel c -4.75 0 0 MCN81 R
 deccel c 5.5 0 1 LCN81 R
