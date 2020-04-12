@@ -2,10 +2,10 @@ package devoid_boosted;
 
 public class FileThruster extends StandardThruster {
 	public FileThruster(Vector position, double angle, String fileName, String direction, String color,
-			String accentColor, PhysicsBox environment) {
+			String accentColor, PhysicsBox environment, PaintJob paint) {
 		this.setPosition(position);
 		this.setAngle(angle);
-		ComponentReader cr = new ComponentReader(fileName, direction, environment);
+		ComponentReader cr = new ComponentReader(fileName, direction, environment, paint);
 		this.setMass(cr.getMass());
 		this.setMaxThrust(cr.getMaxThrust());
 		this.setSpecificImpulse(cr.getSpecificImpulse());

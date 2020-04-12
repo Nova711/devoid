@@ -154,7 +154,7 @@ public class StandardShip extends StandardDObject implements Ship {
 		g.drawLine(0, 0, 25, 0);
 		g.setColor(Color.green);
 		g.drawArc(-25, -25, 50, 50, 0,
-				(int) -Math.toDegrees(this.getAngularVelocity() * 50 / (double) this.getEnvironment().getTickrate()));// displays
+				(int) -Math.toDegrees(this.getAngularVelocity() * 25 / (double) this.getEnvironment().getTickrate()));// displays
 																														// the
 																														// angular
 		// velocity of this ship

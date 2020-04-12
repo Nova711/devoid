@@ -4,9 +4,9 @@ type kinetic
 shoots standardBullet
 velocity 100
 spread 0.25
-color 255,255,240
+color 201,201,201
 x 0,-4,-8,0
 y -4,-4,0,0
-accentColor 255,0,0
+accentColor 123,55,123
 ax 1,0,-1,-1,0,1
 ay -3,-4,-4,0,0,-1

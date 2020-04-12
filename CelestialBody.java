@@ -10,16 +10,19 @@ public class CelestialBody extends StandardDObject {
 
 	private double radius;
 	private double atmosphereHeight;
+	private double atmosphereDensity;
 	private Color color;
 	private Color accentColor;
 
 	public CelestialBody() {
 	}
 
-	public CelestialBody(Vector position, double mass, double radius, double atmosphereHeight, PhysicsBox environment) {
+	public CelestialBody(Vector position, double mass, double radius, double atmosphereHeight, double atmosphereDensity,
+			PhysicsBox environment) {
 		this(position, new Vector(0, 0), 1, 0, mass, 1, 0, 0, environment);
 		this.radius = radius;
 		this.atmosphereHeight = atmosphereHeight;
+		this.atmosphereDensity = atmosphereDensity;
 		this.setColor(new Color(0x228B22));
 		this.setAccentColor(new Color(0x87CEEB));
 	}
@@ -32,15 +35,22 @@ public class CelestialBody extends StandardDObject {
 	@Override
 	public void draw(Graphics g) {
 		Graphics2D ng = (Graphics2D) g;
-		ng.translate(this.getX(), this.getY());
+		ng.translate(this.getX() * this.getEnvironment().getPixelsPerMetre(),
+				this.getY() * this.getEnvironment().getPixelsPerMetre());
 		ng.rotate(this.getAngle());
 		ng.setColor(this.getAccentColor());
-		ng.fillOval((int) -(this.radius + this.atmosphereHeight), (int) -(this.radius + this.atmosphereHeight),
-				2 * (int) (this.radius + this.atmosphereHeight), 2 * (int) (this.radius + this.atmosphereHeight));
+		ng.fillOval((int) -(this.radius + this.atmosphereHeight) * this.getEnvironment().getPixelsPerMetre(),
+				(int) -(this.radius + this.atmosphereHeight) * this.getEnvironment().getPixelsPerMetre(),
+				2 * (int) (this.radius + this.atmosphereHeight) * this.getEnvironment().getPixelsPerMetre(),
+				2 * (int) (this.radius + this.atmosphereHeight) * this.getEnvironment().getPixelsPerMetre());
 		ng.setColor(this.getColor());
-		ng.fillOval((int) -this.radius, (int) -this.radius, 2 * (int) this.radius, 2 * (int) this.radius);
+		ng.fillOval((int) -this.radius * this.getEnvironment().getPixelsPerMetre(),
+				(int) -this.radius * this.getEnvironment().getPixelsPerMetre(),
+				2 * (int) this.radius * this.getEnvironment().getPixelsPerMetre(),
+				2 * (int) this.radius * this.getEnvironment().getPixelsPerMetre());
 		ng.rotate(-this.getAngle());
-		ng.translate(-this.getX(), -this.getY());
+		ng.translate(-this.getX() * this.getEnvironment().getPixelsPerMetre(),
+				-this.getY() * this.getEnvironment().getPixelsPerMetre());
 	}
 
 	public void update() {
@@ -54,7 +64,9 @@ public class CelestialBody extends StandardDObject {
 					} else if (this.getPosition().subtract(obj.getPosition()).getMagnitude() < this.radius
 							+ this.atmosphereHeight) {
 						obj.setVelocity(
-								new Vector(obj.getVelocity().getAngle(), obj.getVelocity().getMagnitude() * 0.9));
+								new Vector(obj.getVelocity().getAngle(), obj.getVelocity().getMagnitude() * 0.99));
+						obj.applyForce(Util.calculateAirResistance(this.atmosphereDensity, 0.2, 50,
+								obj.getVelocity().subtract(this.getVelocity())), Vector.zero);
 					}
 				}
 			}

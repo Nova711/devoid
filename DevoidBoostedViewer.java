@@ -168,12 +168,21 @@ class PhysicsBox extends JComponent implements Runnable {
 	public int player;
 	private int tickrate = 32;
 	private int pixelsPerMetre = 8;
-	StandardShip playerShip = new FileShip(Util.src + "\\ships\\" + "MF18002" + ".txt", this);
+	StandardShip playerShip = new FileShip(Util.src + "\\ships\\" + "LF91A" + ".txt", this);
 	// new StandardShip(new Vector(0, 0), new Vector(0, 0.0000001), 100);
 	StandardGUI playerGUI = new StandardGUI();
-	CelestialBody testPlanet = new CelestialBody(new Vector(0, 10000), 5.972 * Math.pow(10, 18), 1000, 100, this);
+	CelestialBody testPlanet = new CelestialBody(new Vector(0, 10000), 5.972 * Math.pow(10, 16), 1000, 100, 1.225,
+			this);
+
+	// debug metrics
+	private boolean debug = true;
+	private int entitiesInView;
+	private int currentDelay;
+	private int currentFrameRate;
+	private long prevDrawStartTime;
 
 	public PhysicsBox() {
+		testPlanet.setVelocity(new Vector(Math.PI, 5));
 		// objects.add(testPlanet);
 		player = 0;
 
@@ -204,10 +213,10 @@ class PhysicsBox extends JComponent implements Runnable {
 		double y = pos.getY();
 		FileShip temp = new FileShip(Util.src + "\\ships\\" + "LF91A.txt", this);
 		temp.setPosition(Vector.fromXY(x, y + 300));
-		objects.add(temp);
+		// objects.add(temp);
 		temp = new FileShip(Util.src + "\\ships\\" + "LT172.txt", this);
 		temp.setPosition(Vector.fromXY(x - 100, y + 300));
-		objects.add(temp);
+		// objects.add(temp);
 		objects.add(playerShip);
 		playerShip.setThrottle(50);
 		this.atStart = true;
@@ -393,6 +402,8 @@ class PhysicsBox extends JComponent implements Runnable {
 	}
 
 	public void paint(Graphics g) {
+		this.currentFrameRate = (int) (1 / (double) (System.currentTimeMillis() - this.prevDrawStartTime)*1000);
+		this.prevDrawStartTime = System.currentTimeMillis();
 		Graphics2D ng = (Graphics2D) g;
 		ng.setColor(Color.black);
 		ng.fillRect(-1, -1, (int) this.getBounds().getWidth() + 1, (int) this.getBounds().getHeight() + 1);
@@ -418,13 +429,15 @@ class PhysicsBox extends JComponent implements Runnable {
 				}
 			}
 		}
+		this.entitiesInView = 0;
 		for (int i = 0; i < objects.size(); i++) {
-			if (!(objects.get(i).equals(playerShip) | objects.get(i).getPosition().subtract(playerShip.getPosition())
-					.getMagnitude() > 2 * 1 / this.scale * Math.sqrt(
-							Math.pow(this.getBounds().getWidth(), 2) + Math.pow(this.getBounds().getHeight(), 2))))
+			if (!(objects.get(i).getPosition().subtract(playerShip.getPosition()).getMagnitude()
+					* this.getPixelsPerMetre() > 2 * 1 / this.scale * Math.sqrt(
+							Math.pow(this.getBounds().getWidth(), 2) + Math.pow(this.getBounds().getHeight(), 2)))) {
 				objects.get(i).draw(ng);
+				this.entitiesInView++;
+			}
 		}
-		playerShip.draw(ng);
 		ng.setColor(Color.cyan);
 		Vector forceLine = Util.calculateGravity(this.testPlanet.getMass(), this.playerShip.getMass(),
 				this.testPlanet.getPosition(), this.playerShip.getPosition());
@@ -440,6 +453,18 @@ class PhysicsBox extends JComponent implements Runnable {
 			e.printStackTrace();
 		}
 		playerGUI.draw(playerShip, this.getBounds(), ng);
+		if (this.debug) {
+			ng.setColor(Color.white);
+			ng.fillRect(0, 0, (int) (this.getBounds().getWidth() / 8 + 2),
+					(int) (this.getBounds().getHeight() / 8 + 2));
+			ng.setColor(Color.black);
+			ng.fillRect(0, 0, (int) (this.getBounds().getWidth() / 8), (int) (this.getBounds().getHeight() / 8));
+			ng.setColor(Color.white);
+			Util.drawText("E:" + this.objects.size(), 5, 10, ng);
+			Util.drawText("EIV:" + this.entitiesInView, 5, 20, ng);
+			Util.drawText("CD:" + this.currentDelay, 5, 30, ng);
+			Util.drawText("CFR:" + this.currentFrameRate, 5, 40, ng);
+		}
 		if (this.atStart) {
 			ng.setColor(Color.black);
 			ng.fillRect(0, 0, this.getBounds().width, this.getBounds().height);
@@ -492,6 +517,7 @@ class PhysicsBox extends JComponent implements Runnable {
 				pauseTime = (long) ((1 / (double) this.getTickrate()) * 1000 - (endTime - startTime));
 				// in_out.Out.println(startTime+" "+endTime+" "+pauseTime+" "+(double)pauseTime
 				// / 1000);
+				this.currentDelay = (int) pauseTime;
 				if (pauseTime > 0) {
 					Util.timeout(pauseTime * this.slowDown);
 				}

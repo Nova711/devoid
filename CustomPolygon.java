@@ -19,7 +19,7 @@ public class CustomPolygon {
 	}
 
 	public CustomPolygon(int[] xPoints, int[] yPoints, Color color) {
-		this(new Polygon(xPoints, yPoints, xPoints.length), color);
+		this(new Polygon(xPoints, yPoints, xPoints.length > yPoints.length ? yPoints.length : xPoints.length), color);
 	}
 
 	public CustomPolygon(int[] xPoints, int[] yPoints) {

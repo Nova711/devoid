@@ -10,7 +10,7 @@ weapon c -3 -5.75 0 LEP83
 weapon c -3 5.75 0 LEP83
 cruise c -2 0 0 MFP124
 cruise c -5 -5.75 0 LFP49
-cruise c -5 5.75 0 LFP49
+cruise c -5 5.75 0 LFP49 R
 accel c -5 -6 0 LCN9B
 accel c -5 -5.5 0 LCN9B R
 accel c -5 6 0 LCN9B R

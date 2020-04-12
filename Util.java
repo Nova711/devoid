@@ -1,5 +1,6 @@
 package devoid_boosted;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.io.File;
 
@@ -10,7 +11,11 @@ public class Util {
 	public static double G = 6.67 * Math.pow(10, -11);
 
 	public static double parseNextDouble(String s) {
-		return Double.parseDouble(s.substring(s.indexOf(" ")));
+		return Util.parseNextDouble(s, " ");
+	}
+
+	public static double parseNextDouble(String s, String delimiter) {
+		return Double.parseDouble(s.substring(s.indexOf(delimiter)));
 	}
 
 	public static int[] parseIntArray(String values) {
@@ -29,6 +34,17 @@ public class Util {
 			retValues[i] = Double.parseDouble(arr[i].trim());
 		}
 		return retValues;
+	}
+
+	public static Color parseColor(String color) {
+		return Util.parseColor(Util.parseIntArray(color));
+	}
+
+	public static Color parseColor(int[] rgb) {
+		if (rgb.length == 3)
+			return new Color(rgb[0], rgb[1], rgb[2]);
+		else
+			return new Color(rgb[0], rgb[1], rgb[2], rgb[3]);
 	}
 
 	public static int[] mirror(int[] arr) {
