@@ -40,6 +40,14 @@ public class StandardShip extends StandardDObject implements Ship {
 	protected ArrayList<PowerSource> powerSources = new ArrayList<PowerSource>();
 	protected ArrayList<Battery> batteries = new ArrayList<Battery>();
 	protected Cockpit cockPit = new StandardCockpit();
+	
+	protected ArrayList<FuelTank> upperFuelTanks = new ArrayList<FuelTank>();
+	protected ArrayList<FuelTank> middleFuelTanks = new ArrayList<FuelTank>();
+	protected ArrayList<FuelTank> lowerFuelTanks = new ArrayList<FuelTank>();
+	protected ArrayList<Thruster> upperThrusters = new ArrayList<Thruster>();
+	protected ArrayList<Thruster> lowerThrusters = new ArrayList<Thruster>();
+	protected ArrayList<Weapon> upperWeapons = new ArrayList<Weapon>();
+	protected ArrayList<Weapon> lowerWeapons = new ArrayList<Weapon>();
 
 	public StandardShip() {
 
@@ -343,5 +351,245 @@ public class StandardShip extends StandardDObject implements Ship {
 		super.setEnvironment(b);
 		for (ShipComponent comp : this.shipComponents)
 			comp.setEnvironment(b);
+	}
+
+	public Vector getThrust() {
+		return thrust;
+	}
+
+	public void setThrust(Vector thrust) {
+		this.thrust = thrust;
+	}
+
+	public double getThrusterThrottle() {
+		return thrusterThrottle;
+	}
+
+	public void setThrusterThrottle(double thrusterThrottle) {
+		this.thrusterThrottle = thrusterThrottle;
+	}
+
+	public double getPrevAngularVelocity() {
+		return prevAngularVelocity;
+	}
+
+	public void setPrevAngularVelocity(double prevAngularVelocity) {
+		this.prevAngularVelocity = prevAngularVelocity;
+	}
+
+	public boolean isFlightMode() {
+		return flightMode;
+	}
+
+	public void setFlightMode(boolean flightMode) {
+		this.flightMode = flightMode;
+	}
+
+	public boolean isCruising() {
+		return isCruising;
+	}
+
+	public void setCruising(boolean isCruising) {
+		this.isCruising = isCruising;
+	}
+
+	public boolean isDampened() {
+		return isDampened;
+	}
+
+	public void setDampened(boolean isDampened) {
+		this.isDampened = isDampened;
+	}
+
+	public double getDelay() {
+		return delay;
+	}
+
+	public void setDelay(double delay) {
+		this.delay = delay;
+	}
+
+	public boolean isBounced() {
+		return bounced;
+	}
+
+	public void setBounced(boolean bounced) {
+		this.bounced = bounced;
+	}
+
+	public ArrayList<ShipComponent> getShipComponents() {
+		return shipComponents;
+	}
+
+	public void setShipComponents(ArrayList<ShipComponent> shipComponents) {
+		this.shipComponents = shipComponents;
+	}
+
+	public ArrayList<Thruster> getThrusters() {
+		return thrusters;
+	}
+
+	public void setThrusters(ArrayList<Thruster> thrusters) {
+		this.thrusters = thrusters;
+	}
+
+	public ArrayList<Thruster> getLeftStrafeThrusters() {
+		return leftStrafeThrusters;
+	}
+
+	public void setLeftStrafeThrusters(ArrayList<Thruster> leftStrafeThrusters) {
+		this.leftStrafeThrusters = leftStrafeThrusters;
+	}
+
+	public ArrayList<Thruster> getRightStrafeThrusters() {
+		return rightStrafeThrusters;
+	}
+
+	public void setRightStrafeThrusters(ArrayList<Thruster> rightStrafeThrusters) {
+		this.rightStrafeThrusters = rightStrafeThrusters;
+	}
+
+	public ArrayList<Thruster> getAccelThrusters() {
+		return accelThrusters;
+	}
+
+	public void setAccelThrusters(ArrayList<Thruster> accelThrusters) {
+		this.accelThrusters = accelThrusters;
+	}
+
+	public ArrayList<Thruster> getCruiseThrusters() {
+		return cruiseThrusters;
+	}
+
+	public void setCruiseThrusters(ArrayList<Thruster> cruiseThrusters) {
+		this.cruiseThrusters = cruiseThrusters;
+	}
+
+	public ArrayList<Thruster> getDeccelThrusters() {
+		return deccelThrusters;
+	}
+
+	public void setDeccelThrusters(ArrayList<Thruster> deccelThrusters) {
+		this.deccelThrusters = deccelThrusters;
+	}
+
+	public ArrayList<Thruster> getLeftTurnThrusters() {
+		return leftTurnThrusters;
+	}
+
+	public void setLeftTurnThrusters(ArrayList<Thruster> leftTurnThrusters) {
+		this.leftTurnThrusters = leftTurnThrusters;
+	}
+
+	public ArrayList<Thruster> getRightTurnThrusters() {
+		return rightTurnThrusters;
+	}
+
+	public void setRightTurnThrusters(ArrayList<Thruster> rightTurnThrusters) {
+		this.rightTurnThrusters = rightTurnThrusters;
+	}
+
+	public ArrayList<ReactionWheel> getReactionWheels() {
+		return reactionWheels;
+	}
+
+	public void setReactionWheels(ArrayList<ReactionWheel> reactionWheels) {
+		this.reactionWheels = reactionWheels;
+	}
+
+	public ArrayList<FuelTank> getFuelTanks() {
+		return fuelTanks;
+	}
+
+	public void setFuelTanks(ArrayList<FuelTank> fuelTanks) {
+		this.fuelTanks = fuelTanks;
+	}
+
+	public ArrayList<Weapon> getWeapons() {
+		return weapons;
+	}
+
+	public void setWeapons(ArrayList<Weapon> weapons) {
+		this.weapons = weapons;
+	}
+
+	public ArrayList<PowerSource> getPowerSources() {
+		return powerSources;
+	}
+
+	public void setPowerSources(ArrayList<PowerSource> powerSources) {
+		this.powerSources = powerSources;
+	}
+
+	public ArrayList<Battery> getBatteries() {
+		return batteries;
+	}
+
+	public void setBatteries(ArrayList<Battery> batteries) {
+		this.batteries = batteries;
+	}
+
+	public ArrayList<FuelTank> getUpperFuelTanks() {
+		return upperFuelTanks;
+	}
+
+	public void setUpperFuelTanks(ArrayList<FuelTank> upperFuelTanks) {
+		this.upperFuelTanks = upperFuelTanks;
+	}
+
+	public ArrayList<FuelTank> getMiddleFuelTanks() {
+		return middleFuelTanks;
+	}
+
+	public void setMiddleFuelTanks(ArrayList<FuelTank> middleFuelTanks) {
+		this.middleFuelTanks = middleFuelTanks;
+	}
+
+	public ArrayList<FuelTank> getLowerFuelTanks() {
+		return lowerFuelTanks;
+	}
+
+	public void setLowerFuelTanks(ArrayList<FuelTank> lowerFuelTanks) {
+		this.lowerFuelTanks = lowerFuelTanks;
+	}
+
+	public ArrayList<Thruster> getUpperThrusters() {
+		return upperThrusters;
+	}
+
+	public void setUpperThrusters(ArrayList<Thruster> upperThrusters) {
+		this.upperThrusters = upperThrusters;
+	}
+
+	public ArrayList<Thruster> getLowerThrusters() {
+		return lowerThrusters;
+	}
+
+	public void setLowerThrusters(ArrayList<Thruster> lowerThrusters) {
+		this.lowerThrusters = lowerThrusters;
+	}
+
+	public ArrayList<Weapon> getUpperWeapons() {
+		return upperWeapons;
+	}
+
+	public void setUpperWeapons(ArrayList<Weapon> upperWeapons) {
+		this.upperWeapons = upperWeapons;
+	}
+
+	public ArrayList<Weapon> getLowerWeapons() {
+		return lowerWeapons;
+	}
+
+	public void setLowerWeapons(ArrayList<Weapon> lowerWeapons) {
+		this.lowerWeapons = lowerWeapons;
+	}
+
+	public double getAirFrameMass() {
+		return airFrameMass;
+	}
+
+	public void setBounds(ArrayList<CustomPolygon> bounds) {
+		this.bounds = bounds;
 	}
 }

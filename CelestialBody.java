@@ -57,17 +57,19 @@ public class CelestialBody extends StandardDObject {
 		if (this.getEnvironment() != null) {
 			for (DObject obj : this.getEnvironment().objects) {
 				if (!obj.equals(this)) {
+					Vector relativeVelocity = obj.getVelocity().subtract(this.getVelocity());
 					if (this.getPosition().subtract(obj.getPosition()).getMagnitude() > this.radius) {
 						Vector force = Util.calculateGravity(this.getMass(), obj.getMass(), this.getPosition(),
 								obj.getPosition());
-						obj.applyForce(force, Vector.zero);
+						obj.applyForce(force.rotate(-obj.getAngle()), Vector.zero);
 					} else if (this.getPosition().subtract(obj.getPosition()).getMagnitude() < this.radius
 							+ this.atmosphereHeight) {
-						obj.setVelocity(
-								new Vector(obj.getVelocity().getAngle(), obj.getVelocity().getMagnitude() * 0.99));
-						obj.applyForce(Util.calculateAirResistance(this.atmosphereDensity, 0.2, 50,
-								obj.getVelocity().subtract(this.getVelocity())), Vector.zero);
+						Vector force = Util.calculateAirResistance(this.atmosphereDensity, 0.2, 50,
+								relativeVelocity);
+						//Out.println("A force of "+force.getMagnitude()+"N was applied");
+						obj.applyForce(force.rotate(-obj.getAngle()), Vector.zero);
 					}
+					//Out.println("Relative velocity is "+relativeVelocity.getMagnitude()+"m/s");
 				}
 			}
 		}
@@ -89,6 +91,30 @@ public class CelestialBody extends StandardDObject {
 
 	public void setAccentColor(Color accentColor) {
 		this.accentColor = accentColor;
+	}
+
+	public double getRadius() {
+		return radius;
+	}
+
+	public void setRadius(double radius) {
+		this.radius = radius;
+	}
+
+	public double getAtmosphereHeight() {
+		return atmosphereHeight;
+	}
+
+	public void setAtmosphereHeight(double atmosphereHeight) {
+		this.atmosphereHeight = atmosphereHeight;
+	}
+
+	public double getAtmosphereDensity() {
+		return atmosphereDensity;
+	}
+
+	public void setAtmosphereDensity(double atmosphereDensity) {
+		this.atmosphereDensity = atmosphereDensity;
 	}
 
 }

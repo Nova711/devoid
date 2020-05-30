@@ -2,6 +2,7 @@ package devoid_boosted;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -52,6 +53,7 @@ class Interface extends JFrame implements KeyListener {
 	public Interface() {
 		Thread thread = new Thread(tester);
 		this.setSize(1200, 800);
+		this.setMinimumSize(new Dimension(1200,800));
 		JPanel pane = (JPanel) this.getContentPane();
 		this.setVisible(true);
 		pane.add(tester, BorderLayout.CENTER);
@@ -171,7 +173,7 @@ class PhysicsBox extends JComponent implements Runnable {
 	StandardShip playerShip = new FileShip(Util.src + "\\ships\\" + "LF91A" + ".txt", this);
 	// new StandardShip(new Vector(0, 0), new Vector(0, 0.0000001), 100);
 	StandardGUI playerGUI = new StandardGUI();
-	CelestialBody testPlanet = new CelestialBody(new Vector(0, 10000), 5.972 * Math.pow(10, 16), 1000, 100, 1.225,
+	CelestialBody testPlanet = new CelestialBody(new Vector(0, 10000), 5.972 * Math.pow(10, 16), 5000, 100, 1.225,
 			this);
 
 	// debug metrics
@@ -183,7 +185,7 @@ class PhysicsBox extends JComponent implements Runnable {
 
 	public PhysicsBox() {
 		testPlanet.setVelocity(new Vector(Math.PI, 5));
-		// objects.add(testPlanet);
+		//objects.add(testPlanet);
 		player = 0;
 
 		events.add(new EventTrigger(new Vector(0, 0), "Tap the w key to move forward", this));
@@ -402,7 +404,7 @@ class PhysicsBox extends JComponent implements Runnable {
 	}
 
 	public void paint(Graphics g) {
-		this.currentFrameRate = (int) (1 / (double) (System.currentTimeMillis() - this.prevDrawStartTime)*1000);
+		this.currentFrameRate = (int) (1 / (double) (System.currentTimeMillis() - this.prevDrawStartTime) * 1000);
 		this.prevDrawStartTime = System.currentTimeMillis();
 		Graphics2D ng = (Graphics2D) g;
 		ng.setColor(Color.black);
@@ -433,7 +435,7 @@ class PhysicsBox extends JComponent implements Runnable {
 		for (int i = 0; i < objects.size(); i++) {
 			if (!(objects.get(i).getPosition().subtract(playerShip.getPosition()).getMagnitude()
 					* this.getPixelsPerMetre() > 2 * 1 / this.scale * Math.sqrt(
-							Math.pow(this.getBounds().getWidth(), 2) + Math.pow(this.getBounds().getHeight(), 2)))) {
+							Math.pow(this.getBounds().getWidth(), 2) + Math.pow(this.getBounds().getHeight(), 2))) | objects.get(i).equals(testPlanet)) {
 				objects.get(i).draw(ng);
 				this.entitiesInView++;
 			}
@@ -441,6 +443,11 @@ class PhysicsBox extends JComponent implements Runnable {
 		ng.setColor(Color.cyan);
 		Vector forceLine = Util.calculateGravity(this.testPlanet.getMass(), this.playerShip.getMass(),
 				this.testPlanet.getPosition(), this.playerShip.getPosition());
+		Vector velocityLine = playerShip.getVelocity().subtract(testPlanet.getVelocity());
+		//Util.drawLine((int) (playerShip.getX()*this.getPixelsPerMetre()), (int) (playerShip.getY()*this.getPixelsPerMetre()), velocityLine, 1, ng);
+		velocityLine = Util.calculateAirResistance(testPlanet.getAtmosphereDensity(), 0.2, 50, velocityLine);
+		g.setColor(Color.pink);
+		//Util.drawLine((int) (playerShip.getX()*this.getPixelsPerMetre()), (int) (playerShip.getY()*this.getPixelsPerMetre()), velocityLine, 1, ng);
 		/*
 		 * ng.drawLine((int) playerShip.getX(), (int) playerShip.getY(), (int)
 		 * (playerShip.getX() + forceLine.getX()), (int) (playerShip.getY() +
@@ -460,6 +467,8 @@ class PhysicsBox extends JComponent implements Runnable {
 			ng.setColor(Color.black);
 			ng.fillRect(0, 0, (int) (this.getBounds().getWidth() / 8), (int) (this.getBounds().getHeight() / 8));
 			ng.setColor(Color.white);
+			Font font = new Font("Arial", Font.PLAIN, 12);
+			g.setFont(font);
 			Util.drawText("E:" + this.objects.size(), 5, 10, ng);
 			Util.drawText("EIV:" + this.entitiesInView, 5, 20, ng);
 			Util.drawText("CD:" + this.currentDelay, 5, 30, ng);

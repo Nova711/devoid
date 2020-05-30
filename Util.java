@@ -61,6 +61,15 @@ public class Util {
 		g.drawChars(text.toCharArray(), 0, text.length(), x, y);
 	}
 
+	public static void drawCenteredText(String text, int x, int y, Graphics g) {
+		Util.drawText(text, x - g.getFontMetrics().stringWidth(text) / 2, (int) (y + g.getFont()
+				.createGlyphVector(g.getFontMetrics().getFontRenderContext(), text).getVisualBounds().getHeight()/2), g);
+	}
+
+	public static void drawLine(int x, int y, Vector v, double scale, Graphics g) {
+		g.drawLine(x, y, (int) (v.getX() * scale) + x, (int) (v.getY() * scale) + y);
+	}
+
 	/**
 	 * pull will be toward mass 1
 	 * 
